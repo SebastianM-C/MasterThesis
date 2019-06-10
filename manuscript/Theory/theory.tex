@@ -9,12 +9,142 @@
 
 \section{Classical Electrodynamics}
 
-In this chapter
+{\color{red} Introduction stuff, cite~\textcite{eisenberg_nuclear_1978}}.
 
-\clearpage
+We will begin with Maxwell's equations
+\begin{subequations}
+  \label{eq:maxwell}
+  \begin{align}
+    \div{\vb{E}} & = \frac{\rho}{\varepsilon_0} \label{eq:coulomb-law} \\
+    \div{\vb{B}} & = 0 \label{eq:gauss-law} \\
+    \curl{\vb{E}} & = - \pdv{\vb{B}}{t} \label{eq:faraday-law} \\
+    \curl{\vb{B}} & = \mu_0 \vb{j} + \frac{1}{c^2} \pdv{\vb{E}}{t} \,, \label{eq:ampere-law}
+  \end{align}
+\end{subequations}
+
+which relate the electromagnetic field to sources, which must satisfy an additional
+equation to ensure charge conservation
+\[
+  \div{\vb{j}(\vb{r}, t)} + \pdv{\rho(\vb{r}, t)}{t} = 0 \,.
+\]
+
+As we can see above, equations~\eqref{eq:faraday-law} and~\eqref{eq:gauss-law}
+do not involve sources and thus they state the dynamical properties of the fields.
+Since equations~\eqref{eq:coulomb-law} and~\eqref{eq:ampere-law} describe how
+the sources influence the fields, we need an additional equation to describe how
+the fields affect the sources
+\[
+  \vb{F} = \int \dd{\vb{r}'} \rho(\vb{r}', t) \vb{E}(\vb{r}', t) +
+           \frac{1}{c} \int \dd{\vb{r}'} \vb{j}(\vb{r}', t) \cross \vb{B}(\vb{r}', t)\,.
+\]
+
+Maxwell's equations~\eqref{eq:maxwell} relate six field quantities (\(\vb{E}\) and \(\vb{B}\))
+to four source quantities (\(\rho\) and \(\vb{j}\)). This implies that there are some
+restrictions on the six quantities. This suggets that we can find a less redundant
+way to express the fields, and indeed the four quantities given by the
+vector potential \(\vb{A}\) and scalar potential \(\rho\) provide this representation.
+Equation~\eqref{eq:gauss-law} implies the existence of a vector potential
+\begin{equation}
+  \label{eq:vector-potential}
+  \vb{B}(\vb{r}, t) = \curl{\vb{A}(\vb{r}, t)}\,.
+\end{equation}
+
+Substituting~\eqref{eq:vector-potential} in~\eqref{eq:faraday-law} we obtain
+\begin{equation}
+  \label{eq:faraday-vector-potential}
+  \curl(\vb{E} + \pdv{\vb{A}}{t}) = 0
+\end{equation}
+
+and thus the quantity in the paranthesis can always be expressed as the
+gradient of a scalar field, namely the scalar potential
+\[
+\grad{\phi}(\vb{r}, t) = -\vb{E}(\vb{r}, t) - \pdv{\vb{A}}{t}\,.
+\]
+
+With these considerations~\eqref{eq:coulomb-law} becomes
+\[
+  \div(\grad{\phi} + \pdv{\vb{A}}{t}) = - \frac{\rho}{\varepsilon_0}
+\]
+or
+\begin{equation}
+  \label{eq:coulomb-scalar-potential}
+  \laplacian{\phi} + \pdv{t}\div{\vb{A}} = - \frac{\rho}{\varepsilon_0}
+\end{equation}
+
+and~\eqref{eq:ampere-law}
+
+\begin{equation}
+  \label{eq:ampere-potentials-pre}
+  \curl(\curl{\vb{A}}) = \mu_0 \vb{j}
+    - \frac{1}{c^2} \pdv{t} \left( \grad{\phi} + \pdv{\vb{A}}{t} \right)\,.
+\end{equation}
+
+Using the following vector identity
+\[
+  \curl(\curl{\vb{A}}) = \grad(\div{\vb{A}}) - \laplacian{\vb{A}}
+\]
+
+eq.~\eqref{eq:ampere-potentials-pre} becomes
+\[
+  \grad(\div{\vb{A}}) - \laplacian{\vb{A}} = \mu_0 \vb{j}
+    - \frac{1}{c^2} \left( \grad{\pdv{\phi}{t}} + \pdv[2]{\vb{A}}{t} \right)
+\]
+or
+\begin{equation}
+  \label{eq:ampere-potentials}
+  \laplacian{\vb{A}} - \pdv[2]{\vb{A}}{t} =
+    -\mu_0 \vb{j} + \grad(\div{\vb{A}} + \frac{1}{c^2} \pdv{\phi}{t})\,.
+\end{equation}
+
+Equations~\eqref{eq:coulomb-scalar-potential} and~\eqref{eq:ampere-potentials}
+were obtained by substituting the potentials obtained from the source-less
+equations,~\eqref{eq:gauss-law} and~\eqref{eq:faraday-law}, into the ones
+with sources,~\eqref{eq:coulomb-law} and~\eqref{eq:ampere-law}. They are thus
+fully equivalent with Maxwell's equations~\eqref{eq:maxwell} and, as we can observe,
+relate the four quantities given by the potentials to the four quantities for the
+sources. They also preserve the invariance under Lorentz transformations, with
+the scalar potential \(\phi\) as the time-like component.
+
+Equations~\eqref{eq:coulomb-scalar-potential} and~\eqref{eq:ampere-potentials}
+can be simplified by decoupling the potentials. This is possible due to the fact
+that potentials are not unique. To illustrate this point consider
+\[
+  \vb{A}'(\vb{r},t) = \vb{A}(\vb{r},t) + \grad{\Lambda}(\vb{r},t)\,.
+\]
+
+This vector potential gives rise to a magnetic field
+\[
+  \curl{\vb{A}'} = \curl{\vb{A}} + \curl(\grad{\Lambda}) = \curl{\vb{A}} = \vb{B}
+\]
+equal with the original one since \( \curl(\grad{\varphi}) = 0 \).
+
+Similarly, for a scalar potential
+\[
+  \phi'(\vb{r},t) = \phi(\vb{r},t) - \pdv{\Lambda(\vb{r},t)}{t}
+\]
+and the corresponding electric field will be
+\[
+  - \grad{\phi'} - \pdv{\vb{A'}}{t} =
+  - \grad{\phi} + \grad{\pdv{\Lambda}{t}} - \pdv{\vb{A}}{t} - \pdv{t} \grad{\Lambda}
+  = - \grad{\phi} - \pdv{\vb{A}}{t}
+  = \vb{E}\,,
+\]
+since the spatial and temporal derivatives commute. These kinds of transformations
+are called gauge transformations.
 
 \section{Electron in a Plane Wave}
 
+In this section we will consider the classical dynamics of an electron in a
+laser pulse following the discusion in~\textcite{karsch_applications_2018}.
+The starting point is the equation of motion for the electron
+\begin{equation}
+  \label{eq:lorentz-eom}
+  \dv{\vb{p}}{t} = -e \left[ \vb{E}(\vb{r}, t) + \vb{v} \cp \vb{B}(\vb{r}, t) \right]\,.
+\end{equation}
+
+\subsection{Non-relativistic treatment}
+
+\subsection{Relativistic treatment}
 
 \section{Particle in Cell Method}
 
