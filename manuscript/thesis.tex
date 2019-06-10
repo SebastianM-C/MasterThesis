@@ -1,0 +1,29 @@
+\documentclass[12pt, twoside]{report}
+% \documentclass[12pt]{report}
+\usepackage{graphicx}
+\graphicspath{ {cover/img/} {../Output/} {../../Output/}
+}
+\usepackage{subfiles}
+\usepackage{ba_thesis}
+
+\begin{document}
+
+\newgeometry{margin=1in}
+\input{cover/title.tex}
+\restoregeometry
+
+{\pagestyle{empty}\cleardoublepage}
+
+\tableofcontents
+{\pagestyle{empty}\cleardoublepage}
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+
+\pagenumbering{arabic}
+\subfile{Introduction/intro.tex}
+\subfile{Theory/theory.tex}
+\subfile{Results/results.tex}
+\subfile{Conclusions/conclusions.tex}
+
+\printbibliography
+
+\end{document}

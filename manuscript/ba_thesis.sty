@@ -1,0 +1,36 @@
+\ProvidesPackage{ba_thesis}
+
+%%% PACKAGES
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{setspace}
+\usepackage[section]{placeins}
+
+% \usepackage{layouts}
+\usepackage{geometry}
+\geometry{
+   % showframe,
+  a4paper,
+  textwidth=15cm,
+  textheight=23cm,
+  heightrounded
+  }
+
+% \usepackage[utf8]{inputenc}
+
+\usepackage[style=numeric,sorting=none]{biblatex}
+\bibliography{reference}
+
+\usepackage{xcolor}
+
+\newcommand{\ee}{\operatorname{e}}          % Euler's number
+\newcommand{\ii}{\mathrm{i}}                % imaginary unit
+\newcommand{\ad}[1]{a_{#1}^{\dagger}}       % creation operator
+\newcommand*\mean[1]{\overline{#1}}         % mean
