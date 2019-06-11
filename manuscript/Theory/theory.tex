@@ -92,7 +92,7 @@ eq.~\eqref{eq:ampere-potentials-pre} becomes
 or
 \begin{equation}
   \label{eq:ampere-potentials}
-  \laplacian{\vb{A}} - \pdv[2]{\vb{A}}{t} =
+  \laplacian{\vb{A}} - \frac{1}{c^2}\pdv[2]{\vb{A}}{t} =
     -\mu_0 \vb{j} + \grad(\div{\vb{A}} + \frac{1}{c^2} \pdv{\phi}{t})\,.
 \end{equation}
 
@@ -137,7 +137,7 @@ are called gauge transformations.
 The freedom of choosing the gauge leads to the following condition satisfied by
 the scalar and vector potentials
 \[
-  \div{\vb{A}} + \frac{1}{c^2}\frac{\phi}{t} = 0\,,
+  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} = 0\,,
 \]
 called the Lorenz condition.
 
@@ -147,26 +147,43 @@ don't satisfy the condition
   \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} \ne 0 = f(\vb{r},t)\,,
 \]
 then we can always carry out a gauge transformation to a new set of potentials
-\(\vb{A}'\) and \(\phi\) that satisfy the Lorenz condition, such that
-\[
-  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} = \div(\vb{A}' + \grad{\Lambda})
-    + \frac{1}{c^2}\pdv{t} \left( \phi' - \pdv{\Lambda}{t} \right)
-    = \div{\vb{A}'} - \laplacian{\Lambda} + \frac{1}{c^2}\pdv{\phi'}{t}
+\(\vb{A}'\) and \(\phi'\) that satisfy the Lorenz condition, such that
+\begin{align*}
+  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} &= \div(\vb{A}' - \grad{\Lambda})
+    + \frac{1}{c^2}\pdv{t} \left( \phi' + \pdv{\Lambda}{t} \right) \\
+    &= \div{\vb{A}'} - \laplacian{\Lambda} + \frac{1}{c^2}\pdv{\phi'}{t}
     + \frac{1}{c^2}\pdv[2]{\Lambda}{t}
     = f(\vb{r},t)
-\]
+\end{align*}
 
 or
 \[
   \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} =
-  \Box A \equiv \frac{1}{c^2}\pdv[2]{\Lambda}{t} - \laplacian{\Lambda} = -f(\vb{r},t),
+  \dalambert \Lambda \equiv \frac{1}{c^2}\pdv[2]{\Lambda}{t} - \laplacian{\Lambda} = f(\vb{r},t)\,,
 \]
 
 where the d'Alambertian operator is defined as
 \[
-  \Box \equiv \frac{1}{c^2}\pdv[2]{t} - \laplacian
+  \dalambert \equiv \frac{1}{c^2}\pdv[2]{t} - \laplacian
 \]
-when choosing the Minkowski metric \( (+,-,-,-) \).
+when choosing the Minkowski metric \( (+,-,-,-) \) and
+\[
+  \div{\vb{A'}} + \frac{1}{c^2}\pdv{\phi'}{t} = 0\,,
+\]
+since they satisfy the Lorenz condition.
+The transformation we need is thus defined by the solution of \(\dalambert \Lambda = f\).
+
+Imposing the Lorenz condition on equations \eqref{eq:coulomb-scalar-potential}
+and \eqref{eq:faraday-vector-potential} decouples the potentials
+\begin{align*}
+  \laplacian{\phi} - \pdv{t} \frac{1}{c^2} \pdv{\phi}{t} = -\frac{\rho}{\varepsilon_0} \\
+  \laplacian{\vb{A}} - \frac{1}{c^2}\pdv[2]{\vb{A}}{t} = -\mu_0 \vb{j}
+\end{align*}
+yielding the simplified form of Maxwell's equations
+\begin{align*}
+  \dalambert \phi &= \frac{\rho}{\varepsilon_0} \\
+  \dalambert \vb{A} &= \mu_0 \vb{j}\,.
+\end{align*}
 
 \section{Electron in a Plane Wave}
 
