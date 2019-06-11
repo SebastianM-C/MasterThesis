@@ -132,6 +132,42 @@ and the corresponding electric field will be
 since the spatial and temporal derivatives commute. These kinds of transformations
 are called gauge transformations.
 
+\subsection{Gauge transformations}
+
+The freedom of choosing the gauge leads to the following condition satisfied by
+the scalar and vector potentials
+\[
+  \div{\vb{A}} + \frac{1}{c^2}\frac{\phi}{t} = 0\,,
+\]
+called the Lorenz condition.
+
+Indeed, if we consider a set of potentials \(\vb{A}\) and \(\phi\) that
+don't satisfy the condition
+\[
+  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} \ne 0 = f(\vb{r},t)\,,
+\]
+then we can always carry out a gauge transformation to a new set of potentials
+\(\vb{A}'\) and \(\phi\) that satisfy the Lorenz condition, such that
+\[
+  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} = \div(\vb{A}' + \grad{\Lambda})
+    + \frac{1}{c^2}\pdv{t} \left( \phi' - \pdv{\Lambda}{t} \right)
+    = \div{\vb{A}'} - \laplacian{\Lambda} + \frac{1}{c^2}\pdv{\phi'}{t}
+    + \frac{1}{c^2}\pdv[2]{\Lambda}{t}
+    = f(\vb{r},t)
+\]
+
+or
+\[
+  \div{\vb{A}} + \frac{1}{c^2}\pdv{\phi}{t} =
+  \Box A \equiv \frac{1}{c^2}\pdv[2]{\Lambda}{t} - \laplacian{\Lambda} = -f(\vb{r},t),
+\]
+
+where the d'Alambertian operator is defined as
+\[
+  \Box \equiv \frac{1}{c^2}\pdv[2]{t} - \laplacian
+\]
+when choosing the Minkowski metric \( (+,-,-,-) \).
+
 \section{Electron in a Plane Wave}
 
 In this section we will consider the classical dynamics of an electron in a
