@@ -185,6 +185,76 @@ yielding the simplified form of Maxwell's equations
   \dalambert \vb{A} &= \mu_0 \vb{j}\,.
 \end{align*}
 
+This form of Maxwell's equations preserves Lorentz invariance, as the Lorenz
+gauge condition can be expressed in a covariant way as the contraction of the
+four-vector \(A \equiv (\frac{\phi}{c}, \vb{A})\) with the four-gradient
+\((\frac{1}{c}\pdv{t}, -\grad)\).
+
+While the Lorenz condition doesn't fix the gauge, but only restricts us to
+transformations with \(\dalambert \Lambda = 0\), we can impose further conditions
+in order to fix the gauge, but in general those will not be covariant.
+One such condition is given by the Coulomb gauge
+\begin{equation}
+  \label{eq:coulomb-gauge}
+  \div{\vb{A}} = 0.
+\end{equation}
+
+In this gauge eq.~\eqref{eq:coulomb-scalar-potential} becomes a Poisson equation
+for the scalar potential
+\begin{equation}
+  \label{eq:coulomb-poisson}
+  \laplacian{\phi} = -\frac{\rho}{\varepsilon_0}
+\end{equation}
+with the solution given by
+\begin{equation}
+  \label{eq:scalar-potential-solution}
+  \phi(\vb{r},t) = \int \frac{\rho(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
+\end{equation}
+explaining the name of the condition~\eqref{eq:coulomb-gauge}.
+
+An apparent violation of special relativity shows up in the above result which
+states that the scalar potential (at time \(t\)) is given by the instantaneous Coulomb
+interactions between charges (also at time \(t\)). The contradiction is only
+apparent and stems from the act that the Coulomb gauge is not Lorentz invariant.
+
+In order to resolve the contradiction we first note that we can only observe
+the electric field
+\[
+  \vb{E}(\vb{r}, t) = -\grad{\phi}(\vb{r},t) -\pdv{\vb{A}(\vb{r},t)}{t}\,.
+\]
+
+In the Coulomb gauge, the vector potential is given by
+\begin{equation}
+  \label{eq:vector-potential-coulomb-gauge}
+  \dalambert \vb{A} = \mu_0 \vb{j} - \frac{1}{c^2} \grad{\pdv{\phi}{t}}\,,
+\end{equation}
+with \(\phi\) being the scalar potential from eq.~\eqref{eq:scalar-potential-solution}.
+Considering the continuity equation and the form of the scalar potential in
+eq.~\eqref{eq:scalar-potential-solution}, the second term in
+eq.~\eqref{eq:vector-potential-coulomb-gauge} becomes
+\begin{equation}
+  \label{eq:scalar-potential-continuity-equation}
+  \grad{\pdv{\phi}{t}} = \grad \int \frac{\pdv{\rho}{t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'
+    = -\grad \int \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
+\end{equation}
+where \(\boldsymbol{\nabla}'\) denotes the derivatives with respect to \(\vb{r}'\).
+Using the Helmholz decomposition we can write the current density as the sum
+of a divergence-free (transversal) component and a curl-free (longitudinal) one:
+\[
+  \vb{j} = \vb{j}^\perp + \vb{j}^\parallel\,,
+\]
+where
+\begin{align*}
+  \div{\vb{j}^\perp} &= 0 \\
+  \curl{\vb{j}^\parallel} &= 0
+\end{align*}
+and
+% check (and understand) the equations bellow; the current form is probably wrong
+\begin{align*}
+  \vb{j}^\perp &= \curl \int \frac{\boldsymbol{\nabla}' \cp \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}' \\
+  \vb{j}^\parallel &= \grad \int \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'
+\end{align*}
+
 \section{Electron in a Plane Wave}
 
 In this section we will consider the classical dynamics of an electron in a
