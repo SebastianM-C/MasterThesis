@@ -24,9 +24,10 @@ We will begin with Maxwell's equations
 
 which relate the electromagnetic field to sources, which must satisfy an additional
 equation to ensure charge conservation
-\[
+\begin{equation}
+  \label{eq:continuity-equation}
   \div{\vb{j}(\vb{r}, t)} + \pdv{\rho(\vb{r}, t)}{t} = 0 \,.
-\]
+\end{equation}
 
 As we can see above, equations~\eqref{eq:faraday-law} and~\eqref{eq:gauss-law}
 do not involve sources and thus they state the dynamical properties of the fields.
@@ -80,9 +81,10 @@ and~\eqref{eq:ampere-law}
 \end{equation}
 
 Using the following vector identity
-\[
+\begin{equation}
+  \label{eq:curl-of-curl}
   \curl(\curl{\vb{A}}) = \grad(\div{\vb{A}}) - \laplacian{\vb{A}}
-\]
+\end{equation}
 
 eq.~\eqref{eq:ampere-potentials-pre} becomes
 \[
@@ -190,7 +192,7 @@ gauge condition can be expressed in a covariant way as the contraction of the
 four-vector \(A \equiv (\frac{\phi}{c}, \vb{A})\) with the four-gradient
 \((\frac{1}{c}\pdv{t}, -\grad)\).
 
-While the Lorenz condition doesn't fix the gauge, but only restricts us to
+Since the Lorenz condition doesn't fix the gauge, but only restricts us to
 transformations with \(\dalambert \Lambda = 0\), we can impose further conditions
 in order to fix the gauge, but in general those will not be covariant.
 One such condition is given by the Coulomb gauge
@@ -205,10 +207,11 @@ for the scalar potential
   \label{eq:coulomb-poisson}
   \laplacian{\phi} = -\frac{\rho}{\varepsilon_0}
 \end{equation}
-with the solution given by
+with the solution given by the instantaneous Coulomb potential of the charge
+density in the domain \(\rho(\vb{r},t)\)
 \begin{equation}
   \label{eq:scalar-potential-solution}
-  \phi(\vb{r},t) = \int \frac{\rho(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
+  \phi(\vb{r},t) = \frac{1}{4\pi \varepsilon_0} \int \frac{\rho(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
 \end{equation}
 explaining the name of the condition~\eqref{eq:coulomb-gauge}.
 
@@ -226,34 +229,64 @@ the electric field
 In the Coulomb gauge, the vector potential is given by
 \begin{equation}
   \label{eq:vector-potential-coulomb-gauge}
-  \dalambert \vb{A} = \mu_0 \vb{j} - \frac{1}{c^2} \grad{\pdv{\phi}{t}}\,,
+  \dalambert \vb{A} = \mu_0 \vb{j} - \frac{1}{c^2} \grad{\pdv{\phi}{t}}\,.
 \end{equation}
-with \(\phi\) being the scalar potential from eq.~\eqref{eq:scalar-potential-solution}.
-Considering the continuity equation and the form of the scalar potential in
-eq.~\eqref{eq:scalar-potential-solution}, the second term in
-eq.~\eqref{eq:vector-potential-coulomb-gauge} becomes
+
+Considering the continuity equation~\eqref{eq:continuity-equation} and
+the form of the scalar potential in eq.~\eqref{eq:scalar-potential-solution},
+the second term in eq.~\eqref{eq:vector-potential-coulomb-gauge} becomes
 \begin{equation}
   \label{eq:scalar-potential-continuity-equation}
-  \grad{\pdv{\phi}{t}} = \grad \int \frac{\pdv{\rho}{t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'
-    = -\grad \int \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
+  \grad{\pdv{\phi}{t}} = \grad \frac{1}{4\pi \varepsilon_0}
+    \int \frac{\pdv{\rho}{t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'
+    = - \frac{1}{4\pi \varepsilon_0} \grad
+    \int \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,,
 \end{equation}
 where \(\boldsymbol{\nabla}'\) denotes the derivatives with respect to \(\vb{r}'\).
-Using the Helmholz decomposition we can write the current density as the sum
+Using the Helmholz decomposition we can write any sufficiently well behaved
+vector (the current density in this particular case) as the sum
 of a divergence-free (transversal) component and a curl-free (longitudinal) one:
 \[
-  \vb{j} = \vb{j}^\perp + \vb{j}^\parallel\,,
+  \vb{j} = \vb{j}^t + \vb{j}^l \,,
 \]
 where
 \begin{align*}
-  \div{\vb{j}^\perp} &= 0 \\
-  \curl{\vb{j}^\parallel} &= 0
+  \div{\vb{j}^t} &= 0 \\
+  \curl{\vb{j}^l} &= 0 \,.
 \end{align*}
-and
-% check (and understand) the equations bellow; the current form is probably wrong
+
+Using the vector identity~\eqref{eq:curl-of-curl} and
+\[
+  \laplacian{\frac{1}{|\vb{r}-\vb{r}'|}} = -4\pi \delta(\vb{r}-\vb{r}')
+\]
+we can write the current density as follows
 \begin{align*}
-  \vb{j}^\perp &= \curl \int \frac{\boldsymbol{\nabla}' \cp \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}' \\
-  \vb{j}^\parallel &= \grad \int \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'
+  \laplacian(\vb{j}^t + \vb{j}^l) &= \grad(\div{\vb{j}^l}) - \curl(\curl{\vb{j}^t}) \\
+  \int \frac{\laplacian{\vb{j}}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}} &=
+    \int \frac{\grad(\div{\vb{j}^l})}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
+    - \int \frac{\curl(\curl{\vb{j}^t})}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'} \\
+  -4\pi \vb{j} &= \grad \int \frac{\div{\vb{j}^l}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
+    - \curl \curl \int \frac{\vb{j^t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
 \end{align*}
+and thus we obtain the two components as
+
+\begin{align*}
+  \vb{j}^t &= \frac{1}{4\pi} \curl \curl \int \frac{\vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}' \\
+  \vb{j}^l &= -\frac{1}{4\pi} \grad \int
+    \frac{\boldsymbol{\nabla}' \vdot \vb{j}(\vb{r}',t)}{|\vb{r}-\vb{r}'|} \dd{\vb{r}}'\,.
+\end{align*}
+
+Comparing with~\eqref{eq:scalar-potential-continuity-equation} we see that
+\[
+  \frac{1}{c^2} \grad{\pdv{\phi}{t}} = \frac{\varepsilon_0}{c^2} \vb{j}^l
+  = \mu_0 \vb{j}^l
+\]
+and thus the source term in eq.~\eqref{eq:vector-potential-coulomb-gauge} can
+be expressed as function of the transverse current:
+\[
+  \dalambert \vb{A} = \mu_0 (\vb{j} - \vb{j}^l) = \mu_0 \vb{j}^t\,
+\]
+and this also why the Coulomb gauge is also called the transverse gauge.
 
 \section{Electron in a Plane Wave}
 
