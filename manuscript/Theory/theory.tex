@@ -4,15 +4,15 @@
 
 \begin{document}
 
-\chapter{Theory}
+\chapter{Theory}%
 \label{chap:Theory}
 
 \section{Classical Electrodynamics}
 
-{\color{red} Introduction stuff, cite~\textcite{eisenberg_nuclear_1978}}.
+{\color{red} Introduction stuff, cite~\textcite{eisenberg_nucleartheory_1978,jackson_classicalelectrodynamics_1999}}.
 
-We will begin with Maxwell's equations
-\begin{subequations}
+We will begin with Maxwell's equations in free space
+\begin{subequations}%
   \label{eq:maxwell}
   \begin{align}
     \div{\vb{E}} & = \frac{\rho}{\varepsilon_0} \label{eq:coulomb-law} \\
@@ -175,8 +175,8 @@ when choosing the Minkowski metric \( (+,-,-,-) \) and
 since they satisfy the Lorenz condition.
 The transformation we need is thus defined by the solution of \(\dalambert \Lambda = f\).
 
-Imposing the Lorenz condition on equations \eqref{eq:coulomb-scalar-potential}
-and \eqref{eq:faraday-vector-potential} decouples the potentials
+Imposing the Lorenz condition on equations~\eqref{eq:coulomb-scalar-potential}
+and~\eqref{eq:faraday-vector-potential} decouples the potentials
 \begin{align*}
   \laplacian{\phi} - \pdv{t} \frac{1}{c^2} \pdv{\phi}{t} = -\frac{\rho}{\varepsilon_0} \\
   \laplacian{\vb{A}} - \frac{1}{c^2}\pdv[2]{\vb{A}}{t} = -\mu_0 \vb{j}
@@ -225,6 +225,8 @@ the electric field
 \[
   \vb{E}(\vb{r}, t) = -\grad{\phi}(\vb{r},t) -\pdv{\vb{A}(\vb{r},t)}{t}\,.
 \]
+Thus, the instantaneous propagation is removed by the time derivative
+of the vector potential.
 
 In the Coulomb gauge, the vector potential is given by
 \begin{equation}
@@ -287,11 +289,163 @@ be expressed as function of the transverse current:
   \dalambert \vb{A} = \mu_0 (\vb{j} - \vb{j}^l) = \mu_0 \vb{j}^t\,
 \]
 and this also why the Coulomb gauge is also called the transverse gauge.
+This gauge is useful when no sources are present. In this case \(\phi=0\),
+\(\vb{A}\) satisfies the homogenuous wave equation and the fields can
+be expressed only as function of the vector potential
+\begin{align*}
+  \vb{E} &= -\pdv{\vb{A}}{t} \\
+  \vb{B} &= \curl{\vb{A}}\,.
+\end{align*}
+
+\subsection{The Poynting theorem}
+
+In order to complete the description of the interaction between fields
+and sources, we will now focus on how the fields affect the particles.
+We begin by considering the force acting on a charge \(q\)
+\[
+  \vb{F} = q\vb{E} + q\vb{v} \cp \vb{B}\,.
+\]
+
+The corresponding infinitezimal variation of the force is given by
+\[
+  \var{\vb{F}} = \rho \vb{E} \var{V} + \vb{j} \cp \vb{B} \var{V}
+    = (\rho \vb{E} + \vb{j} \cp \vb{B}) \var{V}
+    \equiv f \var{V},
+\]
+where \(f = \rho \vb{E} + \vb{j} \cp \vb{B}\) is the Lorentz force
+density. We can now consider a uniform charge distribution characterized
+by \(\rho\). For an infinitezimal volume \(\var{V}\) of this charge distribution,
+the rate of change of the work, or the power given by the
+fields is given by
+\[
+  \vb{v} \vdot \vb{F} = \rho \vb{v} \vb{E} + \frac{\vb{j}}{q} \vdot (\vb{j} \cp \vb{B})
+    = \rho \vb{v} \vb{E}\,.
+\]
+
+As we can see above, the magnetic force doesn't contribute to the work
+done by the fields. Thus, the power transferred from the fields to the
+charges in a finite domain \(\mathscr{D}\) is
+\[
+  \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}}\,.
+\]
+
+For the energy to conserve, this power must be balanced by a corresponding
+rate of decrease of energy in the electromagnetic field.
+Using the Ampère law~\eqref{eq:ampere-law}
+\[
+  \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
+  \int_{\mathscr{D}} \vb{E} \vdot \frac{1}{\mu_0} \qty(\curl{\vb{B}} - \frac{1}{c^2} \pdv{\vb{E}}{t}) \dd{\vb{r}} =
+  \frac{1}{\mu_0} \int_{\mathscr{D}} \left[\vb{E} \vdot(\curl{\vb{B}}) -
+    \frac{1}{c^2} \vb{E} \vdot \pdv{\vb{E}}{t} \right] \dd{\vb{r}}
+\]
+
+Using the following vector identity
+\[
+  \div(\vb{E} \cp \vb{B}) = \vb{B} \vdot (\curl{E}) - \vb{E} \vdot (\curl{\vb{B}})
+\]
+we can express \(\vb{E} \vdot(\curl{\vb{B}})\) as
+\[
+  \vb{E} \vdot(\curl{\vb{B}}) = \vb{B} \vdot (\curl{E}) - \div(\vb{E} \cp \vb{B}) =
+  - \vb{B} \vdot \pdv{\vb{B}}{t} - \div(\vb{E} \cp \vb{B})\,,
+\]
+where we used~\eqref{eq:faraday-law} for the first term.
+
+Using this result, the power transferred by the fileds is given by
+\[
+  \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
+  -\int_{\mathscr{D}} \left[\frac{1}{\mu_0} \div(\vb{E} \cp \vb{B}) + \frac{1}{\mu_0} \vb{B} \vdot \pdv{\vb{B}}{t} +
+    \frac{1}{\mu_0 c^2} \vb{E} \vdot \pdv{\vb{E}}{t} \right] \dd{\vb{r}}
+\]
+
+Considering that
+\[
+  \vb{E} \vdot \pdv{\vb{E}}{t} = \frac{1}{2} \pdv{t} \vb{E}^2\,,
+\]
+we obtain
+\[
+  \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
+  -\int_{\mathscr{D}} \left[ \frac{1}{2} \pdv{t}
+    \left( \varepsilon_0 \vb{E}^2 + \frac{1}{\mu_0}\vb{B}^2 \right)
+  + \frac{1}{\mu_0}\div(\vb{E} \cp \vb{B}) \right] \dd{\vb{r}}\,.
+\]
+
+The total energy density of the electromagnetic field can be denoted wity
+\[
+  w_{em} = \frac{1}{2} \left( \varepsilon_0 \vb{E}^2 + \frac{1}{\mu_0}\vb{B}^2 \right)
+\]
+and thus we obtain
+\[
+  -\int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
+  \int_{\mathscr{D}} \left[ \pdv{w_{em}}{t} +
+  \frac{1}{\mu_0}\div(\vb{E} \cp \vb{B}) \right] \dd{\vb{r}}\,.
+\]
+
+Since the domain \(\mathscr{D}\) is arbitrary, we can write the above as a
+differential continuity equation
+\begin{equation}
+  \label{eq:poynting-theorem-local}
+  \pdv{w_{em}}{t} = - \div{\vb{S}} - \vb{j} \vdot \vb{E}\,,
+\end{equation}
+where
+\[
+  \vb{S} = \frac{1}{\mu_0} \vb{E} \cp \vb{B}
+\]
+is the Poynting vector representing the energy flow.
+
+If we consider the domain \(\mathscr{D}\) such that no particles will leave it
+\[
+  W_{em} = \int_{\mathscr{D}} w_{em} \dd{\vb{r}}
+\]
+is the energy of the electromagnetic field and \(W_{mech}\) is the
+energy of the particles
+\[
+  W_{mech} = \int_{\mathscr{D}} w_{mech} \dd{\vb{r}} =
+  \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}}\,.
+\]
+
+By using Gauss' theorem, the energy flux corresponding to the
+Poynting vector becomes
+\[
+  \int_{\mathscr{D}} \div{\vb{S}} = \oint_\Sigma \vb{n} \vdot \vb{S} \dd{a}\,,
+\]
+where \(\Sigma\) is the surface enclosing the domain \(\mathscr{D}\).
+
+With the above considerations Poynting's theorem gives the conservation of energy for the whole system
+\begin{equation}
+  \label{eq:poynting-theorem}
+  \dv{W}{t} = \dv{t} \left( W_{em} + W_{mech} \right) =
+  -\oint_\Sigma \vb{n} \vdot \vb{S} \dd{a}\,,
+\end{equation}
+
+stating that the rate of change of the energy of the system composed of the charged
+particles and corresponding fileds is given by minus the flux of the
+Poynting vector through the surface bounding the domain.
+
+Equation~\eqref{eq:poynting-theorem-local} is the local form for the Poynting
+theorem.
+
+If we consider the extension of the domain to infinity \(\mathscr{D} \to \mathbb{R}^3\),
+\(\Sigma \to \Sigma_\infty\), then there is no energy flow through the
+boundary since electromagnetic waves propagate at a constant finite speed \(c\). Then
+\[
+  \dv{W}{t} = \dv{t} \left( W_{em} + W_{mech} \right) = 0
+\]
+and the entire energy of the electromagnetic field can be converted into
+the mechanical energy of the particles interacting with the field.
+
+If we consider \(\mathscr{D}\) such that it doesn't enclose any sources, than
+\[
+  \dv{t} W_{em} = -\oint_\Sigma \vb{n} \vdot \vb{S} \dd{a}\,,
+\]
+which shows that the energy of the electromagnetic field in the domain
+\(\mathscr{D}\) can change through the variation of the flux of the
+Poynting vector on the boundary of the domain, \(\Sigma\). Thus we can
+indeed say that the flux of the Poynting vector is the energy flux.
 
 \section{Electron in a Plane Wave}
 
 In this section we will consider the classical dynamics of an electron in a
-laser pulse following the discusion in~\textcite{karsch_applications_2018}.
+laser pulse following the discusion in~\textcite{karsch_applicationshigh_2018}.
 The starting point is the equation of motion for the electron
 \begin{equation}
   \label{eq:lorentz-eom}
