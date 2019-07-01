@@ -8,6 +8,7 @@
 \label{chap:Theory}
 
 \section{Classical Electrodynamics}
+\label{sect:classical-electrodynamics}
 
 {\color{red} Introduction stuff, cite~\textcite{eisenberg_nucleartheory_1978,jackson_classicalelectrodynamics_1999}}.
 
@@ -442,6 +443,9 @@ which shows that the energy of the electromagnetic field in the domain
 Poynting vector on the boundary of the domain, \(\Sigma\). Thus we can
 indeed say that the flux of the Poynting vector is the energy flux.
 
+\subsection{Electromagnetic waves}
+
+
 \section{Electron in a Plane Wave}
 
 In this section we will consider the classical dynamics of an electron in a
@@ -457,6 +461,107 @@ The starting point is the equation of motion for the electron
 \subsection{Relativistic treatment}
 
 \section{Particle in Cell Method}
+
+As we outlined in section~\ref{sect:classical-electrodynamics}, the interaction
+of some charged particles with an electromagnetic field can be viewed as the
+action of the sources on the fields and the action of the fields on the sources.
+
+In the same manner, simulating the interaction self-consistently rquires a
+\emph{field solver} that computes the structure of the fields considering
+the sources and a \emph{particle pusher} that solves the (relativistic)
+equations of motion for the particles.
+In the particle in cell method, a finite-difference time-domain (FDTD) method
+is used for solving Maxwell's equations and a modified leapfrog method is used
+for the particle pusher as presented in~\cite{arber_contemporaryparticleincell_2015}.
+
+\subsection{Discretizations}
+
+The numerical methods mentioned above are based on the idea of discretizing the
+derivative operator. There are multiple ways of discretizing this operator,
+but all of them can be derived from the Taylor series expansion.
+\[
+  f(x_0+h) = f(x_0) + \frac{f'(x_0)}{1!}h + \frac{f''(x_0)}{2!}h^2 + \dotsb + \frac{f^{(n)}(x_0)}{n!}h^n + \dots
+\]
+
+The main discretizations options are the forward, backward and central differences.
+For the forward discretization we consider
+\[
+  f(x_0+h) = f(x_0) + \frac{f'(x_0)}{1!}h + \frac{f''(x_0)}{2!}h^2 + \dotsb
+\]
+and we rearange the terms in the following way
+\[
+  \frac{f(x_0+h) - f(x_0)}{h} = f'(x_0) + \frac{f''(x_0)}{2}h + \dotsb
+\]
+and thus, when \(h \to 0\), the derivative in first order is given by
+\[
+  f'(x_0) = \frac{f(x_0+h) - f(x_0)}{h} + \order{h}\,.
+\]
+
+The local truncation error is given by the error of the approximation in one time
+step. The forward and backward discretizations are both of order one. The
+central discretization is second order accurate and can be derived as follows.
+
+We first begin with the forward and backward discretizations for half of a
+timestep:
+\begin{align*}
+  f(x_0+\frac{h}{2}) &= f(x_0) + f'(x_0)\frac{h}{2} + \frac{f''(x_0)}{2}\frac{h^2}{4}
+    + \frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb \\
+  f(x_0-\frac{h}{2}) &= f(x_0) - f'(x_0)\frac{h}{2} + \frac{f''(x_0)}{2}\frac{h^2}{4}
+    - \frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb \,.
+\end{align*}
+
+Then we take the difference and obtain
+\[
+  f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2}) = f'(x_0)h
+    + 2\frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb
+\]
+and we can see that indeed the centeral diference is second order accurate
+\[
+  f'(x_0) = \frac{f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2})}{h} + \order{h^2}\,.
+\]
+
+As an application of the methods discussed above, we will now derive the so called
+leapfrog method for solving second order differential equations
+following~\cite[Chapter~4]{hockney_computersimulation_1988}. More concretely,
+we will take a look at solving the equations of motion for a particle. As a first
+step, the equations of motion can be written as a system of first order differential
+equations
+\begin{align*}
+  \dv{\vb{x}}{t} &= \vb{v} \\
+  m \dv{\vb{v}}{t} &= \vb{F}\,,
+\end{align*}
+where \(\vb{F}\) is the total force on the particle. Replacing the derivatives
+with their finite difference approximations, we obtain
+\begin{align*}
+  \frac{\vb{x}_{n+1} - \vb{x}_n}{\Delta t} = \vb{v}_{n+1/2} \\
+  m \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t} = \vb{F}(\vb{x}_n)\,.
+\end{align*}
+Replacing the velocity, we obtain
+\[
+  \frac{\vb{x}_{n+1}-2\vb{x}_n+\vb{x}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{x}_n)}{m}\,.
+\]
+
+In order to compute the accuracy of the method we consider the local truncation
+error at the timestep \(n\), \(\delta^n\) and \(\vb{X}\) the true solution
+\[
+  \frac{\vb{X}_{n+1}-2\vb{X}_n+\vb{X}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{X}_n)}{m} + \delta^n\,.
+\]
+
+If we expand \(\vb{X}_{n+1}\) and \(\vb{X}_{n-1}\) in Taylor series around \(\vb{X}_n\)
+\begin{align*}
+  \vb{X}_{n+1} &= \vb{X}_n + \dv{\vb{X}_n}{t}\Delta t + \frac{1}{2} \dv[2]{\vb{X}_n}{t} - \dotsb \\
+  \vb{X}_{n-1} &= \vb{X}_n - \dv{\vb{X}_n}{t}\Delta t + \frac{1}{2} \dv[2]{\vb{X}_n}{t} - \dotsb\,,
+\end{align*}
+we obtain
+\[
+  \dv[2]{\vb{X}_n}{t} + \frac{\Delta t^2}{12} \dv[4]{\vb{X}}{t} + \order{\Delta t^5}
+  = \frac{\vb{F}(\vb{X}_n)}{m} + \delta^n\,,
+\]
+and thus
+\[
+  \delta^n \sim \order{\Delta t^2}
+\]
+which shows that the leapfrog algorithm is of order 2.
 
 \subsection{EPOCH}
 
