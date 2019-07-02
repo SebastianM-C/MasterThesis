@@ -541,7 +541,19 @@ Replacing the velocity, we obtain
   \frac{\vb{x}_{n+1}-2\vb{x}_n+\vb{x}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{x}_n)}{m}\,.
 \]
 
-In order to compute the accuracy of the method we consider the local truncation
+\subsubsection{Accuracy}
+
+The accuracy of an integration method is given by difference between the true
+solution and the approximate solution at a given timestep, that is the local
+error. There are two types of local errors: truncation errors and roundoff errors.
+Truncation errors are given by the approximations employed in the numerical method.
+On the other hand, roundoff errors are consequence of implementing the numerical
+method on a computer with finite precision. In general, for low order methods,
+the truncation errors are significantly bigger than roundoff errors, and thus
+we can consider that the accuracy is given only by truncation error.
+
+In order to better illustrate the concept of truncation errors, we will exemplify
+its computation for the leapfrog method. Let us consider the local truncation
 error at the timestep \(n\), \(\delta^n\) and \(\vb{X}\) the true solution
 \[
   \frac{\vb{X}_{n+1}-2\vb{X}_n+\vb{X}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{X}_n)}{m} + \delta^n\,.
@@ -562,6 +574,12 @@ and thus
   \delta^n \sim \order{\Delta t^2}
 \]
 which shows that the leapfrog algorithm is of order 2.
+
+\subsubsection{Stability}
+
+While accuracy is concerned with local errors, stability is concerned with
+global errors, or how the local errors evolve over multiple timesteps. As in the
+previous case we will show an example for the leapfrog method.
 
 \subsection{EPOCH}
 
