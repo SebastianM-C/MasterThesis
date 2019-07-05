@@ -537,9 +537,10 @@ with their finite difference approximations, we obtain
   m \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t} = \vb{F}(\vb{x}_n)\,.
 \end{align*}
 Replacing the velocity, we obtain
-\[
+\begin{equation}
+  \label{eq:leapfrog}
   \frac{\vb{x}_{n+1}-2\vb{x}_n+\vb{x}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{x}_n)}{m}\,.
-\]
+\end{equation}
 
 \subsubsection{Accuracy}
 
@@ -580,6 +581,60 @@ which shows that the leapfrog algorithm is of order 2.
 While accuracy is concerned with local errors, stability is concerned with
 global errors, or how the local errors evolve over multiple timesteps. As in the
 previous case we will show an example for the leapfrog method.
+
+Let us denote with \(X_n\) the true solutions of the numerical method (in absence
+of roundoff errors) and with \(x_n\) the solutions including roundoff errors
+\[
+  x_n = X_n + \epsilon_n,
+\]
+where \(\epsilon_n\) in the roundoff error at the \(n\)-th step.
+
+Given \(X_0\) and \(X_1\) as initial conditions, the steps of the leapfrog method~\eqref{eq:leapfrog}
+would look like this
+\begin{align*}
+  \frac{\vb{x}_2-2\vb{X}_1+\vb{X}_0}{\Delta t^2} &= \frac{\vb{F}(\vb{X}_1)}{m} \\
+  \frac{\vb{x}_3-2\vb{x}_2+\vb{X}_1}{\Delta t^2} &= \frac{\vb{F}(\vb{x}_2)}{m} \\
+  \vdots
+\end{align*}
+
+Considering the roundoff error explicitly for a particular step we obtain
+\[
+  \frac{\vb{X}_3+\epsilon_3-2(\vb{x}_2+\epsilon_2)+\vb{X}_1}{\Delta t^2}
+  = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}
+\]
+or
+\[
+  \frac{\vb{X}_3-2\vb{X}_2+\vb{X}_1}{\Delta t^2} + \frac{\epsilon_3-2\epsilon_2}{\Delta t^2}
+  = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}\,.
+\]
+Notice that the first term above is the leapfrog step for the exact solutions.
+Thus
+\[
+  \frac{\epsilon_3-2\epsilon_2}{\Delta t^2} = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}
+  - \frac{\vb{F}(\vb{X}_2)}{m}\,.
+\]
+
+We can assume that the roundoff errors are small and Taylor expand the force
+around \(X_2\)
+\[
+  \vb{F}(\vb{X}_2+\epsilon_2) = \vb{F}(\vb{x}_2) + \dv{\vb{F}(\vb{x}_2)}{x}\epsilon_2
+  + \order{\epsilon_2^2}
+\]
+and thus we can obtain the equation for the roundoff error
+\[
+  \epsilon_3-2\epsilon_2 \simeq \epsilon_2 \dv{\vb{F}(\vb{x}_2)}{x} \frac{\Delta t^2}{m}\,.
+\]
+
+Similarly, for the next step
+\[
+  \epsilon_4 - 2\epsilon_3 + \epsilon_2
+  \simeq \epsilon_3 \dv{\vb{F}(\vb{x}_3)}{x} \frac{\Delta t^2}{m}
+\]
+or more generally
+\[
+  \epsilon_{n+1} - 2\epsilon_n + \epsilon_{n-1}
+  \simeq \epsilon_3 \dv{\vb{F}(\vb{x}_n)}{x} \frac{\Delta t^2}{m}\,.
+\]
 
 \subsection{EPOCH}
 
