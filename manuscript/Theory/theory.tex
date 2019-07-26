@@ -579,62 +579,93 @@ which shows that the leapfrog algorithm is of order 2.
 \subsubsection{Stability}
 
 While accuracy is concerned with local errors, stability is concerned with
-global errors, or how the local errors evolve over multiple timesteps. As in the
-previous case we will show an example for the leapfrog method.
+global errors, or how the local errors evolve when \(t\to\infty\). As in the
+previous case we will show an example for the leapfrog method, following the
+ideas exposed in~\cite{butcher_numericalmethods_2016}
+and in~\cite{leimkuhler_simulatinghamiltonian_2004}.
 
-Let us denote with \(X_n\) the true solutions of the numerical method (in absence
-of roundoff errors) and with \(x_n\) the solutions including roundoff errors
+In the following we will only consider linear stability analysis and thus we
+will apply the leapfrog method to a linear problem.
+
+Let us denote the dynamical state of the system with
 \[
-  x_n = X_n + \epsilon_n,
+\vb{z} =
+\begin{pmatrix}
+  \vb{q} \\
+  \vb{p}
+\end{pmatrix}\,.
 \]
-where \(\epsilon_n\) in the roundoff error at the \(n\)-th step.
 
-Given \(X_0\) and \(X_1\) as initial conditions, the steps of the leapfrog method~\eqref{eq:leapfrog}
-would look like this
+A linear problem can be written as
+\[
+\dv{t} \vb{z} = A \vb{z}\,.
+\]
+
+One of the most studied linear problems is the harmonic oscillator and we can use
+it to obtain concrete results regarding stability. Let us consider the Hamiltonian
+\[
+\mathcal{H} = \frac{\vb{p}^2}{2m} + \frac{\omega^2 \vb{q}^2}{2}
+\]
+and the associated Hamilton equations
 \begin{align*}
-  \frac{\vb{x}_2-2\vb{X}_1+\vb{X}_0}{\Delta t^2} &= \frac{\vb{F}(\vb{X}_1)}{m} \\
-  \frac{\vb{x}_3-2\vb{x}_2+\vb{X}_1}{\Delta t^2} &= \frac{\vb{F}(\vb{x}_2)}{m} \\
-  \vdots
+  \dot{\vb{q}} &= \pdv{\mathcal{H}}{p} = \frac{p}{m} \\
+  \dot{\vb{p}} &= -\pdv{\mathcal{H}}{q} = -\omega^2 q\,.
 \end{align*}
 
-Considering the roundoff error explicitly for a particular step we obtain
+Taking \(m=1\) and writing the above equations in matrix form yields
 \[
-  \frac{\vb{X}_3+\epsilon_3-2(\vb{x}_2+\epsilon_2)+\vb{X}_1}{\Delta t^2}
-  = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}
+\dot{\vb{z}} =
+\begin{pmatrix}
+  p \\
+  -\omega^2 q
+\end{pmatrix} =
+\begin{pmatrix}
+  0 & 1 \\
+  -\omega^2 & 0
+\end{pmatrix}
+\begin{pmatrix}
+  \vb{q} \\
+  \vb{p}
+\end{pmatrix}
 \]
-or
+and thus we obtain
 \[
-  \frac{\vb{X}_3-2\vb{X}_2+\vb{X}_1}{\Delta t^2} + \frac{\epsilon_3-2\epsilon_2}{\Delta t^2}
-  = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}\,.
+\dot{\vb{z}} = A \vb{z},
 \]
-Notice that the first term above is the leapfrog step for the exact solutions.
-Thus
+with
 \[
-  \frac{\epsilon_3-2\epsilon_2}{\Delta t^2} = \frac{\vb{F}(\vb{x}_2+\epsilon_2)}{m}
-  - \frac{\vb{F}(\vb{X}_2)}{m}\,.
+A =
+\begin{pmatrix}
+  0 & 1 \\
+  -\omega^2 & 0
+\end{pmatrix}\,.
 \]
 
-We can assume that the roundoff errors are small and Taylor expand the force
-around \(X_2\)
+The solution is given by
 \[
-  \vb{F}(\vb{X}_2+\epsilon_2) = \vb{F}(\vb{x}_2) + \dv{\vb{F}(\vb{x}_2)}{x}\epsilon_2
-  + \order{\epsilon_2^2}
+\vb{z}(t) = R(t) z_0,
 \]
-and thus we can obtain the equation for the roundoff error
+with
 \[
-  \epsilon_3-2\epsilon_2 \simeq \epsilon_2 \dv{\vb{F}(\vb{x}_2)}{x} \frac{\Delta t^2}{m}\,.
+R(t) =
+\begin{pmatrix}
+  \cos(\omega t) & \frac{1}{\omega} \sin(\omega t) \\
+  -\omega \sin(\omega t) & \cos(\omega t)
+\end{pmatrix}\,.
 \]
 
-Similarly, for the next step
+The discrete version of the linear problem is
 \[
-  \epsilon_4 - 2\epsilon_3 + \epsilon_2
-  \simeq \epsilon_3 \dv{\vb{F}(\vb{x}_3)}{x} \frac{\Delta t^2}{m}
+\vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,.
 \]
-or more generally
-\[
-  \epsilon_{n+1} - 2\epsilon_n + \epsilon_{n-1}
-  \simeq \epsilon_3 \dv{\vb{F}(\vb{x}_n)}{x} \frac{\Delta t^2}{m}\,.
-\]
+In order to analyze the stability of the leapfrog algorithm, it is convenient to
+express the equations in a different form, also called the Störmer–Verlet method
+\begin{align*}
+  \vb{q}_{n+1} &= \vb{q}_n + \Delta t \vb{v}_{n+1/2} \\
+  M \vb{v}_{n+1/2} &= M \vb{v}_n - \frac{\Delta t}{2} \grad{V(\vb{q}_n)} \\
+  M \vb{v}_{n+1} &= M \vb{v}_{n+1/2} - \frac{\Delta t}{2} \grad{V(\vb{q}_{n+1})}
+\end{align*}
+
 
 \subsection{EPOCH}
 
