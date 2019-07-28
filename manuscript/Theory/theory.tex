@@ -579,7 +579,7 @@ which shows that the leapfrog algorithm is of order 2.
 \subsubsection{Stability}
 
 While accuracy is concerned with local errors, stability is concerned with
-global errors, or how the local errors evolve when \(t\to\infty\). As in the
+global errors, or how does the numerical method behave when \(t\to\infty\). As in the
 previous case we will show an example for the leapfrog method, following the
 ideas exposed in~\cite{butcher_numericalmethods_2016}
 and in~\cite{leimkuhler_simulatinghamiltonian_2004}.
@@ -655,17 +655,96 @@ R(t) =
 \]
 
 The discrete version of the linear problem is
-\[
-\vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,.
-\]
+\begin{equation}
+  \label{eq:discrete-linear-problem}
+  \vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,.
+\end{equation}
+
 In order to analyze the stability of the leapfrog algorithm, it is convenient to
 express the equations in a different form, also called the Störmer–Verlet method
 \begin{align*}
   \vb{q}_{n+1} &= \vb{q}_n + \Delta t \vb{v}_{n+1/2} \\
   M \vb{v}_{n+1/2} &= M \vb{v}_n - \frac{\Delta t}{2} \grad{V(\vb{q}_n)} \\
-  M \vb{v}_{n+1} &= M \vb{v}_{n+1/2} - \frac{\Delta t}{2} \grad{V(\vb{q}_{n+1})}
+  M \vb{v}_{n+1} &= M \vb{v}_{n+1/2} - \frac{\Delta t}{2} \grad{V(\vb{q}_{n+1})}\,.
 \end{align*}
 
+In our particular case, the gradient of the potential is given by
+\(\omega^2 q\) and the above reduces to
+\begin{align*}
+  \vb{q}_{n+1} &= \vb{q}_n + \Delta t (\vb{v}_n - \frac{\Delta t}{2} \omega^2 \vb{q}^n) =
+  \vb{q}_n \left(1 - \frac{\Delta t^2 \omega^2}{2}\right) + \vb{v}_n \Delta t \\
+  \vb{p}_{n+1} &= \vb{p}_n - \frac{\Delta t^2}{2} \omega^2 \vb{q}_n
+  -\frac{\Delta t^2}{2} \omega^2 \vb{q}_{n+1} =
+  \vb{p}_n - \frac{\Delta t^2}{2} \omega^2 \vb{q}_n
+  -\frac{\Delta t}{2}\omega^2 \left(\vb{q}_n+\vb{v}_n-\frac{\Delta t}{2}\omega^2 \vb{q}_n\right)\,,
+\end{align*}
+or
+\[
+\begin{pmatrix}
+  \vb{q}_{n+1} \\
+  \vb{p}_{n+1}
+\end{pmatrix} =
+\begin{pmatrix}
+  1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+  -\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+  1 - \frac{\Delta t^2 \omega^2}{2}
+\end{pmatrix}
+\begin{pmatrix}
+  \vb{q}_n \\
+  \vb{p}_n
+\end{pmatrix}\,.
+\]
+
+Comparing with~\eqref{eq:discrete-linear-problem} we obtain
+\[
+\hat{R}(\Delta t) =
+\begin{pmatrix}
+  1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+  -\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+  1 - \frac{\Delta t^2 \omega^2}{2}
+\end{pmatrix}\,.
+\]
+
+Moreover, we can iteratively construct the solution at the \(n\)-th
+timestep from the initial conditions
+\[
+\vb{z}_n = \left[\hat{R}\right]^n \vb{z}_0
+\]
+and if we analyze the behavior of the eigenvalues of \(\hat{R}\),
+we can get an insight for the long time behavior.
+
+The eigenvalues of \(\hat{R}\) are given by the solution of
+\(
+\det(\hat{R} - \lambda I) = 0
+\), or more explicitly
+\[
+\vmqty{
+1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+-\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+1 - \frac{\Delta t^2 \omega^2}{2}
+} = 0\,.
+\]
+
+This reduces to
+\[
+\left(1-\frac{\Delta t^{2} \omega^2}{2}-\lambda\right)^{2}+
+\frac{\Delta t^{2} \omega^2}{2}\left(2-\frac{\Delta t^2 \omega^2}{2}\right) = 0\,.
+\]
+Using the notation \(\frac{\Delta t^{2} w^{2}}{2}\equiv\mu^{2}\),
+we obtain
+\[
+\left(1-\mu^{2}-\lambda\right)^2+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+\]
+which can be further expanded to
+\[
+\lambda^{2}+\left(1-\mu^{2}\right)^{2}-2\left(1-\mu^{2}\right) \lambda+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+\]
+yielding the solutions
+\begin{align*}
+  \lambda_{1,2} &= \frac{1}{2} \left\{2(1-\mu^2) \pm
+  \sqrt{4(1-\mu^2)^2 - 4\left[(1-\mu^2)^2 + \mu^2 (2-\mu^2)\right]}\right\} \\
+  &= 1-\mu^2 \pm \sqrt{\mu^2(\mu^2-2)}\,.
+\end{align*}
 
 \subsection{EPOCH}
 
