@@ -522,7 +522,7 @@ and we can see that indeed the centeral diference is second order accurate
 
 As an application of the methods discussed above, we will now derive the so called
 leapfrog method for solving second order differential equations
-following~\cite[Chapter~4]{hockney_computersimulation_1988}. More concretely,
+following~\textcite[Chapter~4]{hockney_computersimulation_1988}. More concretely,
 we will take a look at solving the equations of motion for a particle. As a first
 step, the equations of motion can be written as a system of first order differential
 equations
@@ -578,16 +578,17 @@ which shows that the leapfrog algorithm is of order 2.
 
 \subsubsection{Stability}
 
-While accuracy is concerned with local errors, stability is concerned with
-global errors, or how does the numerical method behave when \(t\to\infty\). As in the
-previous case we will show an example for the leapfrog method, following the
-ideas exposed in~\cite{butcher_numericalmethods_2016}
-and in~\cite{leimkuhler_simulatinghamiltonian_2004}.
+A numerical method is considered asymptotically stable if the solution obtained
+for a linear problem is asymptotically bounded.
+As in the previous case we will show an example for the leapfrog method,
+following the ideas exposed in~\cite{butcher_numericalmethods_2016}
+and in~\textcite[Section 2.6]{leimkuhler_simulatinghamiltonian_2004}.
 
-In the following we will only consider linear stability analysis and thus we
-will apply the leapfrog method to a linear problem.
-
-Let us denote the dynamical state of the system with
+A linear problem can be written as
+\[
+\dv{t} \vb{z} = A \vb{z}\,,
+\]
+where we used the following notation to denote the dynamical state of the system
 \[
 \vb{z} =
 \begin{pmatrix}
@@ -596,20 +597,42 @@ Let us denote the dynamical state of the system with
 \end{pmatrix}\,.
 \]
 
-A linear problem can be written as
-\[
-\dv{t} \vb{z} = A \vb{z}\,.
-\]
+The solution can be written as
+\begin{equation*}
+  % \label{eq:linear-problem-solution}
+  \vb{z}(t) = R(t) \vb{z}_0\,,
+\end{equation*}
+where \(R(t)\) is a matrix which can give the solution at any time by evolving
+the initial conditions.
+
+The discrete version of the problem is given by
+\begin{equation}
+  \label{eq:discrete-linear-problem}
+  \vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,,
+\end{equation}
+where \(\hat{R}(\Delta t)\) is called the propagation matrix.
+With this considerations, asymptotic stability can be expressed as a function
+of the eigenvalues of \(\hat{R}(\Delta t)\), since the solution is obtained
+with powers of \(\hat{R}\) from the initial conditions
+\begin{equation*}
+  % \label{eq:discrete-linear-solution}
+  \vb{z}_n = [\hat{R}]^n \vb{z}_0\,.
+\end{equation*}
+
+More concretely, a method is asymptotically stable if the eigenvalues of
+\(\hat{R}\) are inside the unit disk in the complex plane and simple (not repeated)
+if on the unit circle~\autocite[28]{leimkuhler_simulatinghamiltonian_2004}.
 
 One of the most studied linear problems is the harmonic oscillator and we can use
-it to obtain concrete results regarding stability. Let us consider the Hamiltonian
+it as our model linear problem
 \[
-\mathcal{H} = \frac{\vb{p}^2}{2m} + \frac{\omega^2 \vb{q}^2}{2}
+\mathcal{H} = \frac{\vb{p}^2}{2m} + \frac{\omega^2 \vb{q}^2}{2}\,.
 \]
-and the associated Hamilton equations
+
+The equations of motion are given by the corresponding Hamilton equations
 \begin{align*}
-  \dot{\vb{q}} &= \pdv{\mathcal{H}}{p} = \frac{p}{m} \\
-  \dot{\vb{p}} &= -\pdv{\mathcal{H}}{q} = -\omega^2 q\,.
+  \dot{q}_i &= \pdv{\mathcal{H}}{p_i} = \frac{p_i}{m} \\
+  \dot{p}_i &= -\pdv{\mathcal{H}}{q_i} = -\omega^2 q_i\,.
 \end{align*}
 
 Taking \(m=1\) and writing the above equations in matrix form yields
@@ -643,7 +666,7 @@ A =
 
 The solution is given by
 \[
-\vb{z}(t) = R(t) z_0,
+\vb{z}(t) = R(t) \vb{z}_0,
 \]
 with
 \[
@@ -653,12 +676,6 @@ R(t) =
   -\omega \sin(\omega t) & \cos(\omega t)
 \end{pmatrix}\,.
 \]
-
-The discrete version of the linear problem is
-\begin{equation}
-  \label{eq:discrete-linear-problem}
-  \vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,.
-\end{equation}
 
 In order to analyze the stability of the leapfrog algorithm, it is convenient to
 express the equations in a different form, also called the Störmer–Verlet method
@@ -705,14 +722,6 @@ Comparing with~\eqref{eq:discrete-linear-problem} we obtain
 \end{pmatrix}\,.
 \]
 
-Moreover, we can iteratively construct the solution at the \(n\)-th
-timestep from the initial conditions
-\[
-\vb{z}_n = \left[\hat{R}\right]^n \vb{z}_0
-\]
-and if we analyze the behavior of the eigenvalues of \(\hat{R}\),
-we can get an insight for the long time behavior.
-
 The eigenvalues of \(\hat{R}\) are given by the solution of
 \(
 \det(\hat{R} - \lambda I) = 0
@@ -745,6 +754,34 @@ yielding the solutions
   \sqrt{4(1-\mu^2)^2 - 4\left[(1-\mu^2)^2 + \mu^2 (2-\mu^2)\right]}\right\} \\
   &= 1-\mu^2 \pm \sqrt{\mu^2(\mu^2-2)}\,.
 \end{align*}
+
+We notice that for \(\mu^2 < 2\) the solutions are complex and
+\begin{align*}
+  |\lambda_{1,2}|^2 &= (1-\mu^2) + \mu^2 (\mu^2-2) \\
+  &= 1+\mu^4-2\mu^2+\mu^4-2\mu^2 \\
+  &= 1+\mu^4-4\mu^2\,.
+\end{align*}
+
+The method will be stable for \(|\lambda|^2 < 1\), or
+\[
+\mu^2 (\mu^2 - 4) < 0 \implies \mu < 2, \text{for } \mu \ne 0\,.
+\]
+
+For \(\mu^2 > 2\) the eigenvalues are real and with modulus greater than 1.
+Thus the stability condition for the Störmer–Verlet method is given by \(\mu < 2\),
+or
+\[
+\Delta t^2 \omega^2 < 4\,,
+\]
+indicating a sampling of at least \(\pi\) points per period, or a step size
+\(\Delta t < 2/\omega\).
+
+In the context of ordinary differential equations, a stability region of the method
+can be defined via a stability function \(R(z)\) in the complex
+plane~\autocite[81]{butcher_numericalmethods_2016}. Such approach cannot be used
+in this case since the stability function is defined for a singe ordinary
+differential equation, but in the case of Hamiltonian dynamics we always have
+\(2n\) ordinary differential equations, with \(n>1\).
 
 \subsection{EPOCH}
 
