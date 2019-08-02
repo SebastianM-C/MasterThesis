@@ -783,6 +783,32 @@ in this case since the stability function is defined for a singe ordinary
 differential equation, but in the case of Hamiltonian dynamics we always have
 \(2n\) ordinary differential equations, with \(n>1\).
 
+\subsection{The particle pusher}
+
+Having (briefly) developed some general aspects of the theory of numerical methods
+for solving differential equations, we now continue with the more concrete case
+of numerically solving the equations of motion for a charged particle.
+In the non-relativistic case, the (continuous) equations of motion have the
+following form
+\begin{align*}
+  \dv{\vb{x}}{t} &= \vb{v} \\
+  \dv{\vb{v}}{t} &= \frac{q}{m} \left(\vb{E} + \vb{v}\cp\vb{B}\right)\,.
+\end{align*}
+
+\subsubsection{Conservation properties}
+
+When solving (continuous) differential equations with (discrete) numerical methods,
+an important aspect is that we want the algorithm to be as close as possible to
+the original continuous system in terms of symmetries and conserved quantities.
+
+In what follows we will look at the conservation properties of the Boris push
+and show why are they important for simulating the dynamics of charged particles
+following~\textcite{qin_whyboris_2013}.
+
+\subsection{The field solver}
+
+\subsection{A survey of available PIC codes}
+
 \subsection{EPOCH}
 
 \end{document}
