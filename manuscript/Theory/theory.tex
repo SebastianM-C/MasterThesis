@@ -795,6 +795,68 @@ following form
   \dv{\vb{v}}{t} &= \frac{q}{m} \left(\vb{E} + \vb{v}\cp\vb{B}\right)\,.
 \end{align*}
 
+Since the above equations are symmetric with respect to time reversal, it is
+desired that we obtain a discretization which is also time-reversible.
+\Textcite{buneman_timereversibledifference_1967} explained that we can
+use centered differences for this task and in the particular case of the
+Lorentz force we can average the velocity in order to represent the
+\(\vb{v} \cp \vb{B}\) product symmetrically. Thus we obtain
+\begin{align}
+  \label{eq:lorentz-discrete-x}
+  \frac{\vb{x}_{n+1}-\vb{x}_n}{\Delta t} &= \vb{v}_{n+1} \\
+  \label{eq:lorentz-discrete-v}
+  \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{\Delta t} &= \frac{q}{m}
+    \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
+\end{align}
+
+As explained in~\textcite[Chapter 4-3]{birdsall_plasmaphysics_2005}, there are
+several methods for solving the above equations, implying a
+partial~\autocite{buneman_timereversibledifference_1967} or
+complete~\autocite{boris_relativisticplasma_1970} separation of the electric
+and magnetic force contributions. In the following we will detail the second
+method, which is also called the Boris push.
+
+Let us introduce the following notation
+\begin{align*}
+  \vb{v}^- &= \vb{v}_{n-1/2} - \frac{q \vb{E}}{m} \frac{\Delta t}{2} \\
+  \vb{v}^+ &= \vb{v}_{n+1/2} + \frac{q \vb{E}}{m} \frac{\Delta t}{2}\,,
+\end{align*}
+such that
+\[
+\frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t}
++ \frac{q \vb{E}}{m}\,.
+\]
+
+Substituting in~\eqref{eq:lorentz-discrete-v} we obtain
+\[
+\frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{q}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}\,,
+\]
+which can be seen as a rotation. Indeed, if we take the scalar product with
+\((\vb{v}^+ + \vb{v}^-)\), we get
+\[
+(\vb{v}^+ + \vb{v}^-) \vdot \frac{\vb{v}^+ - \vb{v}^-}{\Delta t} =
+\frac{q}{2m} \underbrace{(\vb{v}^+ + \vb{v}^-) \vdot (\vb{v}^+ + \vb{v}^-) \cp \vb{B}}_{0}
+\]
+or
+\[
+|\vb{v}^+|^2 - |\vb{v}^-|^2 = 0\,,
+\]
+implying that \(|\vb{v}^+| = |\vb{v}^-|\).
+
+If we decompose the \(\vb{v}^-\) into its parallel and perpendicular components
+with respect to \(\vb{B}\), we can reduce the rotation of \(\vb{v}^-\) to
+the rotation of its perpendicular component \(\vb{v}^-_\perp\).
+
+\begin{figure}[h]
+  \caption{Boris rotation angle}\label{fig:Boris-rotation-angle}%
+  \subimport{../../figures/}{Boris-rotation-angle}%
+\end{figure}
+
+
+We will further introduce an additional vector \(\vb{v}'\) given by the addition
+between \(\vb{v}^-\) and another vector, such that \(\vb{v}'\) is perpendicular
+to \(\vb{v}^+ - \vb{v}^-\).
+
 \subsubsection{Conservation properties}
 
 When solving (continuous) differential equations with (discrete) numerical methods,
