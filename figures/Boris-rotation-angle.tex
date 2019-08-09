@@ -1,7 +1,6 @@
 \documentclass[tikz]{standalone}
 \usepackage{standalone}
-\usepackage{pgf,tikz,pgfplots}
-\pgfplotsset{compat=1.15}
+\usepackage{pgf,tikz,physics}
 \usepackage{mathrsfs}
 \usetikzlibrary{arrows}
 \pagestyle{empty}
@@ -9,19 +8,16 @@
 \definecolor{ffqqqq}{rgb}{1,0,0}
 \definecolor{qqzzqq}{rgb}{0,0.6,0}
 \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\clip(-4.777631140485019,-5.329620313364252) rectangle (10.10328979085484,5.777085971667307);
 \draw[line width=2pt,fill=black,fill opacity=0.10000000149011612] (3,0.19916214701926652) -- (2.8008378529807336,0.19916214701926654) -- (2.8008378529807336,0) -- (3,0) -- cycle;
 \draw [shift={(0,0)},line width=2pt,fill=black,fill opacity=0.10000000149011612] (0,0) -- (-33.690067525979785:0.7510874918026427) arc (-33.690067525979785:33.6900675259798:0.7510874918026427) -- cycle;
 \draw [->,line width=2pt] (0,0) -- (3,2);
 \draw [->,line width=2pt] (0,0) -- (3,-2);
 \draw [->,line width=2pt,color=qqzzqq] (0,0) -- (6,0);
 \draw [->,line width=2pt,color=ffqqqq] (3,-2) -- (3,2);
-\begin{scriptsize}
-\draw[color=black] (1.5690581652473112,1.5287473461586172) node {$v_{+}$};
-\draw[color=black] (1.6723326953701747,-0.7151265356017741) node {$v_{-}$};
-\draw[color=qqzzqq] (4.122755637376296,0.392727514807122) node {$v_{+} + v_{-}$};
-\draw[color=ffqqqq] (3.493719862991583,0.9842089146017021) node {$v_{+} - v_{-}$};
+\draw[color=black] (1.6,1.65) node {$\vb{v}^+_\perp$};
+\draw[color=black] (1.6,-0.61) node {$\vb{v}^-_\perp$};
+\draw[color=qqzzqq] (4.55,0.36) node {$\vb{v}^+_\perp + \vb{v}^-_\perp$};
+\draw[color=ffqqqq] (3.88,1.29) node {$\vb{v}^+_\perp - \vb{v}^-_\perp$};
 \draw[color=black] (1.240457387583655,0.23781571962282716) node {$\theta$};
-\end{scriptsize}
 \end{tikzpicture}
 \end{document}
