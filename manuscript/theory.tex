@@ -1,5 +1,6 @@
 \documentclass[class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
+\usepackage{wrapfig}
 
 %!TeX spellcheck = en-GB
 
@@ -829,9 +830,10 @@ such that
 \]
 
 Substituting in~\eqref{eq:lorentz-discrete-v} we obtain
-\[
-\frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{q}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}\,,
-\]
+\begin{equation}
+  \label{eq:vp-vm-rotation}
+  \frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{q}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}\,,
+\end{equation}
 which can be seen as a rotation. Indeed, if we take the scalar product with
 \((\vb{v}^+ + \vb{v}^-)\), we get
 \[
@@ -848,16 +850,64 @@ If we decompose the \(\vb{v}^-\) into its parallel and perpendicular components
 with respect to \(\vb{B}\), we can reduce the rotation of \(\vb{v}^-\) to
 the rotation of its perpendicular component \(\vb{v}^-_\perp\).
 
-\begin{figure}[h]
+\begin{wrapfigure}[12]{r}{0.4\textwidth}
   \centering
-  \caption{Boris rotation angle}\label{fig:Boris-rotation-angle}%
   \subimport{../figures/}{Boris-rotation-angle}%
+  \caption{Boris rotation angle}\label{fig:Boris-rotation-angle}%
+\end{wrapfigure}
+
+The angle of rotation between \(\vb{v}^-_\perp\) and \(\vb{v}^-_\perp\),
+denoted with \(\theta\) in figure~\ref{fig:Boris-rotation-angle},
+can be expressed as
+\[
+\tan{\frac{\theta}{2}} = \frac{|\vb{v}^+_\perp - \vb{v}^-_\perp|}{|\vb{v}^+_\perp + \vb{v}^-_\perp|}\,.
+\]
+
+Rewriting eq.~\eqref{eq:vp-vm-rotation} we obtain
+\[
+\vb{v}^+ - \vb{v}^- = \frac{q \Delta t}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}
+\]
+and if we substitute \(\vb{v}^\pm = \vb{v}^\pm_\perp + \vb{v}^\pm_\parallel\)
+\[
+\vb{v}^+_\perp - \vb{v}^-_\perp = \frac{q \Delta t}{2m} (\vb{v}^+_\perp + \vb{v}^-_\perp) \cp \vb{B}\,.
+\]
+
+Furthermore, since all the vectors above have the same direction by construction,
+we can factor out the versors and obtain
+\[
+\frac{|\vb{v}^+_\perp - \vb{v}^-_\perp|}{|\vb{v}^+_\perp + \vb{v}^-_\perp|} =
+\frac{q |\vb{B}|}{m} \frac{\Delta t}{2}
+\]
+and thus
+\begin{equation}
+  \label{eq:Boris-rotation-angle}
+  \tan{\frac{\theta}{2}} = \frac{q B}{m} \frac{\Delta t}{2}\,.
+\end{equation}
+
+Since for the rotation described above only the components perpendicular to
+the direction of \(\vb{B}\) matter, we can simplify the notation and use
+\(\vb{v}_\pm\) instead of \(\vb{v}^\pm_\perp\).
+We will now introduce an additional vector \(\vb{v}'\) given by the addition
+between \(\vb{v}_-\) and another vector, such that \(\vb{v}'\) is perpendicular
+to \(\vb{v}_+ - \vb{v}_-\).
+
+It is convenient to write \(\vb{v}'\) as \(\vb{v}' = \vb{v}_- + \vb{v}_- \cp \vb{t}\).
+In the right trinagle formed by \(\vb{v}'\) with \(\vb{v}_-\)
+and \(\vb{v}_- \cp \vb{t}\) as seen in figure~\ref{fig:Boris-rotation-3D},
+we have
+\[
+\tan{\frac{\theta}{2}} = \frac{|\vb{v}_- \cp \vb{t}|}{|\vb{v}_-|} = |\vb{t}|
+\]
+and thus by using eq.~\eqref{eq:Boris-rotation-angle} \(\vb{t}\) is given by
+\[
+\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}
+\]
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Boris-rotation-3D}
+  \caption{Boris rotation construction in 3D}%
+  \label{fig:Boris-rotation-3D}%
 \end{figure}
-
-
-We will further introduce an additional vector \(\vb{v}'\) given by the addition
-between \(\vb{v}^-\) and another vector, such that \(\vb{v}'\) is perpendicular
-to \(\vb{v}^+ - \vb{v}^-\).
 
 \subsubsection{Conservation properties}
 

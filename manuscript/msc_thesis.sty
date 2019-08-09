@@ -12,6 +12,19 @@
 \usepackage{float}
 \usepackage{setspace}
 \usepackage[section]{placeins}
+\usepackage{graphicx}
+\graphicspath{{../figures/}}
+
+% \usepackage{ifluatex}
+% \ifluatex
+%   \usepackage{pdftexcmds}
+%   \makeatletter
+%   \let\pdfstrcmp\pdf@strcmp
+%   \let\pdffilemoddate\pdf@filemoddate
+%   \makeatother
+% \fi
+% \usepackage{svg}
+% \svgpath{{../figures}}
 
 \usepackage{import}
 \usepackage[subpreambles=true]{standalone}
@@ -38,3 +51,9 @@
 \newcommand{\ad}[1]{a_{#1}^{\dagger}}       % creation operator
 \newcommand*\mean[1]{\overline{#1}}         % mean
 \DeclareMathOperator{\dalambert}{\Box}      % d'Alambertian operator
+
+\makeatletter
+\newcommand\appendtographicspath[1]{%
+  \g@addto@macro\Ginput@path{#1}%
+}
+\makeatother
