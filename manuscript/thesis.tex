@@ -1,10 +1,9 @@
 \documentclass[12pt, twoside]{report}
 % \documentclass[12pt]{report}
 \usepackage{graphicx}
-\graphicspath{ {cover/img/} {../Output/} {../../Output/}
+\graphicspath{ {cover/img/} {../figures/}
 }
-\usepackage{subfiles}
-\usepackage{ba_thesis}
+\usepackage{msc_thesis}
 
 \begin{document}
 
@@ -19,10 +18,10 @@
 \addtocontents{toc}{\protect\thispagestyle{empty}}
 
 \pagenumbering{arabic}
-\subfile{Introduction/intro.tex}
-\subfile{Theory/theory.tex}
-\subfile{Results/results.tex}
-\subfile{Conclusions/conclusions.tex}
+\import{}{intro}
+\import{}{theory}
+\import{}{results}
+\import{}{conclusions}
 
 \printbibliography%
 
