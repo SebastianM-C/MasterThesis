@@ -1,0 +1,473 @@
+\documentclass[class=report, crop=false]{standalone}
+\usepackage{msc_thesis}
+\usepackage{wrapfig}
+
+%!TeX spellcheck = en-GB
+
+\begin{document}
+
+\chapter{Particle in Cell Method}%
+\label{chap:pic}
+
+As we outlined in Chapter~\ref{chap:classical-electrodynamics}, the interaction
+of some charged particles with an electromagnetic field can be viewed as the
+action of the sources on the fields and the action of the fields on the sources.
+
+In the same manner, simulating the interaction self-consistently rquires a
+\emph{field solver} that computes the structure of the fields considering
+the sources and a \emph{particle pusher} that solves the (relativistic)
+equations of motion for the particles.
+In the particle in cell method, a finite-difference time-domain (FDTD) method
+is used for solving Maxwell's equations and a modified leapfrog method is used
+for the particle pusher as presented in~\cite{arber_contemporaryparticleincell_2015}.
+
+\section{Numerical Methods Introduction}
+
+The numerical methods mentioned above are based on the idea of discretizing the
+derivative operator. There are multiple ways of discretizing this operator,
+but all of them can be derived from the Taylor series expansion.
+\[
+  f(x_0+h) = f(x_0) + \frac{f'(x_0)}{1!}h + \frac{f''(x_0)}{2!}h^2 + \dotsb + \frac{f^{(n)}(x_0)}{n!}h^n + \dots
+\]
+
+The main discretizations options are the forward, backward and central differences.
+For the forward discretization we consider
+\[
+  f(x_0+h) = f(x_0) + \frac{f'(x_0)}{1!}h + \frac{f''(x_0)}{2!}h^2 + \dotsb
+\]
+and we rearange the terms in the following way
+\[
+  \frac{f(x_0+h) - f(x_0)}{h} = f'(x_0) + \frac{f''(x_0)}{2}h + \dotsb
+\]
+and thus, when \(h \to 0\), the derivative in first order is given by
+\[
+  f'(x_0) = \frac{f(x_0+h) - f(x_0)}{h} + \order{h}\,.
+\]
+
+The local truncation error is given by the error of the approximation in one time
+step. The forward and backward discretizations are both of order one. The
+central discretization is second order accurate and can be derived as follows.
+
+We first begin with the forward and backward discretizations for half of a
+timestep:
+\begin{align*}
+  f(x_0+\frac{h}{2}) &= f(x_0) + f'(x_0)\frac{h}{2} + \frac{f''(x_0)}{2}\frac{h^2}{4}
+    + \frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb \\
+  f(x_0-\frac{h}{2}) &= f(x_0) - f'(x_0)\frac{h}{2} + \frac{f''(x_0)}{2}\frac{h^2}{4}
+    - \frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb \,.
+\end{align*}
+
+Then we take the difference and obtain
+\[
+  f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2}) = f'(x_0)h
+    + 2\frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb
+\]
+and we can see that indeed the centeral diference is second order accurate
+\[
+  f'(x_0) = \frac{f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2})}{h} + \order{h^2}\,.
+\]
+
+As an application of the methods discussed above, we will now derive the so called
+leapfrog method for solving second order differential equations
+following~\textcite[Chapter~4]{hockney_computersimulation_1988}. More concretely,
+we will take a look at solving the equations of motion for a particle. As a first
+step, the equations of motion can be written as a system of first order differential
+equations
+\begin{align*}
+  \dv{\vb{x}}{t} &= \vb{v} \\
+  m \dv{\vb{v}}{t} &= \vb{F}\,,
+\end{align*}
+where \(\vb{F}\) is the total force on the particle. Replacing the derivatives
+with their finite difference approximations, we obtain
+\begin{align*}
+  \frac{\vb{x}_{n+1} - \vb{x}_n}{\Delta t} = \vb{v}_{n+1/2} \\
+  m \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t} = \vb{F}(\vb{x}_n)\,.
+\end{align*}
+Replacing the velocity, we obtain
+\begin{equation}
+  \label{eq:leapfrog}
+  \frac{\vb{x}_{n+1}-2\vb{x}_n+\vb{x}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{x}_n)}{m}\,.
+\end{equation}
+
+\subsection{Accuracy}
+
+The accuracy of an integration method is given by difference between the true
+solution and the approximate solution at a given timestep, that is the local
+error. There are two types of local errors: truncation errors and roundoff errors.
+Truncation errors are given by the approximations employed in the numerical method.
+On the other hand, roundoff errors are consequence of implementing the numerical
+method on a computer with finite precision. In general, for low order methods,
+the truncation errors are significantly bigger than roundoff errors, and thus
+we can consider that the accuracy is given only by truncation error.
+
+In order to better illustrate the concept of truncation errors, we will exemplify
+its computation for the leapfrog method. Let us consider the local truncation
+error at the timestep \(n\), \(\delta^n\) and \(\vb{X}\) the true solution
+\[
+  \frac{\vb{X}_{n+1}-2\vb{X}_n+\vb{X}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{X}_n)}{m} + \delta^n\,.
+\]
+
+If we expand \(\vb{X}_{n+1}\) and \(\vb{X}_{n-1}\) in Taylor series around \(\vb{X}_n\)
+\begin{align*}
+  \vb{X}_{n+1} &= \vb{X}_n + \dv{\vb{X}_n}{t}\Delta t + \frac{1}{2} \dv[2]{\vb{X}_n}{t} - \dotsb \\
+  \vb{X}_{n-1} &= \vb{X}_n - \dv{\vb{X}_n}{t}\Delta t + \frac{1}{2} \dv[2]{\vb{X}_n}{t} - \dotsb\,,
+\end{align*}
+we obtain
+\[
+  \dv[2]{\vb{X}_n}{t} + \frac{\Delta t^2}{12} \dv[4]{\vb{X}}{t} + \order{\Delta t^5}
+  = \frac{\vb{F}(\vb{X}_n)}{m} + \delta^n\,,
+\]
+and thus
+\[
+  \delta^n \sim \order{\Delta t^2}
+\]
+which shows that the leapfrog algorithm is of order 2.
+
+\subsection{Stability}
+
+A numerical method is considered asymptotically stable if the solution obtained
+for a linear problem is asymptotically bounded.
+As in the previous case we will show an example for the leapfrog method,
+following the ideas exposed in~\cite{butcher_numericalmethods_2016}
+and in~\textcite[Section 2.6]{leimkuhler_simulatinghamiltonian_2004}.
+
+A linear problem can be written as
+\[
+\dv{t} \vb{z} = A \vb{z}\,,
+\]
+where we used the following notation to denote the dynamical state of the system
+\[
+\vb{z} =
+\begin{pmatrix}
+  \vb{q} \\
+  \vb{p}
+\end{pmatrix}\,.
+\]
+
+The solution can be written as
+\begin{equation*}
+  % \label{eq:linear-problem-solution}
+  \vb{z}(t) = R(t) \vb{z}_0\,,
+\end{equation*}
+where \(R(t)\) is a matrix which can give the solution at any time by evolving
+the initial conditions.
+
+The discrete version of the problem is given by
+\begin{equation}
+  \label{eq:discrete-linear-problem}
+  \vb{z}_{n+1} = \hat{R}(\Delta t) \vb{z}_n\,,
+\end{equation}
+where \(\hat{R}(\Delta t)\) is called the propagation matrix.
+With this considerations, asymptotic stability can be expressed as a function
+of the eigenvalues of \(\hat{R}(\Delta t)\), since the solution is obtained
+with powers of \(\hat{R}\) from the initial conditions
+\begin{equation*}
+  % \label{eq:discrete-linear-solution}
+  \vb{z}_n = [\hat{R}]^n \vb{z}_0\,.
+\end{equation*}
+
+More concretely, a method is asymptotically stable if the eigenvalues of
+\(\hat{R}\) are inside the unit disk in the complex plane and simple (not repeated)
+if on the unit circle~\autocite[28]{leimkuhler_simulatinghamiltonian_2004}.
+
+One of the most studied linear problems is the harmonic oscillator and we can use
+it as our model linear problem
+\[
+\mathcal{H} = \frac{\vb{p}^2}{2m} + \frac{\omega^2 \vb{q}^2}{2}\,.
+\]
+
+The equations of motion are given by the corresponding Hamilton equations
+\begin{align*}
+  \dot{q}_i &= \pdv{\mathcal{H}}{p_i} = \frac{p_i}{m} \\
+  \dot{p}_i &= -\pdv{\mathcal{H}}{q_i} = -\omega^2 q_i\,.
+\end{align*}
+
+Taking \(m=1\) and writing the above equations in matrix form yields
+\[
+\dot{\vb{z}} =
+\begin{pmatrix}
+  p \\
+  -\omega^2 q
+\end{pmatrix} =
+\begin{pmatrix}
+  0 & 1 \\
+  -\omega^2 & 0
+\end{pmatrix}
+\begin{pmatrix}
+  \vb{q} \\
+  \vb{p}
+\end{pmatrix}
+\]
+and thus we obtain
+\[
+\dot{\vb{z}} = A \vb{z},
+\]
+with
+\[
+A =
+\begin{pmatrix}
+  0 & 1 \\
+  -\omega^2 & 0
+\end{pmatrix}\,.
+\]
+
+The solution is given by
+\[
+\vb{z}(t) = R(t) \vb{z}_0,
+\]
+with
+\[
+R(t) =
+\begin{pmatrix}
+  \cos(\omega t) & \frac{1}{\omega} \sin(\omega t) \\
+  -\omega \sin(\omega t) & \cos(\omega t)
+\end{pmatrix}\,.
+\]
+
+In order to analyze the stability of the leapfrog algorithm, it is convenient to
+express the equations in a different form, also called the Störmer–Verlet method
+\begin{align*}
+  \vb{q}_{n+1} &= \vb{q}_n + \Delta t \vb{v}_{n+1/2} \\
+  M \vb{v}_{n+1/2} &= M \vb{v}_n - \frac{\Delta t}{2} \grad{V(\vb{q}_n)} \\
+  M \vb{v}_{n+1} &= M \vb{v}_{n+1/2} - \frac{\Delta t}{2} \grad{V(\vb{q}_{n+1})}\,.
+\end{align*}
+
+In our particular case, the gradient of the potential is given by
+\(\omega^2 q\) and the above reduces to
+\begin{align*}
+  \vb{q}_{n+1} &= \vb{q}_n + \Delta t (\vb{v}_n - \frac{\Delta t}{2} \omega^2 \vb{q}^n) =
+  \vb{q}_n \left(1 - \frac{\Delta t^2 \omega^2}{2}\right) + \vb{v}_n \Delta t \\
+  \vb{p}_{n+1} &= \vb{p}_n - \frac{\Delta t^2}{2} \omega^2 \vb{q}_n
+  -\frac{\Delta t^2}{2} \omega^2 \vb{q}_{n+1} =
+  \vb{p}_n - \frac{\Delta t^2}{2} \omega^2 \vb{q}_n
+  -\frac{\Delta t}{2}\omega^2 \left(\vb{q}_n+\vb{v}_n-\frac{\Delta t}{2}\omega^2 \vb{q}_n\right)\,,
+\end{align*}
+or
+\[
+\begin{pmatrix}
+  \vb{q}_{n+1} \\
+  \vb{p}_{n+1}
+\end{pmatrix} =
+\begin{pmatrix}
+  1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+  -\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+  1 - \frac{\Delta t^2 \omega^2}{2}
+\end{pmatrix}
+\begin{pmatrix}
+  \vb{q}_n \\
+  \vb{p}_n
+\end{pmatrix}\,.
+\]
+
+Comparing with~\eqref{eq:discrete-linear-problem} we obtain
+\[
+\hat{R}(\Delta t) =
+\begin{pmatrix}
+  1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+  -\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+  1 - \frac{\Delta t^2 \omega^2}{2}
+\end{pmatrix}\,.
+\]
+
+The eigenvalues of \(\hat{R}\) are given by the solution of
+\(
+\det(\hat{R} - \lambda I) = 0
+\), or more explicitly
+\[
+\vmqty{
+1 - \frac{\Delta t^2 \omega^2}{2} & \Delta t \\
+-\Delta t \omega^2 \left(1 - \frac{\Delta t^2 \omega^2}{4}\right) &
+1 - \frac{\Delta t^2 \omega^2}{2}
+} = 0\,.
+\]
+
+This reduces to
+\[
+\left(1-\frac{\Delta t^{2} \omega^2}{2}-\lambda\right)^{2}+
+\frac{\Delta t^{2} \omega^2}{2}\left(2-\frac{\Delta t^2 \omega^2}{2}\right) = 0\,.
+\]
+Using the notation \(\frac{\Delta t^{2} w^{2}}{2}\equiv\mu^{2}\),
+we obtain
+\[
+\left(1-\mu^{2}-\lambda\right)^2+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+\]
+which can be further expanded to
+\[
+\lambda^{2}+\left(1-\mu^{2}\right)^{2}-2\left(1-\mu^{2}\right) \lambda+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+\]
+yielding the solutions
+\begin{align*}
+  \lambda_{1,2} &= \frac{1}{2} \left\{2(1-\mu^2) \pm
+  \sqrt{4(1-\mu^2)^2 - 4\left[(1-\mu^2)^2 + \mu^2 (2-\mu^2)\right]}\right\} \\
+  &= 1-\mu^2 \pm \sqrt{\mu^2(\mu^2-2)}\,.
+\end{align*}
+
+We notice that for \(\mu^2 < 2\) the solutions are complex and
+\begin{align*}
+  |\lambda_{1,2}|^2 &= (1-\mu^2) + \mu^2 (\mu^2-2) \\
+  &= 1+\mu^4-2\mu^2+\mu^4-2\mu^2 \\
+  &= 1+\mu^4-4\mu^2\,.
+\end{align*}
+
+The method will be stable for \(|\lambda|^2 < 1\), or
+\[
+\mu^2 (\mu^2 - 4) < 0 \implies \mu < 2, \text{for } \mu \ne 0\,.
+\]
+
+For \(\mu^2 > 2\) the eigenvalues are real and with modulus greater than 1.
+Thus the stability condition for the Störmer–Verlet method is given by \(\mu < 2\),
+or
+\[
+\Delta t^2 \omega^2 < 4\,,
+\]
+indicating a sampling of at least \(\pi\) points per period, or a step size
+\(\Delta t < 2/\omega\).
+
+In the context of ordinary differential equations, a stability region of the method
+can be defined via a stability function \(R(z)\) in the complex
+plane~\autocite[81]{butcher_numericalmethods_2016}. Such approach cannot be used
+in this case since the stability function is defined for a singe ordinary
+differential equation, but in the case of Hamiltonian dynamics we always have
+\(2n\) ordinary differential equations, with \(n>1\).
+
+\section{The particle pusher}
+
+Having (briefly) developed some general aspects of the theory of numerical methods
+for solving differential equations, we now continue with the more concrete case
+of numerically solving the equations of motion for a charged particle.
+In the non-relativistic case, the (continuous) equations of motion have the
+following form
+\begin{align*}
+  \dv{\vb{x}}{t} &= \vb{v} \\
+  \dv{\vb{v}}{t} &= \frac{q}{m} \left(\vb{E} + \vb{v}\cp\vb{B}\right)\,.
+\end{align*}
+
+Since the above equations are symmetric with respect to time reversal, it is
+desired that we obtain a discretization which is also time-reversible.
+\Textcite{buneman_timereversibledifference_1967} explained that we can
+use centered differences for this task and in the particular case of the
+Lorentz force we can average the velocity in order to represent the
+\(\vb{v} \cp \vb{B}\) product symmetrically. Thus we obtain
+\begin{align}
+  \label{eq:lorentz-discrete-x}
+  \frac{\vb{x}_{n+1}-\vb{x}_n}{\Delta t} &= \vb{v}_{n+1} \\
+  \label{eq:lorentz-discrete-v}
+  \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{\Delta t} &= \frac{q}{m}
+    \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
+\end{align}
+
+As explained in~\textcite[Chapter 4-3]{birdsall_plasmaphysics_2005}, there are
+several methods for solving the above equations, implying a
+partial~\autocite{buneman_timereversibledifference_1967} or
+complete~\autocite{boris_relativisticplasma_1970} separation of the electric
+and magnetic force contributions. In the following we will detail the second
+method, which is also called the Boris push.
+
+Let us introduce the following notation
+\begin{align*}
+  \vb{v}^- &= \vb{v}_{n-1/2} - \frac{q \vb{E}}{m} \frac{\Delta t}{2} \\
+  \vb{v}^+ &= \vb{v}_{n+1/2} + \frac{q \vb{E}}{m} \frac{\Delta t}{2}\,,
+\end{align*}
+such that
+\[
+\frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t}
++ \frac{q \vb{E}}{m}\,.
+\]
+
+Substituting in~\eqref{eq:lorentz-discrete-v} we obtain
+\begin{equation}
+  \label{eq:vp-vm-rotation}
+  \frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{q}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}\,,
+\end{equation}
+which can be seen as a rotation. Indeed, if we take the scalar product with
+\((\vb{v}^+ + \vb{v}^-)\), we get
+\[
+(\vb{v}^+ + \vb{v}^-) \vdot \frac{\vb{v}^+ - \vb{v}^-}{\Delta t} =
+\frac{q}{2m} \underbrace{(\vb{v}^+ + \vb{v}^-) \vdot (\vb{v}^+ + \vb{v}^-) \cp \vb{B}}_{0}
+\]
+or
+\[
+|\vb{v}^+|^2 - |\vb{v}^-|^2 = 0\,,
+\]
+implying that \(|\vb{v}^+| = |\vb{v}^-|\).
+
+If we decompose the \(\vb{v}^-\) into its parallel and perpendicular components
+with respect to \(\vb{B}\), we can reduce the rotation of \(\vb{v}^-\) to
+the rotation of its perpendicular component \(\vb{v}^-_\perp\).
+
+\begin{wrapfigure}[12]{r}{0.4\textwidth}
+  \centering
+  \subimport{../figures/}{Boris-rotation-angle}%
+  \caption{Boris rotation angle}\label{fig:Boris-rotation-angle}%
+\end{wrapfigure}
+
+The angle of rotation between \(\vb{v}^-_\perp\) and \(\vb{v}^-_\perp\),
+denoted with \(\theta\) in figure~\ref{fig:Boris-rotation-angle},
+can be expressed as
+\[
+\tan{\frac{\theta}{2}} = \frac{|\vb{v}^+_\perp - \vb{v}^-_\perp|}{|\vb{v}^+_\perp + \vb{v}^-_\perp|}\,.
+\]
+
+Rewriting eq.~\eqref{eq:vp-vm-rotation} we obtain
+\[
+\vb{v}^+ - \vb{v}^- = \frac{q \Delta t}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}
+\]
+and if we substitute \(\vb{v}^\pm = \vb{v}^\pm_\perp + \vb{v}^\pm_\parallel\)
+\[
+\vb{v}^+_\perp - \vb{v}^-_\perp = \frac{q \Delta t}{2m} (\vb{v}^+_\perp + \vb{v}^-_\perp) \cp \vb{B}\,.
+\]
+
+Furthermore, since all the vectors above have the same direction by construction,
+we can factor out the versors and obtain
+\[
+\frac{|\vb{v}^+_\perp - \vb{v}^-_\perp|}{|\vb{v}^+_\perp + \vb{v}^-_\perp|} =
+\frac{q |\vb{B}|}{m} \frac{\Delta t}{2}
+\]
+and thus
+\begin{equation}
+  \label{eq:Boris-rotation-angle}
+  \tan{\frac{\theta}{2}} = \frac{q B}{m} \frac{\Delta t}{2}\,.
+\end{equation}
+
+Since for the rotation described above only the components perpendicular to
+the direction of \(\vb{B}\) matter, we can simplify the notation and use
+\(\vb{v}_\pm\) instead of \(\vb{v}^\pm_\perp\).
+We will now introduce an additional vector \(\vb{v}'\) given by the addition
+between \(\vb{v}_-\) and another vector, such that \(\vb{v}'\) is perpendicular
+to \(\vb{v}_+ - \vb{v}_-\).
+
+It is convenient to write \(\vb{v}'\) as \(\vb{v}' = \vb{v}_- + \vb{v}_- \cp \vb{t}\).
+In the right trinagle formed by \(\vb{v}'\) with \(\vb{v}_-\)
+and \(\vb{v}_- \cp \vb{t}\) as seen in figure~\ref{fig:Boris-rotation-3D},
+we have
+\[
+\tan{\frac{\theta}{2}} = \frac{|\vb{v}_- \cp \vb{t}|}{|\vb{v}_-|} = |\vb{t}|
+\]
+and thus by using eq.~\eqref{eq:Boris-rotation-angle} \(\vb{t}\) is given by
+\[
+\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}
+\]
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Boris-rotation-3D}
+  \caption{Boris rotation construction in 3D}%
+  \label{fig:Boris-rotation-3D}%
+\end{figure}
+
+\subsection{Conservation properties}
+
+When solving (continuous) differential equations with (discrete) numerical methods,
+an important aspect is that we want the algorithm to be as close as possible to
+the original continuous system in terms of symmetries and conserved quantities.
+
+In what follows we will look at the conservation properties of the Boris push
+and show why are they important for simulating the dynamics of charged particles
+following~\textcite{qin_whyboris_2013}.
+
+\section{The field solver}
+
+\section{A survey of available PIC codes}
+
+\section{EPOCH}
+
+\end{document}
