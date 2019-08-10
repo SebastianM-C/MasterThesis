@@ -1,17 +1,19 @@
 \ProvidesPackage{msc_thesis}
 
 %%% PACKAGES
+% Math and Physics
 \usepackage{amsmath, amsfonts, amssymb}
 \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{physics}
-\usepackage{hyperref}
-\usepackage{cleveref}
 
-\usepackage{subcaption}
-\usepackage{float}
-\usepackage{setspace}
-\usepackage[section]{placeins}
+% Cross-references
+\usepackage{hyperref}
+\usepackage[noabbrev]{cleveref}
+
+% Figures
+\usepackage{float}             % pro­vides the H float mod­i­fier op­tion
+\usepackage[section]{placeins} % provides \FloatBarrier
 \usepackage{graphicx}
 \graphicspath{{../figures/}}
 
@@ -26,9 +28,11 @@
 % \usepackage{svg}
 % \svgpath{{../figures}}
 
+% Multi-document setup
 \usepackage{import}
 \usepackage[subpreambles=true]{standalone}
 
+% Page geometry
 % \usepackage{layouts}
 \usepackage{geometry}
 \geometry{
@@ -38,14 +42,17 @@
   textheight=25cm,
   heightrounded
   }
+\usepackage{setspace}
 
 % \usepackage[utf8]{inputenc}
 
+% Bibliography
 \usepackage[style=authoryear,sorting=none]{biblatex}
 \addbibresource{reference.bib}
 
 \usepackage{xcolor}
 
+%%% Custom commands
 \newcommand{\ee}{\operatorname{e}}          % Euler's number
 \newcommand{\ii}{\mathrm{i}}                % imaginary unit
 \newcommand{\ad}[1]{a_{#1}^{\dagger}}       % creation operator

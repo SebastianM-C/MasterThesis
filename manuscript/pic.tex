@@ -1,8 +1,9 @@
-\documentclass[class=report, crop=false]{standalone}
+\documentclass[12pt, class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
 \usepackage{wrapfig}
 
 %!TeX spellcheck = en-GB
+% chktex-file 21 # This command might not be intended.
 
 \begin{document}
 
@@ -163,7 +164,7 @@ of the eigenvalues of \(\hat{R}(\Delta t)\), since the solution is obtained
 with powers of \(\hat{R}\) from the initial conditions
 \begin{equation*}
   % \label{eq:discrete-linear-solution}
-  \vb{z}_n = [\hat{R}]^n \vb{z}_0\,.
+  \vb{z}_n = {[\hat{R}]}^n \vb{z}_0\,.
 \end{equation*}
 
 More concretely, a method is asymptotically stable if the eigenvalues of
@@ -259,7 +260,7 @@ or
 \end{pmatrix}\,.
 \]
 
-Comparing with~\eqref{eq:discrete-linear-problem} we obtain
+Comparing with \cref{eq:discrete-linear-problem} we obtain
 \[
 \hat{R}(\Delta t) =
 \begin{pmatrix}
@@ -283,22 +284,22 @@ The eigenvalues of \(\hat{R}\) are given by the solution of
 
 This reduces to
 \[
-\left(1-\frac{\Delta t^{2} \omega^2}{2}-\lambda\right)^{2}+
+{\left(1-\frac{\Delta t^{2} \omega^2}{2}-\lambda\right)}^{2}+
 \frac{\Delta t^{2} \omega^2}{2}\left(2-\frac{\Delta t^2 \omega^2}{2}\right) = 0\,.
 \]
 Using the notation \(\frac{\Delta t^{2} w^{2}}{2}\equiv\mu^{2}\),
 we obtain
 \[
-\left(1-\mu^{2}-\lambda\right)^2+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+{\left(1-\mu^{2}-\lambda\right)}^2+\mu^{2}\left(2-\mu^{2}\right)=0\,,
 \]
 which can be further expanded to
 \[
-\lambda^{2}+\left(1-\mu^{2}\right)^{2}-2\left(1-\mu^{2}\right) \lambda+\mu^{2}\left(2-\mu^{2}\right)=0\,,
+\lambda^{2}+{\left(1-\mu^{2}\right)}^{2}-2\left(1-\mu^{2}\right) \lambda+\mu^{2}\left(2-\mu^{2}\right)=0\,,
 \]
 yielding the solutions
 \begin{align*}
   \lambda_{1,2} &= \frac{1}{2} \left\{2(1-\mu^2) \pm
-  \sqrt{4(1-\mu^2)^2 - 4\left[(1-\mu^2)^2 + \mu^2 (2-\mu^2)\right]}\right\} \\
+  \sqrt{4{(1-\mu^2)}^2 - 4\left[{(1-\mu^2)}^2 + \mu^2 (2-\mu^2)\right]}\right\} \\
   &= 1-\mu^2 \pm \sqrt{\mu^2(\mu^2-2)}\,.
 \end{align*}
 
@@ -356,7 +357,7 @@ Lorentz force we can average the velocity in order to represent the
     \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
 \end{align}
 
-As explained in~\textcite[Chapter 4-3]{birdsall_plasmaphysics_2005}, there are
+As explained in~\textcite[Chapter 4--3]{birdsall_plasmaphysics_2005}, there are
 several methods for solving the above equations, implying a
 partial~\autocite{buneman_timereversibledifference_1967} or
 complete~\autocite{boris_relativisticplasma_1970} separation of the electric
@@ -374,7 +375,7 @@ such that
 + \frac{q \vb{E}}{m}\,.
 \]
 
-Substituting in~\eqref{eq:lorentz-discrete-v} we obtain
+Substituting in \cref{eq:lorentz-discrete-v} we obtain
 \begin{equation}
   \label{eq:vp-vm-rotation}
   \frac{\vb{v}^+ - \vb{v}^-}{\Delta t} = \frac{q}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}\,,
@@ -395,20 +396,20 @@ If we decompose the \(\vb{v}^-\) into its parallel and perpendicular components
 with respect to \(\vb{B}\), we can reduce the rotation of \(\vb{v}^-\) to
 the rotation of its perpendicular component \(\vb{v}^-_\perp\).
 
-\begin{wrapfigure}[12]{r}{0.4\textwidth}
+\begin{wrapfigure}[10]{r}{0.4\textwidth}
   \centering
   \subimport{../figures/}{Boris-rotation-angle}%
   \caption{Boris rotation angle}\label{fig:Boris-rotation-angle}%
 \end{wrapfigure}
 
 The angle of rotation between \(\vb{v}^-_\perp\) and \(\vb{v}^-_\perp\),
-denoted with \(\theta\) in figure~\ref{fig:Boris-rotation-angle},
+denoted with \(\theta\) in \cref{fig:Boris-rotation-angle},
 can be expressed as
 \[
 \tan{\frac{\theta}{2}} = \frac{|\vb{v}^+_\perp - \vb{v}^-_\perp|}{|\vb{v}^+_\perp + \vb{v}^-_\perp|}\,.
 \]
 
-Rewriting eq.~\eqref{eq:vp-vm-rotation} we obtain
+Rewriting \cref{eq:vp-vm-rotation} we obtain
 \[
 \vb{v}^+ - \vb{v}^- = \frac{q \Delta t}{2m} (\vb{v}^+ + \vb{v}^-) \cp \vb{B}
 \]
