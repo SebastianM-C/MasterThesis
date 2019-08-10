@@ -438,21 +438,79 @@ to \(\vb{v}_+ - \vb{v}_-\).
 
 It is convenient to write \(\vb{v}'\) as \(\vb{v}' = \vb{v}_- + \vb{v}_- \cp \vb{t}\).
 In the right trinagle formed by \(\vb{v}'\) with \(\vb{v}_-\)
-and \(\vb{v}_- \cp \vb{t}\) as seen in figure~\ref{fig:Boris-rotation-3D},
+and \(\vb{v}_- \cp \vb{t}\) as seen in \cref{fig:Boris-rotation-3D},
 we have
 \[
 \tan{\frac{\theta}{2}} = \frac{|\vb{v}_- \cp \vb{t}|}{|\vb{v}_-|} = |\vb{t}|
 \]
-and thus by using eq.~\eqref{eq:Boris-rotation-angle} \(\vb{t}\) is given by
+and thus by using \cref{eq:Boris-rotation-angle} \(\vb{t}\) is given by
 \[
-\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}
+\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}\,.
 \]
 
-\begin{figure}[h]
+\begin{figure}[H]
   \includegraphics[width=\textwidth]{Boris-rotation-3D}
   \caption{Boris rotation construction in 3D}%
   \label{fig:Boris-rotation-3D}%
 \end{figure}
+
+As can be seen in \cref{fig:Boris-rotation-3D},
+\(\vb{v}_+ - \vb{v}_- \parallel \vb{v}' \cp \vb{B}\). This encourages
+the following notation: \(\vb{v}_+ - \vb{v}_- \equiv \vb{v}' \cp \vb{s}\),
+where \(\vb{s}\) can be determined by the condition that
+\(|\vb{v}_+|^2 = |\vb{v}_-|^2\). Thus, expanding \(\vb{v}' \cp \vb{s}\) gives
+\[
+\vb{v}' \cp \vb{s} = (\vb{v}_- + \vb{v}_- \cp \vb{t}) \cp \vb{s} =
+\vb{v}_- \cp \vb{s} + \vb{t} \underbrace{(\vb{v}_- \vdot \vb{s})}_0 - \vb{v}_- (\vb{t} \vdot \vb{s})
+\]
+
+\begin{wrapfigure}[15]{r}{0.4\textwidth}
+  \centering
+  \subimport{../figures/}{Boris-rotation-construction}%
+  \caption{The velocities projected in the plane perpendicular to \(\vb{B}\)}\label{fig:Boris-rotation-construction}%
+\end{wrapfigure}
+
+and if we consider the definition for \(\vb{s}\)
+\[
+\vb{v}_+ = \vb{v}_- + \vb{v}' \cp \vb{s} =
+\vb{v}_- + \vb{v}_- \cp \vb{s} - \vb{v}_- (\vb{t} \vdot \vb{s})\,.
+\]
+Taking the scalar product with \(\vb{v}_-\) gives
+\[
+\vb{v}_+ \vdot \vb{v}_- = |\vb{v}_-|^2 - |\vb{v}_-|^2 (\vb{t} \vdot \vb{s})
+\]
+or
+\[
+|\vb{v}_-|^2 \cos{\theta} = |\vb{v}_-|^2 (1 - \vb{t} \vdot \vb{s})\,.
+\]
+
+Using the trigonometry identity
+\[
+\cos{\theta} = \frac{1-\tan^2{\frac{\theta}{2}}}{1+\tan^2{\frac{\theta}{2}}}\,,
+\]
+we obtain
+\[
+\vb{t} \vdot \vb{s} = 1 - \frac{1-\tan^2{\frac{\theta}{2}}}{1+\tan^2{\frac{\theta}{2}}}\,,
+\]
+which is equivalent to
+\[
+\vb{t} \vdot \vb{s} = \frac{2 t^2}{1+t^2}
+\]
+and thus we obtain that
+\[
+\vb{s} = \frac{2 \vb{t}}{1+t^2}\,.
+\]
+
+As a summary, the Boris push algorithm solves \cref{eq:lorentz-discrete-v} with the following steps:
+\begin{enumerate}
+  \item \(\vb{v}^- = \vb{v}_{n-1/2} + \frac{q \vb{E}}{m} \frac{\Delta t}{2}\)
+  \item rotate \(\vb{v}^-\) to obtain \(\vb{v}^+\) using
+  \begin{enumerate}
+    \item \(\vb{v}' = \vb{v}^- + \vb{v}^- \cp \vb{t}\), where \(\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}\)
+    \item \(\vb{v}^+ = \vb{v}^- + \vb{v}' \cp \vb{s}\), where \(\vb{s} = \frac{2 \vb{t}}{1+t^2}\)
+  \end{enumerate}
+  \item \(\vb{v}_{n+1/2} = \vb{v}^+ + \frac{q \vb{E}}{m} \frac{\Delta t}{2}\)
+\end{enumerate}
 
 \subsection{Conservation properties}
 

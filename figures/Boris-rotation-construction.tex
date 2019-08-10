@@ -1,20 +1,21 @@
-\documentclass[10pt]{article}
+\documentclass[tikz]{standalone}
+\usepackage{standalone}
 \usepackage{pgf,tikz,physics}
 \usepackage{mathrsfs}
 \usetikzlibrary{arrows}
 \begin{document}
 \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]
-\draw[line width=2pt,fill=black,fill opacity=0.10000000149011612] (1.0175971170857958,-0.4648057658284084) -- (0.9824028829142042,-0.44720864874261257) -- (0.9648057658284084,-0.4824028829142042) -- (1,-0.5) -- cycle;
-\draw[line width=2pt,fill=black,fill opacity=0.10000000149011612] (1.0393483500118625,0) -- (1.0393483500118625,0.03934835001186244) -- (1,0.03934835001186244) -- (1,0) -- cycle;
-\draw [->,line width=2pt] (0,0) -- (1,-0.5);
-\draw [->,line width=2pt] (0,0) -- (1,0.5);
-\draw [->,line width=2pt] (1,-0.5) -- (1,0.5);
-\draw [->,line width=2pt] (0,0) -- (1.25,0);
-\draw [->,line width=2pt] (1,-0.5) -- (1.25,0);
-\draw[color=black] (0.5233668911180995,-0.2014932444089214) node {$v_{-}$};
-\draw[color=black] (0.4955434059962099,0.31973337687447806) node {$v_{+}$};
-\draw[color=black] (1.0714895480193267,0.18061595126502983) node {$v_+ - v_-$};
-\draw[color=black] (0.6430078771422253,0.03407892962307764) node {$v'$};
-\draw[color=black] (1.2096795241247122,-0.22931672953081106) node {$v_- $\times$ t$};
+\draw[line width=2pt,fill=black,fill opacity=0.10000000149011612] (4.117544391373898,-1.7649112172522041) -- (3.882455608626102,-1.647366825878306) -- (3.764911217252204,-1.882455608626102) -- (4,-2) -- cycle;
+\draw[line width=2pt,fill=black,fill opacity=0.10000000149011612] (4.262837249485876,0) -- (4.262837249485876,0.2628372494858757) -- (4,0.2628372494858757) -- (4,0) -- cycle;
+\draw [->,line width=2pt] (0,0) -- (4,-2);
+\draw [->,line width=2pt] (0,0) -- (4,2);
+\draw [->,line width=2pt] (4,-2) -- (4,2);
+\draw [->,line width=2pt] (0,0) -- (5,0);
+\draw [->,line width=2pt] (4,-2) -- (5,0);
+\draw[color=black] (2.20,-0.58) node {$\vb{v}_-$};
+\draw[color=black] (2.20,1.61) node {$\vb{v}_+$};
+\draw[color=black] (4.66,1.29) node {$\vb{v}' \cp \vb{s}$};
+\draw[color=black] (3.40,0.38) node {$\vb{v}'$};
+\draw[color=black] (5.50,-0.77) node {$\vb{v}_- \cp \vb{t}$};
 \end{tikzpicture}
 \end{document}
