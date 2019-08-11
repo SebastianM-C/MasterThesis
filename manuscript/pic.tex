@@ -527,6 +527,52 @@ following~\textcite{qin_whyboris_2013}.
 
 \section{A survey of available PIC codes}
 
+Frequently used simulation programs include
+
+\begin{table}
+  \begin{tabular}{l l l l}
+  \toprule
+  \textbf{Name} & \textbf{Type} & \textbf{GPU ready} & \textbf{Scalability}\\
+  \midrule
+  EPOCH & EM 3D & No & MPI\\
+  Osiris & EM 3D, RZ*, RZ** & No & MPI, OpenMP, SIMD\\
+  VSim & EM 3D & No & MPI\\
+  PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
+  FBPIC & EM 3D, RZ*** & Yes & MPI, NUMBA\\
+  Warp & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP\\
+  WarpX & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP, SIMD\\
+  VPIC & EM 3D & No & MPI, pthreads, SIMD\\
+  Architect & EM RZ & No & MPI\\
+  Wake & QS RZ & No & MPI\\
+  QuickPIc & QS RZ & No & MPI\\
+  PICLS & EM 3D & No & MPI\\
+  \bottomrule
+  \end{tabular}
+  \caption{Commonly used simulation programs}%
+  \label{tab:pic-software}
+\end{table}
+
+In the above table we used the following abbreviations
+\begin{itemize}
+    \item EM: Electromagnetic PIC
+    \item QS: Quasi-Static PIC
+    \item 3D: Cartesian coordinates, up to 3D
+    \item RZ: Cylindrical geometry with FDTD method in \(r\) and \(z\) directions
+    \item RZ*: Cylindrical geometry with Fourier azimuthal decomposition
+    \item RZ**: Cylindrical geometry with FDTD method in \(r\) direction
+                and FFT-based pseudo-spectral method in \(z\) direction
+    \item RZ***: Cylindrical geometry with Henkel transform in \(r\) direction
+                and FFT-based pseudo-spectral method in \(z\) direction
+    \item PS: Pseudo-spectral Maxwell solver with golbal Fourier transform
+    \item PS*: Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
+\end{itemize}
+
+% tabel ✓
+% grafic scalabilitate osiris
+% mentiune osiris/grup lisabona in ELI whitebook
+% coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti
+% referinta tdr eli-np negoita
+
 \section{EPOCH}
 
 \end{document}
