@@ -3,6 +3,7 @@
 %%% PACKAGES
 % Math and Physics
 \usepackage{amsmath, amsfonts, amssymb}
+\usepackage{amsthm}
 \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{physics}
@@ -67,3 +68,9 @@
   \g@addto@macro\Ginput@path{#1}%
 }
 \makeatother
+
+%%% Theorems and definitions
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{definition*}{Definition}

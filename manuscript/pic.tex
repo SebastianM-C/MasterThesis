@@ -3,6 +3,7 @@
 \usepackage{wrapfig}
 
 %!TeX spellcheck = en-GB
+% !TEX bib = reference.bib
 % chktex-file 21 # This command might not be intended.
 
 \begin{document}
@@ -521,7 +522,83 @@ the original continuous system in terms of symmetries and conserved quantities.
 
 In what follows we will look at the conservation properties of the Boris push
 and show why are they important for simulating the dynamics of charged particles
-following~\textcite{qin_whyboris_2013}.
+following the ideas presented in~\textcite{qin_whyboris_2013}.
+
+Mathematically speaking, a Hamiltonian system is given by the phase space (an
+even dimensional manifold\footnote{A manifold is a topological space that is locally Euclidean}),
+a symplectic structure on it and the Hamiltonian
+function~\autocite[160]{arnold_mathematicalmethods_1989}.
+In order to explain what the symplectic structure is, we will start with a short
+discussion about 2-forms~\autocite[164]{arnold_mathematicalmethods_1989}.
+
+\begin{definition*}
+  An exterior form of degree 2 (or a 2-form) is a function of pairs of vectors
+  \(\omega^2: \mathbb{R}^n \cp \mathbb{R}^n\), which is bilinear and skew symmetric:
+  \begin{align*}
+  \omega^2(\lambda_1 \vb*{\xi}_1 + \lambda_2 \vb*{\xi}_2, \vb*{\xi}_3) &=
+  \lambda_1 \omega^2(\vb*{\xi}_1, \vb*{\xi}_3) + \lambda_2 \omega^2(\vb*{\xi}_2, \vb*{\xi}_3) \\
+  \omega^2(\vb*{\xi}_1,\vb*{\xi}_2) &= -\omega^2(\vb*{\xi}_2, \vb*{\xi}_1)\,,
+  \end{align*}
+  \(\forall \lambda_{1,2} \in \mathbb{R}, \vb*{\xi}_{1,2,3} \in \mathbb{R}^n\).
+\end{definition*}
+
+As an example of a 2-form in \(n=2\) dimensions is given by the \emph{oriented area} spanned by 2 vectors
+in the (oriented) euclidean plane \(\mathbb{R}^2\).
+Let us consider
+\[
+\vb*{\xi} = \mqty(\xi_1 \\ \xi_2), \qquad
+\vb*{\eta} = \mqty(\eta_1 \\ \eta_2)\,,
+\]
+then the oriented are determined by the two vectors is given by
+the determinant~\autocite{golomb_proofwords_1985}
+\[
+S(\vb*{\xi},\vb*{\eta}) = \det\mqty(\xi_1 & \eta_1 \\ \xi_2 & \eta_2)
+= \xi_1 \eta_2 - \xi_2 \eta_1\,.
+\]
+
+If we now consider an \(n\)-dimensional phase space with the coordinates \(p_i,q_i\) as in~\textcite[183]{hairer_geometricnumerical_2006},
+we will have the projections of the hyper-parallelogram on the coordinate planes
+\[
+\omega(\vb*{\xi},\vb*{\eta}) = \sum_{i=1}^n \det\mqty(\xi_i^p & \eta_i^q \\ \xi_i^q & \eta_i^p) =
+\sum_{i=1}^n \left(\xi_i^p \eta_i^q - \xi_i^q \eta_i^p\right)\,.
+\]
+
+This bilinear form can also be written is matrix notation as
+\[
+\omega(\vb*{\xi},\vb*{\eta}) = \vb*{\xi}^T J \vb*{\eta}\,,
+\quad \text{where} \quad J = \mqty(0 & I \\ -I & 0)\,,
+\]
+with \(I\) the identity matrix in \(n\) dimensions.
+
+\begin{definition}
+  A linear map \(A: \mathbb{R}^{2d} \to \mathbb{R}^{2d}\) is called
+  \emph{symplectic} if
+  \[
+    A^T J A = J\,,
+  \]
+  or \(\omega(A\vb*{\xi}, A\vb*{\eta}) = \omega(\vb*{\xi},\vb*{\eta})\,,\
+  \forall \vb*{\xi}, \vb*{\eta} \in \mathbb{R}^{2d}\).
+\end{definition}
+
+An useful example that illustrates the concept is given in the case of \(d=1\),
+where symplecticity implies area conservation under the given
+linear transformation. Expanding on the above examples,
+for the \(d>1\) case, it would imply the conservation of the sum
+of the respective projected areas.
+
+As we have seen from the beggining of this chapter, differentiable
+functions are often approximated using linear maps. This provides
+the motivation for extending the above definition to the non-linear case.
+
+\begin{definition}
+  A differentiable map \(g:U \to \mathbb{R}^{2d}\), with \(U \subset \mathbb{R}^{2d}\) an open set, is called \emph{symplectic}
+  if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is evereywhere symplectic, i.e.
+  \[
+    {g'(\vb{p},\vb{q})}^T J g'(\vb{p},\vb{q}) = J
+  \]
+  or \(\omega(g'(\vb{p},\vb{q}))\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta} =
+  \omega(\vb*{\xi},\vb*{\eta})\).
+\end{definition}
 
 \section{The field solver}
 
