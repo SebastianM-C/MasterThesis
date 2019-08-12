@@ -596,9 +596,73 @@ the motivation for extending the above definition to the non-linear case.
   \[
     {g'(\vb{p},\vb{q})}^T J g'(\vb{p},\vb{q}) = J
   \]
-  or \(\omega(g'(\vb{p},\vb{q}))\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta} =
+  or \(\omega(g'(\vb{p},\vb{q})\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta}) =
   \omega(\vb*{\xi},\vb*{\eta})\).
 \end{definition}
+
+Having defined symplecticity, we will now try to check if the Boris
+push algorithm is symplectic. For this task we begin with rewriting
+\cref{eq:lorentz-discrete-v} in a more convenient form
+\[
+\vb{v}_{n+1/2} - \frac{q \Delta t}{2m} \vb{v}_{n+1/2} \cp \vb{B} =
+\vb{v}_{n-1/2} - \frac{q \Delta t}{2m} \vb{v}_{n-1/2} \cp \vb{B}
++ \frac{q \Delta t}{m} \vb{E}\,.
+\]
+
+In order to manipulate the above more easily, it is useful to introduce the following definition~\autocite[289]{marsden_introductionmechanics_1999}
+
+\begin{definition}
+  The \emph{hat map} \(\hat{}: \mathbb{R}^3 \to \mathfrak{so}(3)\) is a
+  vector space isomorphism that identifies the Lie algebra \(\mathfrak{so}(3)\)
+  of \(SO(3)\) with \(\mathbb{R}^3\). If we consider
+  \(\vb{v} = (v_1,v_2,v_3) \in \mathbb{R}^3\), then the hat map
+  is given by
+  \[
+    \hat{\vb{v}} =
+    \begin{pmatrix}
+      \phantom{-}0\phantom{_1} & -v_3           & \phantom{-}v_2 \\
+      \phantom{-}v_3 & \phantom{-}0\phantom{_1} &           -v_1 \\
+            -v_2     & \phantom{-}v_1 &\phantom{-}0\phantom{_1}
+    \end{pmatrix}\,.
+  \]
+\end{definition}
+
+We can observe that
+\[
+\hat{\vb{v}} \vb{w} = \vb{v} \cp \vb{w}
+\]
+characterizes the isomorphism. Comparing
+\[
+\hat{\vb{v}} \vb{w} =
+\begin{pmatrix}
+  \phantom{-}0\phantom{_1} & -v_3           & \phantom{-}v_2 \\
+  \phantom{-}v_3 & \phantom{-}0\phantom{_1} &           -v_1 \\
+        -v_2     & \phantom{-}v_1 &\phantom{-}0\phantom{_1}
+\end{pmatrix}
+\begin{pmatrix}
+  w_1 \\
+  w_2 \\
+  w_3
+\end{pmatrix}
+=
+\begin{pmatrix}
+            -v_3 w_2 + v_2 w_3 \\
+  \phantom{-}v_3 w_1 - v_1 w_3 \\
+            -v_2 w_1 + v_1 w_2
+\end{pmatrix}
+\]
+with
+\[
+(\vb{v} \cp \vb{w}) = \vb{e}_i \epsilon_{ijk} v_j w_k =
+\vb{e}_1 (v_2 w_3 - v_3 w_2) + \vb{e}_2 (v_3 w_1 - v_1 w_3) +
+\vb{e}_3 (v_1 w_2 - v_2 w_1)
+\]
+we can see that this is indeed true.
+
+Thus, if we consider \(\mathbb{R}^3\) together with the cross product,
+the hat map \(\hat{}\)\ becomes a Lie algebra isomorphism and we
+can identify \(\mathfrak{so}(3)\) with \(\mathbb{R}^3\) having the
+cross product as Lie bracket.
 
 \section{The field solver}
 
