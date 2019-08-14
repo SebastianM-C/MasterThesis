@@ -64,6 +64,13 @@
 \DeclareMathOperator{\dalambert}{\Box}      % d'Alambertian operator
 \DeclareMathOperator{\cay}{cay}             % Cayley transform
 
+% appendtographicspath command
+\makeatletter
+\newcommand\appendtographicspath[1]{%
+  \g@addto@macro\Ginput@path{#1}%
+}
+\makeatother
+
 % \set command
 \usepackage{xparse}
 %

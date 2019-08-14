@@ -584,6 +584,7 @@ functions are often approximated using linear maps. This provides
 the motivation for extending the above definition to the non-linear case.
 
 \begin{definition}
+  \label{def:symplecticity-nonlinear}
   A differentiable map \(g:U \to \mathbb{R}^{2d}\), with \(U \subset \mathbb{R}^{2d}\) an open set, is called
   \emph{symplectic} if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is evereywhere symplectic, i.e.
   \[
@@ -773,6 +774,87 @@ its Jacobian an check the condition for symplecticity
   \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R
 \end{pmatrix}\,.
 \]
+
+As we mentioned in \cref{def:symplecticity-nonlinear}, for the map to be symplectic
+it has to satisfy
+\[
+\left(\pdv{\Psi_B}{\vb{z}_k}\right)^T J^{-1} \left(\pdv{\Psi_B}{\vb{z}_k}\right) = J^{-1}\,.
+\]
+
+Considering
+\[
+\pdv{\Psi_B}{\vb{z}_k} =
+\begin{pmatrix}
+  S_1 & S_2 \\
+  S_3 & S_4
+\end{pmatrix}\,,
+\]
+the simplecticty condition can be written as
+\begin{align*}
+  \begin{pmatrix}
+    S_1^T & S_3^T \\
+    S_2^T & S_4^T
+  \end{pmatrix}
+  \begin{pmatrix}
+    0 & -I \\
+    I &  0
+  \end{pmatrix}
+  \begin{pmatrix}
+    S_1 & S_2 \\
+    S_3 & S_4
+  \end{pmatrix}
+  &=
+  \begin{pmatrix}
+    S_3^T & -S_1^T \\
+    S_4^T & -S_2^T
+  \end{pmatrix}
+  \begin{pmatrix}
+    S_1 & S_2 \\
+    S_3 & S_4
+  \end{pmatrix} \\
+  &=
+  \begin{pmatrix}
+    S_3^T S_1 - S_1^T S_3 & S_3^T S_2 - S_1^T S_4 \\
+    S_4^T S_1 - S_2^T S_3 & S_4^T S_2 - S_2^T S_4
+  \end{pmatrix} \\
+  &=
+  \begin{pmatrix}
+    0 & -I \\
+    I &  0
+  \end{pmatrix}\,.
+\end{align*}
+
+Thus, we will have the following set of conditions
+\begin{align}
+  &S_3^T S_1 = S_1^T S_3 \label{eq:simplecticity-condition-1} \\
+  &S_1^T S_4 - S_3^T S_2 = I \label{eq:simplecticity-condition-2} \\
+  &S_4^T S_1 - S_2^T S_3 = I \label{eq:simplecticity-condition-3} \\
+  &S_4^T S_2 = S_2^T S_4 \label{eq:simplecticity-condition-4}\,.
+\end{align}
+
+If we consider the simplifed case of homogenuous electric and magnetic fields,
+then
+\[
+\pdv{\vb{v}_{k+1}}{\vb{x}_k} = \pdv{\vb{x}_k} (R \vb{v}_k) +
+\frac{q \Delta t}{m} \pdv{\vb{x}_k} \left[{\left(I-\hat{\Omega}_k\right)}^{-1}\vb{E}_k\right]
+=0
+\]
+and
+\begin{align*}
+  S_1 = I &\quad S_2 = R \Delta t \\
+  S_3 = 0 &\quad S_4 = R\,.
+\end{align*}
+
+If we consider the condition in \cref{eq:simplecticity-condition-2}, we obtain
+\[
+S_1^T S_4 - S_3^T S_2 = R \neq I
+\]
+and thus the Boris push algorithm is not symplectic. In spite of that, the algorithm
+presents desirable properties such as near-conservation of energy when the
+magnetic field is constant or the electric potential is quadratic and for more
+general cases it has a linear energy error~\autocite{hairer_energybehaviour_2018}.
+This properties encourage a more detailed analysis of the properties of the Boris
+push method.
 
 \section{The field solver}
 
