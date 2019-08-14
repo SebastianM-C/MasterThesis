@@ -669,7 +669,7 @@ Thus, if we consider \(\mathbb{R}^3\) together with the cross product,
 the hat map \(\hat{}\)\ becomes a Lie algebra isomorphism and we
 can identify \(\mathfrak{so}(3)\) with \(\mathbb{R}^3\) having the
 cross product as Lie bracket\footnote{A bilinear, skew symmetric operation \(\mathfrak{g}\cp\mathfrak{g}\to\mathfrak{g}\) that
-satisfies the Jacbi identity.}.
+satisfies the Jacobi identity.}.
 
 We can now resume rewriting \cref{eq:lorentz-discrete-v} and we obtain
 \begin{equation}
@@ -855,6 +855,35 @@ magnetic field is constant or the electric potential is quadratic and for more
 general cases it has a linear energy error~\autocite{hairer_energybehaviour_2018}.
 This properties encourage a more detailed analysis of the properties of the Boris
 push method.
+
+One of the properties of a symplectic algorithm is that it conserves the phase space
+volume. This can be understood as a generalization of the are conservation example
+in \(2d, d=1\) to higher dimensions. For a map to be volume preserving, the
+determinant of its Jacobian must be one
+\[
+\det \pdv{\Psi_B}{\vb{z}_k} = 1\,.
+\]
+
+In our case this becomes
+\[
+\mdet{\pdv{\Psi_B}{\vb{z}_k}} =
+\mdet{I + \Delta t \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R \Delta t \\
+      \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R}
+=
+\mdet{I & 0 \\
+      \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R}
+= \mdet{R}\,,
+\]
+where we have subtracted the second row multiplied by \(\Delta t\) from the first
+one. Since \(R \in SO(3)\), as a property of the Cayley transform,
+\[
+\mdet{R} = 1
+\]
+and thus the Boris push is volume preserving.
+
+The Boris push algorithm also has a relativistic variant, which takes into account
+the \(\gamma\) factor. The relativistic version is also volume
+preserving~\autocite{higuera_structurepreservingsecondorder_2017}.
 
 \section{The field solver}
 
