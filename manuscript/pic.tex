@@ -355,7 +355,7 @@ Lorentz force we can average the velocity in order to represent the
   \frac{\vb{x}_{n+1}-\vb{x}_n}{\Delta t} &= \vb{v}_{n+1} \\
   \label{eq:lorentz-discrete-v}
   \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{\Delta t} &= \frac{q}{m}
-    \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
+    \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}+\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
 \end{align}
 
 As explained in~\textcite[Chapter 4--3]{birdsall_plasmaphysics_2005}, there are
@@ -525,7 +525,7 @@ and show why are they important for simulating the dynamics of charged particles
 following the ideas presented in~\textcite{qin_whyboris_2013}.
 
 Mathematically speaking, a Hamiltonian system is given by the phase space (an
-even dimensional manifold\footnote{A manifold is a topological space that is locally Euclidean}),
+even dimensional manifold\footnote{A manifold is a topological space that is locally Euclidean.}),
 a symplectic structure on it and the Hamiltonian
 function~\autocite[160]{arnold_mathematicalmethods_1989}.
 In order to explain what the symplectic structure is, we will start with a short
@@ -556,34 +556,27 @@ S(\vb*{\xi},\vb*{\eta}) = \det\mqty(\xi_1 & \eta_1 \\ \xi_2 & \eta_2)
 = \xi_1 \eta_2 - \xi_2 \eta_1\,.
 \]
 
-If we now consider an \(n\)-dimensional phase space with the coordinates \(p_i,q_i\) as in~\textcite[183]{hairer_geometricnumerical_2006},
-we will have the projections of the hyper-parallelogram on the coordinate planes
-\[
-\omega(\vb*{\xi},\vb*{\eta}) = \sum_{i=1}^n \det\mqty(\xi_i^p & \eta_i^q \\ \xi_i^q & \eta_i^p) =
-\sum_{i=1}^n \left(\xi_i^p \eta_i^q - \xi_i^q \eta_i^p\right)\,.
-\]
-
-This bilinear form can also be written is matrix notation as
-\[
-\omega(\vb*{\xi},\vb*{\eta}) = \vb*{\xi}^T J \vb*{\eta}\,,
-\quad \text{where} \quad J = \mqty(0 & I \\ -I & 0)\,,
-\]
-with \(I\) the identity matrix in \(n\) dimensions.
+Let us consider an \(2d\)-dimensional phase space with the coordinates \(q_i,p_i\) as presented in~\textcite[183]{leimkuhler_simulatinghamiltonian_2004}.
 
 \begin{definition}
   A linear map \(A: \mathbb{R}^{2d} \to \mathbb{R}^{2d}\) is called
-  \emph{symplectic} if
+  \emph{symplectic} if there exists a 2-form \(\omega\)
+  such that
   \[
-    A^T J A = J\,,
+  \omega(A\vb*{\xi}, A\vb*{\eta}) = \omega(\vb*{\xi},\vb*{\eta})\,,\
+  \forall \vb*{\xi}, \vb*{\eta} \in \mathbb{R}^{2d}\,.
   \]
-  or \(\omega(A\vb*{\xi}, A\vb*{\eta}) = \omega(\vb*{\xi},\vb*{\eta})\,,\
-  \forall \vb*{\xi}, \vb*{\eta} \in \mathbb{R}^{2d}\).
 \end{definition}
+
+We can also express the above in matrix notation
+\[
+A^T J^{-1} A = J^{-1},\qquad \text{where} \ J = \mqty(0 & I \\ -I & 0)\,,
+\]
+with \(I\) the identity matrix in \(d\) dimensions.
 
 An useful example that illustrates the concept is given in the case of \(d=1\),
 where symplecticity implies area conservation under the given
-linear transformation. Expanding on the above examples,
-for the \(d>1\) case, it would imply the conservation of the sum
+linear transformation. In the more general \(d>1\) case, it would imply the conservation of the sum
 of the respective projected areas.
 
 As we have seen from the beggining of this chapter, differentiable
@@ -591,25 +584,37 @@ functions are often approximated using linear maps. This provides
 the motivation for extending the above definition to the non-linear case.
 
 \begin{definition}
-  A differentiable map \(g:U \to \mathbb{R}^{2d}\), with \(U \subset \mathbb{R}^{2d}\) an open set, is called \emph{symplectic}
-  if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is evereywhere symplectic, i.e.
+  A differentiable map \(g:U \to \mathbb{R}^{2d}\), with \(U \subset \mathbb{R}^{2d}\) an open set, is called
+  \emph{symplectic} if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is evereywhere symplectic, i.e.
   \[
-    {g'(\vb{p},\vb{q})}^T J g'(\vb{p},\vb{q}) = J
+  \omega(g'(\vb{p},\vb{q})\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta}) =
+  \omega(\vb*{\xi},\vb*{\eta})
   \]
-  or \(\omega(g'(\vb{p},\vb{q})\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta}) =
-  \omega(\vb*{\xi},\vb*{\eta})\).
+  or in matrix notation \({g'(\vb{p},\vb{q})}^T J^{-1} g'(\vb{p},\vb{q}) = J^{-1}\).
 \end{definition}
 
 Having defined symplecticity, we will now try to check if the Boris
 push algorithm is symplectic. For this task we begin with rewriting
 \cref{eq:lorentz-discrete-v} in a more convenient form
 \[
-\vb{v}_{n+1/2} - \frac{q \Delta t}{2m} \vb{v}_{n+1/2} \cp \vb{B} =
-\vb{v}_{n-1/2} - \frac{q \Delta t}{2m} \vb{v}_{n-1/2} \cp \vb{B}
-+ \frac{q \Delta t}{m} \vb{E}\,.
+\vb{v}_{n+1/2} - \frac{q \Delta t}{2m} \vb{v}_{n+1/2} \cp \vb{B}_n =
+\vb{v}_{n-1/2} + \frac{q \Delta t}{2m} \vb{v}_{n-1/2} \cp \vb{B}_n
++ \frac{q \Delta t}{m} \vb{E}_n\,,
 \]
+where \(\vb{B}_n \equiv \vb{B}(\vb{x}_n)\) and
+\(\vb{E}_n \equiv \vb{E}(\vb{x}_n)\).
 
-In order to manipulate the above more easily, it is useful to introduce the following definition~\autocite[289]{marsden_introductionmechanics_1999}
+In order to manipulate the above more easily, it is useful to introduce some fundamental group theory notions~\autocite[118]{hairer_geometricnumerical_2006} and the hat map~\autocite[289]{marsden_introductionmechanics_1999}.
+
+\begin{definition}
+  A \emph{Lie group} \(G\) is a group that is also a differentiable
+  mainfold and for which the product is given by the differentiable
+  mapping \(G \cp G \to G\).
+\end{definition}
+
+The tangent space \(\mathfrak{g} = T_I G\) at the identity \(I\)
+of a matrix Lie group \(G\) is closed under forming commutators
+of its elements and defines the \emph{Lie algebra} of \(G\).
 
 \begin{definition}
   The \emph{hat map} \(\hat{}: \mathbb{R}^3 \to \mathfrak{so}(3)\) is a
@@ -662,7 +667,112 @@ we can see that this is indeed true.
 Thus, if we consider \(\mathbb{R}^3\) together with the cross product,
 the hat map \(\hat{}\)\ becomes a Lie algebra isomorphism and we
 can identify \(\mathfrak{so}(3)\) with \(\mathbb{R}^3\) having the
-cross product as Lie bracket.
+cross product as Lie bracket\footnote{A bilinear, skew symmetric operation \(\mathfrak{g}\cp\mathfrak{g}\to\mathfrak{g}\) that
+satisfies the Jacbi identity.}.
+
+We can now resume rewriting \cref{eq:lorentz-discrete-v} and we obtain
+\begin{equation}
+\label{eq:lorentz-v-hat-map}
+\left(I - \hat{\Omega}_{n}\right)
+\begin{pmatrix}
+  v_{n+1/2}^1 \\
+  v_{n+1/2}^2 \\
+  v_{n+1/2}^3
+\end{pmatrix}
+=
+\left(I + \hat{\Omega}_{n}\right)
+\begin{pmatrix}
+  v_{n-1/2}^1 \\
+  v_{n-1/2}^2 \\
+  v_{n-1/2}^3
+\end{pmatrix}
++ \frac{q \Delta t}{m}
+\begin{pmatrix}
+  E_n^1 \\
+  E_n^2 \\
+  E_n^3
+\end{pmatrix}\,,
+\end{equation}
+where
+\[
+\hat{\Omega}_n =
+\begin{pmatrix}
+  \phantom{-}0\phantom{_1} & -B^3_n & \phantom{-}B^2_n \\
+  \phantom{-}B^3_n & \phantom{-}0\phantom{_1} & -B^1_n \\
+  -B^2_n & \phantom{-}B^1_n & \phantom{-}0\phantom{_1}
+\end{pmatrix}\,.
+\]
+
+Multiplying on the left of \cref{eq:lorentz-v-hat-map} with
+\(\left(I - \hat{\Omega}_{n}\right)\) yields
+\[
+\begin{pmatrix}
+  v_{n+1/2}^1 \\
+  v_{n+1/2}^2 \\
+  v_{n+1/2}^3
+\end{pmatrix}
+=
+{\left(I - \hat{\Omega}_{n}\right)}^{-1} \left(I + \hat{\Omega}_{n}\right)
+\begin{pmatrix}
+  v_{n-1/2}^1 \\
+  v_{n-1/2}^2 \\
+  v_{n-1/2}^3
+\end{pmatrix}
++ \frac{q \Delta t}{m} {\left(I - \hat{\Omega}_{n}\right)}^{-1}
+\begin{pmatrix}
+  E_n^1 \\
+  E_n^2 \\
+  E_n^3
+\end{pmatrix}\,.
+\]
+
+In order to further simplify the notation, we can use the following notation:
+\(\vb{x}_n \equiv \vb{x}_k\) and \(\vb{v}_{n-1/2} \equiv \vb{v}_k\)
+and use the Cayley transform
+for the first term on the right hand side.
+For a quadratic Lie group\footnote{Lie groups of the form
+\(G = \set{Y ; Y^T P Y = P}\), where \(P\) is a constant
+matrix.}, the \emph{Cayley transform}
+\[
+\cay{\Omega} = {(I-\Omega)}^{-1} (I+\Omega)
+\]
+maps elements of \(\mathfrak{g}\) into \(G\)~\autocite[128]{hairer_geometricnumerical_2006}.
+
+In our particular case
+\[
+{\left(I - \hat{\Omega}_{n}\right)}^{-1} \left(I + \hat{\Omega}_{n}\right) = \cay{\hat{\Omega}_{n}} \equiv R
+\]
+and we obtain
+\[
+\vb{v}_{k+1} = R \vb{v}_k + \frac{q \Delta t}{m} {\left(I - \hat{\Omega}_{n}\right)}^{-1} \vb{E}_k\,.
+\]
+
+Thus \cref{eq:lorentz-discrete-x,eq:lorentz-discrete-v} form a
+one step map \(\Psi_B\) which maps \(\vb{z}_k \equiv (\vb{x}_k, \vb{v}_k)\)
+to \(\vb{z}_{k+1} \equiv (\vb{x}_{k+1}, \vb{v}_{k+1})\)
+\begin{equation*}
+  \Psi_B: \left\{
+  \begin{aligned}
+    \vb{x}_{k+1} &= \vb{x}_k + R \Delta t\vb{v}_k + \frac{q \Delta t}{m} {\left(I - \hat{\Omega}_{n}\right)}^{-1} \vb{E}_k \\
+    \vb{v}_{k+1} &= R \vb{v}_k + \frac{q \Delta t^2}{m} {\left(I - \hat{\Omega}_{n}\right)}^{-1} \vb{E}_k
+  \end{aligned}
+\right.\,.
+\end{equation*}
+
+As \(\Psi_B\) is a function \(\Psi_B(\vb{z}_k)\), we can compute
+its Jacobian an check the condition for symplecticity
+\[
+\pdv{\Psi_B}{\vb{z}_k} =
+\begin{pmatrix}
+  \pdv{\vb{x}_{k+1}}{\vb{x}_k} & \pdv{\vb{x}_{k+1}}{\vb{v}_k} \\
+  \pdv{\vb{v}_{k+1}}{\vb{x}_k} & \pdv{\vb{v}_{k+1}}{\vb{v}_k}
+\end{pmatrix}
+=
+\begin{pmatrix}
+  I + \Delta t \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R \Delta t \\
+  \pdv{\vb{v}_{k+1}}{\vb{x}_k} & R
+\end{pmatrix}\,.
+\]
 
 \section{The field solver}
 

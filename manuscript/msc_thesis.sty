@@ -62,12 +62,16 @@
 \newcommand{\ad}[1]{a_{#1}^{\dagger}}       % creation operator
 \newcommand*\mean[1]{\overline{#1}}         % mean
 \DeclareMathOperator{\dalambert}{\Box}      % d'Alambertian operator
+\DeclareMathOperator{\cay}{cay}             % Cayley transform
 
-\makeatletter
-\newcommand\appendtographicspath[1]{%
-  \g@addto@macro\Ginput@path{#1}%
-}
-\makeatother
+% \set command
+\usepackage{xparse}
+%
+\DeclarePairedDelimiterX{\set}[1]{\{}{\}}{\setargs{#1}}
+\NewDocumentCommand{\setargs}{>{\SplitArgument{1}{;}}m}
+{\setargsaux#1}
+\NewDocumentCommand{\setargsaux}{mm}
+{\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
 
 %%% Theorems and definitions
 
