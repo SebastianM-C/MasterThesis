@@ -881,11 +881,31 @@ one. Since \(R \in SO(3)\), as a property of the Cayley transform,
 \]
 and thus the Boris push is volume preserving.
 
+\subsection{The relativistic case}
+
 The Boris push algorithm also has a relativistic variant, which takes into account
 the \(\gamma\) factor. The relativistic version is also volume
 preserving~\autocite{higuera_structurepreservingsecondorder_2017}.
 
 \section{The field solver}
+
+We now turn our attention to the electromagnetic field equations. In order to
+compute the time evolution of the fields, we will use the equations containing
+their time derivatives, namely
+\begin{align*}
+  \pdv{\vb{B}}{t} & = - \curl{\vb{E}} \\
+  \pdv{\vb{E}}{t} & = c^2 \curl{\vb{B}} - \frac{1}{\epsilon_0} \vb{j} \,.
+\end{align*}
+
+\Textcite{kaneyee_numericalsolution_1966} propoed a method for solving Maxwell's
+equations in isotropic media involving a leapfrog-like algorithm, but with
+staggering in space. In order to illustrate this more easily, we will begin
+with the one dimensional case
+\begin{align*}
+  \pdv{B_y}{t} & = - \pdv{E_x}{z} \\
+  \pdv{E_x}{t} & = c^2 \pdv{B_y} - \frac{1}{\epsilon_0} j_x \,,
+\end{align*}
+which
 
 \section{A survey of available PIC codes}
 
