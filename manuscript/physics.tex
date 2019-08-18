@@ -42,7 +42,7 @@ the fields affect the sources
 
 Maxwell's equations~\eqref{eq:maxwell} relate six field quantities (\(\vb{E}\) and \(\vb{B}\))
 to four source quantities (\(\rho\) and \(\vb{j}\)). This implies that there are some
-restrictions on the six quantities. This suggets that we can find a less redundant
+restrictions on the six quantities. This suggests that we can find a less redundant
 way to express the fields, and indeed the four quantities given by the
 vector potential \(\vb{A}\) and scalar potential \(\rho\) provide this representation.
 Equation~\eqref{eq:gauss-law} implies the existence of a vector potential
@@ -57,7 +57,7 @@ Substituting~\eqref{eq:vector-potential} in~\eqref{eq:faraday-law} we obtain
   \curl(\vb{E} + \pdv{\vb{A}}{t}) = 0
 \end{equation}
 
-and thus the quantity in the paranthesis can always be expressed as the
+and thus the quantity in the parenthesis can always be expressed as the
 gradient of a scalar field, namely the scalar potential
 \[
 \grad{\phi}(\vb{r}, t) = -\vb{E}(\vb{r}, t) - \pdv{\vb{A}}{t}\,.
@@ -84,10 +84,10 @@ and~\eqref{eq:ampere-law}
 Using the following vector identity
 \begin{equation}
   \label{eq:curl-of-curl}
-  \curl(\curl{\vb{A}}) = \grad(\div{\vb{A}}) - \laplacian{\vb{A}}
+  \curl(\curl{\vb{A}}) = \grad(\div{\vb{A}}) - \laplacian{\vb{A}}\,,
 \end{equation}
 
-eq.~\eqref{eq:ampere-potentials-pre} becomes
+\cref{eq:ampere-potentials-pre} becomes
 \[
   \grad(\div{\vb{A}}) - \laplacian{\vb{A}} = \mu_0 \vb{j}
     - \frac{1}{c^2} \left( \grad{\pdv{\phi}{t}} + \pdv[2]{\vb{A}}{t} \right)
@@ -291,7 +291,7 @@ be expressed as function of the transverse current:
 \]
 and this also why the Coulomb gauge is also called the transverse gauge.
 This gauge is useful when no sources are present. In this case \(\phi=0\),
-\(\vb{A}\) satisfies the homogenuous wave equation and the fields can
+\(\vb{A}\) satisfies the homogeneous wave equation and the fields can
 be expressed only as function of the vector potential
 \begin{align*}
   \vb{E} &= -\pdv{\vb{A}}{t} \\
@@ -351,7 +351,7 @@ we can express \(\vb{E} \vdot(\curl{\vb{B}})\) as
 \]
 where we used~\eqref{eq:faraday-law} for the first term.
 
-Using this result, the power transferred by the fileds is given by
+Using this result, the power transferred by the fields is given by
 \[
   \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
   -\int_{\mathscr{D}} \left[\frac{1}{\mu_0} \div(\vb{E} \cp \vb{B}) + \frac{1}{\mu_0} \vb{B} \vdot \pdv{\vb{B}}{t} +
@@ -370,7 +370,7 @@ we obtain
   + \frac{1}{\mu_0}\div(\vb{E} \cp \vb{B}) \right] \dd{\vb{r}}\,.
 \]
 
-The total energy density of the electromagnetic field can be denoted wity
+The total energy density of the electromagnetic field can be denoted with
 \[
   w_{em} = \frac{1}{2} \left( \varepsilon_0 \vb{E}^2 + \frac{1}{\mu_0}\vb{B}^2 \right)
 \]
@@ -419,10 +419,10 @@ With the above considerations Poynting's theorem gives the conservation of energ
 \end{equation}
 
 stating that the rate of change of the energy of the system composed of the charged
-particles and corresponding fileds is given by minus the flux of the
+particles and corresponding fields is given by minus the flux of the
 Poynting vector through the surface bounding the domain.
 
-Equation~\eqref{eq:poynting-theorem-local} is the local form for the Poynting
+\Cref{eq:poynting-theorem-local} is the local form for the Poynting
 theorem.
 
 If we consider the extension of the domain to infinity \(\mathscr{D} \to \mathbb{R}^3\),
@@ -449,7 +449,7 @@ indeed say that the flux of the Poynting vector is the energy flux.
 \section{Electron in a Plane Wave}
 
 In this section we will consider the classical dynamics of an electron in a
-laser pulse following the discusion in~\textcite{karsch_applicationshigh_2018}.
+laser pulse following the discussion in~\textcite{karsch_applicationshigh_2018}.
 The starting point is the equation of motion for the electron
 \begin{equation}
   \label{eq:lorentz-eom}

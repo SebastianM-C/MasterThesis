@@ -15,7 +15,7 @@ As we outlined in Chapter~\ref{chap:classical-electrodynamics}, the interaction
 of some charged particles with an electromagnetic field can be viewed as the
 action of the sources on the fields and the action of the fields on the sources.
 
-In the same manner, simulating the interaction self-consistently rquires a
+In the same manner, simulating the interaction self-consistently requires a
 \emph{field solver} that computes the structure of the fields considering
 the sources and a \emph{particle pusher} that solves the (relativistic)
 equations of motion for the particles.
@@ -37,7 +37,7 @@ For the forward discretization we consider
 \[
   f(x_0+h) = f(x_0) + \frac{f'(x_0)}{1!}h + \frac{f''(x_0)}{2!}h^2 + \dotsb
 \]
-and we rearange the terms in the following way
+and we rearrange the terms in the following way
 \[
   \frac{f(x_0+h) - f(x_0)}{h} = f'(x_0) + \frac{f''(x_0)}{2}h + \dotsb
 \]
@@ -64,7 +64,7 @@ Then we take the difference and obtain
   f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2}) = f'(x_0)h
     + 2\frac{f^{(3)}(x_0)}{3!}\frac{h^3}{8} + \dotsb
 \]
-and we can see that indeed the centeral diference is second order accurate
+and we can see that indeed the central difference is second order accurate
 \[
   f'(x_0) = \frac{f(x_0+\frac{h}{2}) - f(x_0-\frac{h}{2})}{h} + \order{h^2}\,.
 \]
@@ -439,7 +439,7 @@ between \(\vb{v}_-\) and another vector, such that \(\vb{v}'\) is perpendicular
 to \(\vb{v}_+ - \vb{v}_-\).
 
 It is convenient to write \(\vb{v}'\) as \(\vb{v}' = \vb{v}_- + \vb{v}_- \cp \vb{t}\).
-In the right trinagle formed by \(\vb{v}'\) with \(\vb{v}_-\)
+In the right triangle formed by \(\vb{v}'\) with \(\vb{v}_-\)
 and \(\vb{v}_- \cp \vb{t}\) as seen in \cref{fig:Boris-rotation-3D},
 we have
 \[
@@ -579,14 +579,14 @@ where symplecticity implies area conservation under the given
 linear transformation. In the more general \(d>1\) case, it would imply the conservation of the sum
 of the respective projected areas.
 
-As we have seen from the beggining of this chapter, differentiable
+As we have seen from the beginning of this chapter, differentiable
 functions are often approximated using linear maps. This provides
 the motivation for extending the above definition to the non-linear case.
 
-\begin{definition}
+\begin{definition}%
   \label{def:symplecticity-nonlinear}
   A differentiable map \(g:U \to \mathbb{R}^{2d}\), with \(U \subset \mathbb{R}^{2d}\) an open set, is called
-  \emph{symplectic} if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is evereywhere symplectic, i.e.
+  \emph{symplectic} if its corresponding Jacobian matrix \(g'(\vb{p},\vb{q})\) is everywhere symplectic, i.e.
   \[
   \omega(g'(\vb{p},\vb{q})\vb*{\xi}, g'(\vb{p},\vb{q})\vb*{\eta}) =
   \omega(\vb*{\xi},\vb*{\eta})
@@ -609,7 +609,7 @@ In order to manipulate the above more easily, it is useful to introduce some fun
 
 \begin{definition}
   A \emph{Lie group} \(G\) is a group that is also a differentiable
-  mainfold and for which the product is given by the differentiable
+  manifold and for which the product is given by the differentiable
   mapping \(G \cp G \to G\).
 \end{definition}
 
@@ -778,7 +778,7 @@ its Jacobian an check the condition for symplecticity
 As we mentioned in \cref{def:symplecticity-nonlinear}, for the map to be symplectic
 it has to satisfy
 \[
-\left(\pdv{\Psi_B}{\vb{z}_k}\right)^T J^{-1} \left(\pdv{\Psi_B}{\vb{z}_k}\right) = J^{-1}\,.
+{\left(\pdv{\Psi_B}{\vb{z}_k}\right)}^T J^{-1} \left(\pdv{\Psi_B}{\vb{z}_k}\right) = J^{-1}\,.
 \]
 
 Considering
@@ -789,7 +789,7 @@ Considering
   S_3 & S_4
 \end{pmatrix}\,,
 \]
-the simplecticty condition can be written as
+the symplecticity condition can be written as
 \begin{align*}
   \begin{pmatrix}
     S_1^T & S_3^T \\
@@ -832,7 +832,7 @@ Thus, we will have the following set of conditions
   &S_4^T S_2 = S_2^T S_4 \label{eq:simplecticity-condition-4}\,.
 \end{align}
 
-If we consider the simplifed case of homogenuous electric and magnetic fields,
+If we consider the simplified case of homogeneous electric and magnetic fields,
 then
 \[
 \pdv{\vb{v}_{k+1}}{\vb{x}_k} = \pdv{\vb{x}_k} (R \vb{v}_k) +
@@ -897,7 +897,7 @@ their time derivatives, namely
   \pdv{\vb{E}}{t} & = c^2 \curl{\vb{B}} - \frac{1}{\epsilon_0} \vb{j} \,.
 \end{align*}
 
-\Textcite{kaneyee_numericalsolution_1966} propoed a method for solving Maxwell's
+\Textcite{kaneyee_numericalsolution_1966} proposed a method for solving Maxwell's
 equations in isotropic media involving a leapfrog-like algorithm, but with
 staggering in space. In order to illustrate this more easily, we will begin
 with the one dimensional case
@@ -945,7 +945,7 @@ In the above table we used the following abbreviations
                 and FFT-based pseudo-spectral method in \(z\) direction
     \item RZ***: Cylindrical geometry with Henkel transform in \(r\) direction
                 and FFT-based pseudo-spectral method in \(z\) direction
-    \item PS: Pseudo-spectral Maxwell solver with golbal Fourier transform
+    \item PS: Pseudo-spectral Maxwell solver with global Fourier transform
     \item PS*: Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
 \end{itemize}
 
