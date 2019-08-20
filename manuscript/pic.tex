@@ -81,15 +81,18 @@ equations
 \end{align*}
 where \(\vb{F}\) is the total force on the particle. Replacing the derivatives
 with their finite difference approximations, we obtain
-\begin{align*}
-  \frac{\vb{x}_{n+1} - \vb{x}_n}{\Delta t} = \vb{v}_{n+1/2} \\
-  m \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t} = \vb{F}(\vb{x}_n)\,.
-\end{align*}
+\begin{subequations}
+  \begin{align}
+    \label{eq:leapfrog}
+    \frac{\vb{x}_{n+1} - \vb{x}_n}{\Delta t} = \vb{v}_{n+1/2} \\
+    m \frac{\vb{v}_{n+1/2} - \vb{v}_{n-1/2}}{\Delta t} = \vb{F}(\vb{x}_n)\,.
+  \end{align}
+\end{subequations}
 Replacing the velocity, we obtain
-\begin{equation}
-  \label{eq:leapfrog}
+\begin{equation*}
+  % \label{eq:leapfrog-no-v}
   \frac{\vb{x}_{n+1}-2\vb{x}_n+\vb{x}_{n-1}}{\Delta t^2} = \frac{\vb{F}(\vb{x}_n)}{m}\,.
-\end{equation}
+\end{equation*}
 
 \subsection{Accuracy}
 
@@ -326,7 +329,7 @@ indicating a sampling of at least \(\pi\) points per period, or a step size
 \(\Delta t < 2/\omega\).
 
 In the context of ordinary differential equations, a stability region of the method
-can be defined via a stability function \(R(z)\) in the complex
+is usually defined via a stability function \(R(z)\) in the complex
 plane~\autocite[81]{butcher_numericalmethods_2016}. Such approach cannot be used
 in this case since the stability function is defined for a singe ordinary
 differential equation, but in the case of Hamiltonian dynamics we always have
@@ -350,13 +353,15 @@ desired that we obtain a discretization which is also time-reversible.
 use centered differences for this task and in the particular case of the
 Lorentz force we can average the velocity in order to represent the
 \(\vb{v} \cp \vb{B}\) product symmetrically. Thus we obtain
-\begin{align}
-  \label{eq:lorentz-discrete-x}
-  \frac{\vb{x}_{n+1}-\vb{x}_n}{\Delta t} &= \vb{v}_{n+1} \\
-  \label{eq:lorentz-discrete-v}
-  \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{\Delta t} &= \frac{q}{m}
-    \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}+\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
-\end{align}
+\begin{subequations}
+  \begin{align}
+    \label{eq:lorentz-discrete-x}
+    \frac{\vb{x}_{n+1}-\vb{x}_n}{\Delta t} &= \vb{v}_{n+1} \\
+    \label{eq:lorentz-discrete-v}
+    \frac{\vb{v}_{n+1/2}-\vb{v}_{n-1/2}}{\Delta t} &= \frac{q}{m}
+      \left(\vb{E}(\vb{x}_n) + \frac{\vb{v}_{n+1/2}+\vb{v}_{n-1/2}}{2} \cp \vb{B}(\vb{x}_n)\right)\,.
+  \end{align}
+\end{subequations}
 
 As explained in~\textcite[Chapter 4--3]{birdsall_plasmaphysics_2005}, there are
 several methods for solving the above equations, implying a
@@ -518,7 +523,7 @@ As a summary, the Boris push algorithm solves \cref{eq:lorentz-discrete-v} with 
 
 When solving (continuous) differential equations with (discrete) numerical methods,
 an important aspect is that we want the algorithm to be as close as possible to
-the original continuous system in terms of symmetries and conserved quantities.
+the original continuous system in terms of symmetries and conserved quantities. %ref Dynamical systems and numerical analysis Andrew M. Stuart
 
 In what follows we will look at the conservation properties of the Boris push
 and show why are they important for simulating the dynamics of charged particles
@@ -574,7 +579,7 @@ A^T J^{-1} A = J^{-1},\qquad \text{where} \ J = \mqty(0 & I \\ -I & 0)\,,
 \]
 with \(I\) the identity matrix in \(d\) dimensions.
 
-An useful example that illustrates the concept is given in the case of \(d=1\),
+A useful example that illustrates the concept is given in the case of \(d=1\),
 where symplecticity implies area conservation under the given
 linear transformation. In the more general \(d>1\) case, it would imply the conservation of the sum
 of the respective projected areas.
@@ -697,6 +702,7 @@ We can now resume rewriting \cref{eq:lorentz-discrete-v} and we obtain
 where
 \[
 \hat{\Omega}_n =
+\frac{q \Delta t}{2m}
 \begin{pmatrix}
   \phantom{-}0\phantom{_1} & -B^3_n & \phantom{-}B^2_n \\
   \phantom{-}B^3_n & \phantom{-}0\phantom{_1} & -B^1_n \\
@@ -825,12 +831,14 @@ the symplecticity condition can be written as
 \end{align*}
 
 Thus, we will have the following set of conditions
-\begin{align}
-  &S_3^T S_1 = S_1^T S_3 \label{eq:simplecticity-condition-1} \\
-  &S_1^T S_4 - S_3^T S_2 = I \label{eq:simplecticity-condition-2} \\
-  &S_4^T S_1 - S_2^T S_3 = I \label{eq:simplecticity-condition-3} \\
-  &S_4^T S_2 = S_2^T S_4 \label{eq:simplecticity-condition-4}\,.
-\end{align}
+\begin{subequations}
+  \begin{align}
+    &S_3^T S_1 = S_1^T S_3 \label{eq:simplecticity-condition-1} \\
+    &S_1^T S_4 - S_3^T S_2 = I \label{eq:simplecticity-condition-2} \\
+    &S_4^T S_1 - S_2^T S_3 = I \label{eq:simplecticity-condition-3} \\
+    &S_4^T S_2 = S_2^T S_4 \label{eq:simplecticity-condition-4}\,.
+  \end{align}
+\end{subequations}
 
 If we consider the simplified case of homogeneous electric and magnetic fields,
 then
@@ -899,13 +907,38 @@ their time derivatives, namely
 
 \Textcite{kaneyee_numericalsolution_1966} proposed a method for solving Maxwell's
 equations in isotropic media involving a leapfrog-like algorithm, but with
-staggering in space. In order to illustrate this more easily, we will begin
+staggering also in space. In order to illustrate this more easily, we will begin
 with the one dimensional case
 \begin{align*}
   \pdv{B_y}{t} & = - \pdv{E_x}{z} \\
-  \pdv{E_x}{t} & = c^2 \pdv{B_y} - \frac{1}{\epsilon_0} j_x \,,
+  \pdv{E_x}{t} & = c^2 \pdv{B_y}{z} - \frac{1}{\epsilon_0} j_x \,,
 \end{align*}
-which
+in which the equations are discretized as follows:
+\begin{subequations}%
+\label{eq:yee-1d}
+\begin{align}
+    &\frac{B_y^{n+1/2}(k+\frac{1}{2}) - B_y^{n-1/2}(k+\frac{1}{2})}{\Delta t} =
+    - \frac{E_x^n(k+1) - E_x^n(k)}{\Delta z} \label{eq:yee-1d-faraday} \\
+    &\frac{E_x^{n+1}(k) - E_x^{n}(k)}{\Delta t} =
+    -c^2 \frac{B_y^{n+1/2}(k+\frac{1}{2}) - B_y^{n+1/2}(k-\frac{1}{2})}{\Delta z}
+    -\frac{1}{\epsilon_0} j_x^{n+1/2}(k) \label{eq:yee-1d-ampere} \,.
+\end{align}
+\end{subequations}
+
+Let us now take a closer look at these discretizations by comparing with the typical form of the leapfrog
+algorithm~\eqref{eq:leapfrog}.
+For the magnetic field in \cref{eq:yee-1d-faraday}, the time derivatives of the fields are
+computed using the \(B^{n+1/2} - B^{n-1/2}\) difference with the source term at step \(n\). At the same time, for the electric field, the \(E(k+1)-E(k)\) difference is used and the source
+term is at \(k+\frac{1}{2}\). Thus, the values for the electric
+field are taken at integer \(k\) and \(n\), but for the magnetic
+field, we use the values at half-integer \(k\) and \(n\), creating
+thus a staggering in both space and time. Moving on to  \cref{eq:yee-1d-ampere},
+the time derivative for the electric field uses the \(E^{n+1}-E^n\)
+difference with the source term at \(n+\frac{1}{2}\) and similarly
+the magnetic field has the spatial derivative using the \(B(k+\frac{1}{2}) - B(k-\frac{1}{2})\) difference with the source
+term at \(k\). This swap in the steps used by the derivatives can
+be explained by the fact that in both equations we are observing
+the field at the same (space-time) points.
 
 \section{A survey of available PIC codes}
 
