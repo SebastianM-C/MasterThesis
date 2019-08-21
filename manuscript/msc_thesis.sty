@@ -80,6 +80,17 @@
 \NewDocumentCommand{\setargsaux}{mm}
 {\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
 
+% \textcolor variant for math mode: \mathcolor
+\makeatletter
+\def\mathcolor#1#{\@mathcolor{#1}}
+\def\@mathcolor#1#2#3{%
+  \protect\leavevmode
+  \begingroup
+    \color#1{#2}#3%
+  \endgroup
+}
+\makeatother
+
 %%% Theorems and definitions
 
 \theoremstyle{definition}

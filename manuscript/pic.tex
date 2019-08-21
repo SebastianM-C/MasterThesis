@@ -900,10 +900,10 @@ preserving~\autocite{higuera_structurepreservingsecondorder_2017}.
 We now turn our attention to the electromagnetic field equations. In order to
 compute the time evolution of the fields, we will use the equations containing
 their time derivatives, namely
-\begin{align*}
-  \pdv{\vb{B}}{t} & = - \curl{\vb{E}} \\
-  \pdv{\vb{E}}{t} & = c^2 \curl{\vb{B}} - \frac{1}{\epsilon_0} \vb{j} \,.
-\end{align*}
+\begin{align}
+  \pdv{\vb{B}}{t} & = - \curl{\vb{E}} \label{eq:faraday-law-for-yee} \\
+  \pdv{\vb{E}}{t} & = c^2 \curl{\vb{B}} - \frac{1}{\varepsilon_0} \vb{j} \label{eq:ampere-law-for-yee}\,.
+\end{align}
 
 \Textcite{kaneyee_numericalsolution_1966} proposed a method for solving Maxwell's
 equations in isotropic media involving a leapfrog-like algorithm, but with
@@ -911,7 +911,7 @@ staggering also in space. In order to illustrate this more easily, we will begin
 with the one dimensional case
 \begin{align*}
   \pdv{B_y}{t} & = - \pdv{E_x}{z} \\
-  \pdv{E_x}{t} & = c^2 \pdv{B_y}{z} - \frac{1}{\epsilon_0} j_x \,,
+  \pdv{E_x}{t} & = -c^2 \pdv{B_y}{z} - \frac{1}{\varepsilon_0} j_x \,,
 \end{align*}
 in which the equations are discretized as follows:
 \begin{subequations}%
@@ -921,14 +921,15 @@ in which the equations are discretized as follows:
     - \frac{E_x^n(k+1) - E_x^n(k)}{\Delta z} \label{eq:yee-1d-faraday} \\
     &\frac{E_x^{n+1}(k) - E_x^{n}(k)}{\Delta t} =
     -c^2 \frac{B_y^{n+1/2}(k+\frac{1}{2}) - B_y^{n+1/2}(k-\frac{1}{2})}{\Delta z}
-    -\frac{1}{\epsilon_0} j_x^{n+1/2}(k) \label{eq:yee-1d-ampere} \,.
+    -\frac{1}{\varepsilon_0} j_x^{n+1/2}(k) \label{eq:yee-1d-ampere} \,.
 \end{align}
 \end{subequations}
 
 Let us now take a closer look at these discretizations by comparing with the typical form of the leapfrog
 algorithm~\eqref{eq:leapfrog}.
 For the magnetic field in \cref{eq:yee-1d-faraday}, the time derivatives of the fields are
-computed using the \(B^{n+1/2} - B^{n-1/2}\) difference with the source term at step \(n\). At the same time, for the electric field, the \(E(k+1)-E(k)\) difference is used and the source
+computed using the \(B^{n+1/2} - B^{n-1/2}\) difference with the source term at step \(n\).
+At the same time, for the electric field, the \(E(k+1)-E(k)\) difference is used and the source
 term is at \(k+\frac{1}{2}\). Thus, the values for the electric
 field are taken at integer \(k\) and \(n\), but for the magnetic
 field, we use the values at half-integer \(k\) and \(n\), creating
@@ -939,6 +940,83 @@ the magnetic field has the spatial derivative using the \(B(k+\frac{1}{2}) - B(k
 term at \(k\). This swap in the steps used by the derivatives can
 be explained by the fact that in both equations we are observing
 the field at the same (space-time) points.
+
+We can now generalize equations~\eqref{eq:yee-1d} to the 3-dimensional case.
+In this case Faraday's law in \cref{eq:faraday-law-for-yee} becomes
+\begin{align*}
+  \pdv{B_x}{t} &= -\pdv{E_z}{y} + \pdv{E_y}{z} \\
+  \mathcolor{green}{\pdv{B_y}{t}} &= -\mathcolor{blue}{\pdv{E_x}{z}} + \mathcolor{magenta}{\pdv{E_z}{x}} \\
+  \pdv{B_z}{t} &= -\pdv{E_y}{x} + \pdv{E_x}{y} \,.
+\end{align*}
+
+To better emphasize the differences from \cref{eq:yee-1d-faraday}, we will focus on the
+\(O_y\) components. Thus the discrete form will be given by
+\begin{equation}
+  \label{eq:yee-3d-faraday-y}
+  \begin{aligned}
+    &\frac{\mathcolor{green}{B_y^{n+1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})
+    - \mathcolor{green}{B_y^{n-1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{green}{\Delta t}} = \\
+    &- \frac{\mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+1}) -
+      \mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k})}{\mathcolor{blue}{\Delta z}}
+    + \frac{\mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+1},j,\mathcolor{blue}{k+\frac{1}{2}}) -
+      \mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{magenta}{\Delta x}}\,.
+  \end{aligned}
+\end{equation}
+
+Since it is quite tedious to write everything explicitely, several shorthand
+notations have been developed. For example, \textcite{lehe_electromagneticparticleincell_2018}
+uses
+\[
+F^n_{i,j,k} \equiv F^n(i,j,k)
+\]
+and
+\begin{align*}
+  \partial_t F \rvert^n_{i,j,k} &\equiv \frac{F^{n+\frac{1}{2}}_{i,j,k} - F^{n-\frac{1}{2}}_{i,j,k}}{\Delta t} \qquad\quad
+  \partial_x F \rvert^n_{i,j,k} \equiv \frac{F^n_{i+\frac{1}{2},j,k} - F^n_{i-\frac{1}{2},j,k}}{\Delta x} \\
+  \partial_y F \rvert^n_{i,j,k} &\equiv \frac{F^n_{i,j+\frac{1}{2},k} - F^n_{i,j-\frac{1}{2},k}}{\Delta y} \qquad
+  \partial_z F \rvert^n_{i,j,k} \equiv \frac{F^n_{i,j,k+\frac{1}{2}} - F^n_{i,j,k-\frac{1}{2}}}{\Delta z} \,.
+\end{align*}
+
+With these notations, \cref{eq:yee-3d-faraday-y} becomes
+\[
+\partial_t B_y \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}} =
+  -\partial_z E_x \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}}
+  +\partial_x E_z \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}}
+\]
+and by applying the same for the rest of the components we obtain
+\begin{align*}
+  \partial_t B_x \rvert^n_{i,j+\frac{1}{2},k+\frac{1}{2}} &=
+  -\partial_y E_z \rvert^n_{i,j+\frac{1}{2},k+\frac{1}{2}}
+  +\partial_z E_y \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}} \\
+  \partial_t B_y \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}} &=
+  -\partial_z E_x \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}}
+  +\partial_x E_z \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}} \\
+  \partial_t B_z \rvert^n_{i+\frac{1}{2},j,k+\frac{1}{2}} &=
+  -\partial_x E_y \rvert^n_{i+\frac{1}{2},j+\frac{1}{2},k}
+  +\partial_y E_x \rvert^n_{i+\frac{1}{2},j+\frac{1}{2},k} \,.
+\end{align*}
+
+In a similar fashion, Ampère's law in \cref{eq:ampere-law-for-yee} becomes
+\begin{align*}
+  \pdv{E_x}{t} &= -c^2 \pdv{B_y}{z} + c^2 \pdv{B_z}{y} - \frac{1}{\varepsilon_0} j_x \\
+  \pdv{E_y}{t} &= -c^2 \pdv{B_z}{x} + c^2 \pdv{B_x}{z} - \frac{1}{\varepsilon_0} j_y \\
+  \pdv{E_z}{t} &= -c^2 \pdv{B_x}{y} + c^2 \pdv{B_y}{x} - \frac{1}{\varepsilon_0} j_z
+\end{align*}
+will be discretized as
+\begin{align*}
+  \partial_t E_x \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k} &=
+  c^2\partial_y B_z \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k}
+  -c^2\partial_z B_y \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k}
+  -\frac{1}{\varepsilon_0} j_x \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k} \\
+  \partial_t E_y \rvert^{n+\frac{1}{2}}_{i,j+\frac{1}{2},k} &=
+  c^2\partial_z B_x \rvert^{n+\frac{1}{2}}_{i,j+\frac{1}{2},k}
+  -c^2\partial_x B_z \rvert^{n+\frac{1}{2}}_{i,j+\frac{1}{2},k}
+  -\frac{1}{\varepsilon_0} j_y \rvert^{n+\frac{1}{2}}_{i,j+\frac{1}{2},k} \\
+  \partial_t E_z \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}} &=
+  c^2\partial_x B_y \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}}
+  -c^2\partial_y B_x \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}}
+  -\frac{1}{\varepsilon_0} j_z \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}} \,.
+\end{align*}
 
 \section{A survey of available PIC codes}
 
