@@ -943,23 +943,39 @@ the field at the same (space-time) points.
 
 We can now generalize equations~\eqref{eq:yee-1d} to the 3-dimensional case.
 In this case Faraday's law in \cref{eq:faraday-law-for-yee} becomes
+% \begin{align*}
+%   \pdv{B_x}{t} &= -\pdv{E_z}{y} + \pdv{E_y}{z} \\
+%   \mathcolor{green}{\pdv{B_y}{t}} &= -\mathcolor{blue}{\pdv{E_x}{z}} + \mathcolor{magenta}{\pdv{E_z}{x}} \\
+%   \pdv{B_z}{t} &= -\pdv{E_y}{x} + \pdv{E_x}{y} \,.
+% \end{align*}
 \begin{align*}
   \pdv{B_x}{t} &= -\pdv{E_z}{y} + \pdv{E_y}{z} \\
-  \mathcolor{green}{\pdv{B_y}{t}} &= -\mathcolor{blue}{\pdv{E_x}{z}} + \mathcolor{magenta}{\pdv{E_z}{x}} \\
+  \pdv{B_y}{t} &= -\pdv{E_x}{z} + \pdv{E_z}{x} \\
   \pdv{B_z}{t} &= -\pdv{E_y}{x} + \pdv{E_x}{y} \,.
 \end{align*}
 
 To better emphasize the differences from \cref{eq:yee-1d-faraday}, we will focus on the
 \(O_y\) components. Thus the discrete form will be given by
+% \begin{equation}
+%   \label{eq:yee-3d-faraday-y}
+%   \begin{aligned}
+%     &\frac{\mathcolor{green}{B_y^{n+1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})
+%     - \mathcolor{green}{B_y^{n-1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{green}{\Delta t}} = \\
+%     &- \frac{\mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+1}) -
+%       \mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k})}{\mathcolor{blue}{\Delta z}}
+%     + \frac{\mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+1},j,\mathcolor{blue}{k+\frac{1}{2}}) -
+%       \mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{magenta}{\Delta x}}\,.
+%   \end{aligned}
+% \end{equation}
 \begin{equation}
   \label{eq:yee-3d-faraday-y}
   \begin{aligned}
-    &\frac{\mathcolor{green}{B_y^{n+1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})
-    - \mathcolor{green}{B_y^{n-1/2}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{green}{\Delta t}} = \\
-    &- \frac{\mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k+1}) -
-      \mathcolor{blue}{E_x}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+\frac{1}{2}},j,\mathcolor{blue}{k})}{\mathcolor{blue}{\Delta z}}
-    + \frac{\mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i+1},j,\mathcolor{blue}{k+\frac{1}{2}}) -
-      \mathcolor{magenta}{E_z}^{\mathcolor{green}{n}}(\mathcolor{magenta}{i},j,\mathcolor{blue}{k+\frac{1}{2}})}{\mathcolor{magenta}{\Delta x}}\,.
+    &\frac{B_y^{n+1/2}(i+\frac{1}{2},j,k+\frac{1}{2})
+    - B_y^{n-1/2}(i+\frac{1}{2},j,k+\frac{1}{2})}{\Delta t} = \\
+    &- \frac{E_x^{n}(i+\frac{1}{2},j,k+1) -
+      E_x^{n}(i+\frac{1}{2},j,k)}{\Delta z}
+    + \frac{E_z^{n}(i+1,j,k+\frac{1}{2}) -
+      E_z^{n}(i,j,k+\frac{1}{2})}{\Delta x}\,.
   \end{aligned}
 \end{equation}
 
