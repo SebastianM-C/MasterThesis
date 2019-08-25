@@ -43,7 +43,7 @@
 \geometry{
   % showframe,
   a4paper,
-  textwidth=16cm,
+  textwidth=17cm,
   textheight=25cm,
   heightrounded
   }
@@ -80,6 +80,16 @@
 {\setargsaux#1}
 \NewDocumentCommand{\setargsaux}{mm}
 {\IfNoValueTF{#2}{#1} {#1\,\delimsize|\,\mathopen{}#2}}%{#1\:;\:#2}
+
+
+% et al. in italics
+\usepackage{xpatch}
+
+\xpatchbibmacro{name:andothers}{%
+  \bibstring{andothers}%
+}{%
+  \bibstring[\emph]{andothers}%
+}{}{}
 
 % \textcolor variant for math mode: \mathcolor
 \makeatletter
