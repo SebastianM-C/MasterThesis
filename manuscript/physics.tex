@@ -1,7 +1,7 @@
 \documentclass[12pt, class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
 
-%!TeX spellcheck = en-GB
+% !TeX spellcheck = en-GB
 % !TEX bib = reference.bib
 % chktex-file 21 # This command might not be intended.
 
@@ -10,9 +10,15 @@
 \chapter{Classical Electrodynamics}%
 \label{chap:classical-electrodynamics}
 
-{\color{red} Introduction stuff, cite~\textcite{eisenberg_nucleartheory_1978,jackson_classicalelectrodynamics_1999}}.
+In order to study complex phenomena such as laser wakefield acceleration,
+we need to have a solid understanding of the basic physical phenomena
+that govern the dynamics of charged particles in interaction
+with electromagnetic fields. In this thesis we will restrict ourselves to
+classical electrodynamics, ignoring QED effects that are important
+for very high laser intensities \(I \gtrsim \SI{5e22}{\watt\per\square\centi\metre}\).
+We will mainly follow the ideas presented in~\textcite{jackson_classicalelectrodynamics_1999} and \textcite[Chapter 2]{eisenberg_nucleartheory_1978}.
 
-We will begin with Maxwell's equations in free space
+We thus begin with Maxwell's equations in free space
 \begin{subequations}%
   \label{eq:maxwell}
   \begin{align}
@@ -23,8 +29,8 @@ We will begin with Maxwell's equations in free space
   \end{align}
 \end{subequations}
 
-which relate the electromagnetic field to sources, which must satisfy an additional
-equation to ensure charge conservation
+which relate the electromagnetic field to sources. An additional
+equation must be satisfied in order to ensure charge conservation
 \begin{equation}
   \label{eq:continuity-equation}
   \div{\vb{j}(\vb{r}, t)} + \pdv{\rho(\vb{r}, t)}{t} = 0 \,.
