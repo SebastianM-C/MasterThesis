@@ -523,7 +523,8 @@ As a summary, the Boris push algorithm solves \cref{eq:lorentz-discrete-v} with 
 
 When solving (continuous) differential equations with (discrete) numerical methods,
 an important aspect is that we want the algorithm to be as close as possible to
-the original continuous system in terms of symmetries and conserved quantities. %ref Dynamical systems and numerical analysis Andrew M. Stuart
+the original continuous system in terms of symmetries and conserved
+quantities~\autocite{stuart_dynamicalsystems_1996}.
 
 In what follows we will look at the conservation properties of the Boris push
 and show why are they important for simulating the dynamics of charged particles
@@ -889,6 +890,8 @@ one. Since \(R \in SO(3)\), as a property of the Cayley transform,
 \]
 and thus the Boris push is volume preserving.
 
+\subsection{Shape functions}
+
 \subsection{The relativistic case}
 
 The Boris push algorithm also has a relativistic variant, which takes into account
@@ -972,10 +975,8 @@ To better emphasize the differences from \cref{eq:yee-1d-faraday}, we will focus
   \begin{aligned}
     &\frac{B_y^{n+1/2}(i+\frac{1}{2},j,k+\frac{1}{2})
     - B_y^{n-1/2}(i+\frac{1}{2},j,k+\frac{1}{2})}{\Delta t} = \\
-    &- \frac{E_x^{n}(i+\frac{1}{2},j,k+1) -
-      E_x^{n}(i+\frac{1}{2},j,k)}{\Delta z}
-    + \frac{E_z^{n}(i+1,j,k+\frac{1}{2}) -
-      E_z^{n}(i,j,k+\frac{1}{2})}{\Delta x}\,.
+    &- \frac{E_x^{n}(i+\frac{1}{2},j,k+1) - E_x^{n}(i+\frac{1}{2},j,k)}{\Delta z}
+    + \frac{E_z^{n}(i+1,j,k+\frac{1}{2}) - E_z^{n}(i,j,k+\frac{1}{2})}{\Delta x}\,.
   \end{aligned}
 \end{equation}
 
@@ -1018,7 +1019,20 @@ In a similar fashion, Ampère's law in \cref{eq:ampere-law-for-yee} becomes
   \pdv{E_y}{t} &= -c^2 \pdv{B_z}{x} + c^2 \pdv{B_x}{z} - \frac{1}{\varepsilon_0} j_y \\
   \pdv{E_z}{t} &= -c^2 \pdv{B_x}{y} + c^2 \pdv{B_y}{x} - \frac{1}{\varepsilon_0} j_z
 \end{align*}
-will be discretized as
+and the analogue of \cref{eq:yee-1d-ampere} for the \(Ox\) axis will be
+\begin{equation}
+  \label{eq:yee-3d-ampere-y}
+  \begin{aligned}
+    \frac{E_x^{n+1}(i+\frac{1}{2},j,k)- E_x^n(i+\frac{1}{2},j,k)}{\Delta t} =
+    -c^2\frac{B_y^{n+1/2}(i+\frac{1}{2},j,k+\frac{1}{2}) -
+      B_y^{n+1/2}(i+\frac{1}{2},j,k-\frac{1}{2})}{\Delta z} \\
+    + c^2\frac{B_z^{n+1/2}(i+\frac{1}{2},j+\frac{1}{2},k) -
+      B_z^{n+1/2}(i+\frac{1}{2},j-\frac{1}{2},k)}{\Delta x}
+    - \frac{1}{\varepsilon_0}j_x^{n+1/2}\,.
+  \end{aligned}
+\end{equation}
+
+Using the compact notation above, we obtain
 \begin{align*}
   \partial_t E_x \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k} &=
   c^2\partial_y B_z \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j,k}
@@ -1033,6 +1047,248 @@ will be discretized as
   -c^2\partial_y B_x \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}}
   -\frac{1}{\varepsilon_0} j_z \rvert^{n+\frac{1}{2}}_{i,j,k+\frac{1}{2}} \,.
 \end{align*}
+
+We can observe that we have only used tow of the four Maxwell equations to describe
+the evolution of the fields, so we should check that the other two equations are
+satisfied.
+Let us begin with the divergence of the magnetic field
+\[
+\div{\vb{B}} = 0 \,.
+\]
+
+Assuming that the relation is initially valid and
+\[
+\pdv{\vb{B}}{t} = - \curl{\vb{E}}
+\]
+is satisfied all the time, then
+\[
+\pdv{\div{\vb{B}}}{t} = \div{\pdv{\vb{B}}{t}} = \div{\left(-\curl{\vb{E}}\right)} = 0\,.
+\]
+
+The discretized equations thus satisfy \(\div{\vb{B}} = 0\) since the above equation
+vanishes by the cancelation of identical derivative terms.
+The discretized version of this condition can be written as
+\[
+\partial_x B_x \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j+\frac{1}{2},k+\frac{1}{2}} +
+\partial_y B_y \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j+\frac{1}{2},k+\frac{1}{2}} +
+\partial_z B_z \rvert^{n+\frac{1}{2}}_{i+\frac{1}{2},j+\frac{1}{2},k+\frac{1}{2}}
+= 0\,.
+\]
+
+We will now continue with the divergence of the electric field
+\[
+\div{\vb{E}} = \frac{\rho}{\varepsilon_0} \,.
+\]
+
+Again, we suppose that the relation is satisfied initially and that
+\[
+\pdv{\vb{E}}{t} = c^2 \curl{\vb{B}} - \frac{1}{\varepsilon_0} \vb{j}
+\]
+is vaild all the time. Then
+\[
+\pdv{t} \left(\div{\vb{E}} - \frac{\rho}{\varepsilon_0}\right) =
+-\frac{1}{\varepsilon_0} \left[\pdv{\rho}{t}
+-\div{\left(\frac{1}{\mu_0} \curl{\vb{B}} - \vb{j}\right)}\right] =
+-\frac{1}{\varepsilon_0} \left(\pdv{\rho}{t} + \div{\vb{j}}\right)
+\]
+and we can observe that
+\(
+\div{\vb{E}} = \rho/\varepsilon_0
+\)
+is satisfied \emph{if} the continuity equation is respected for all time steps.
+In its discrete form, the continuity equation is given by
+\[
+\partial_t \rho \rvert^{n+\frac{1}{2}}_{i,j,k} +
+\partial_x j_x \rvert^{n+\frac{1}{2}}_{i,j,k} +
+\partial_y j_y \rvert^{n+\frac{1}{2}}_{i,j,k} +
+\partial_z j_z \rvert^{n+\frac{1}{2}}_{i,j,k}
+= 0\,.
+\]
+
+\subsection{Current deposition}
+
+\subsection{Stability}
+
+In order to study the stability of the Yee algorithm, we wll take a claser look
+at the propagation of an electromagnetic wave in vacuum
+following \textcite{lehe_electromagneticwave_2018}.
+
+In order to simplify the calculations, we will begin with the one dimensional
+case with the electric field on \(Ox\) and the magnetic field on \(Oy\).
+In this case, the propagation of electromagnetic waves is described by
+equations~\eqref{eq:yee-1d}, with the current density term dropped.
+With a more compact notation, this gives
+\begin{subequations}%
+\label{eq:yee-wave-1d}
+  \begin{align}
+    &\frac{{B_y}^{n+1/2}_{k+1/2} - {B_y}^{n-1/2}_{k+1/2}}{\Delta t} =
+    - \frac{{E_x}^n_{k+1} - {E_x}^n_k}{\Delta z} \label{eq:yee-wave-1d-faraday}\\
+    &\frac{{E_x}^{n+1}_k - {E_x}^n_k}{\Delta t} =
+    -c^2 \frac{{B_y}^{n+1/2}_{k+1/2} - {B_y}^{n+1/2}_{k-1/2}}{\Delta z}
+    \label{eq:yee-wave-1d-ampere}\,.
+  \end{align}
+\end{subequations}
+
+In order to better motivate the following derivation, let us consider the continuous
+(3D) case first. Equations~\eqref{eq:yee-wave-1d} are the 1D discretizations
+of
+\[
+\begin{aligned}
+  \pdv{\vb{B}}{t} &= -\curl{\vb{E}} \\
+  \frac{1}{c^2}\pdv{\vb{E}}{t} &= \curl{\vb{B}} \,.
+\end{aligned}
+\]
+If we take the time derivative of the second equation, we obtain
+\[
+\frac{1}{c^2}\pdv[2]{\vb{E}}{t} = \pdv{t} \curl{\vb{B}} = \curl{\left(\pdv{\vb{B}}{t}\right)}
+= \curl{\left(-\curl{\vb{E}}\right)} = - \grad{\underbrace{(\div{\vb{E}})}_{0\text{ in vacuum}}} + \laplacian{\vb{E}}\,,
+\]
+in which we can recognise the wave equation
+\[
+\frac{1}{c^2}\pdv[2]{\vb{E}}{t} - \laplacian{\vb{E}} = \dalambert{\vb{E}} = 0\,.
+\]
+
+Thus if we divide \cref{eq:yee-wave-1d-ampere} by \(c^2\) and take the time derivative,
+we should obtain the discretized wave equation. Using centered time differences
+between \cref{eq:yee-wave-1d-ampere} at time step \(n\) and \(n-1\), we obtain
+\[
+\frac{1}{c^2} \frac{1}{\Delta t} \left(\frac{{E_x}^{n+1}_k - {E_x}^n_k}{\Delta t}
+- \frac{{E_x}^{n}_k - {E_x}^{n-1}_k}{\Delta t}\right) =
+\frac{1}{\Delta t} \left(-\frac{{B_y}^{n+1/2}_{k+1/2} - {B_y}^{n+1/2}_{k-1/2}}{\Delta z}
++ \frac{{B_y}^{n-1/2}_{k+1/2} - {B_y}^{n-1/2}_{k-1/2}}{\Delta z}\right).
+\]
+The time and space derivatives commute, so we can rearrange the terms in the
+right hand side to match a centered time derivative and thus obtain
+\[
+\begin{aligned}
+  \frac{1}{c^2}\frac{{E_x}^{n+1}_k - {E_x}^n_k}{\Delta t^2}
+- \frac{1}{c^2}\frac{{E_x}^{n}_k - {E_x}^{n-1}_k}{\Delta t^2} &=
+- \frac{{B_y}^{n+1/2}_{k+1/2} - {B_y}^{n+1/2}_{k-1/2}}{\Delta z \Delta t}
++ \frac{{B_y}^{n-1/2}_{k+1/2} - {B_y}^{n-1/2}_{k-1/2}}{\Delta z \Delta t} \\&=
+- \frac{{B_y}^{n+1/2}_{k+1/2} - {B_y}^{n-1/2}_{k+1/2}}{\Delta z \Delta t}
++ \frac{{B_y}^{n+1/2}_{k-1/2} - {B_y}^{n-1/2}_{k-1/2}}{\Delta z \Delta t} \\&=
+  \frac{{E_x}^n_{k+1} - {E_x}^n_k}{\Delta z^2} - \frac{{E_x}^n_{k} - {E_x}^n_{k-1}}{\Delta z}\,,
+\end{aligned}
+\]
+where in the last step we used \cref{eq:yee-wave-1d-faraday}. We can observe
+that the terms can be rearranged such that we obtain second order centered time
+derivatives. Thus we obtain the 1D discrete wave equation
+\begin{equation}
+\label{eq:discrete-wave-1d}
+\frac{1}{c^2} \frac{{E_x}^{n+1}_k - 2{E_x}^n_k + {E_x}^{n-1}_k}{\Delta t^2} =
+\frac{{E_x}^n_{k+1} - 2{E_x}^n_k + {E_x}^n_{k-1}}{\Delta z^2}\,.
+\end{equation}
+
+We will now take a closer look at the behaviour of the propagating wave solutions
+\[
+{E_x}^n_l = E_0 \ee^{\ii k l \Delta z - \ii \omega n \Delta t}\,,
+\]
+where we changed to using the \(l\) for indexing as not confuse it with the
+wavenumber \(k\). Using this solution in \cref{eq:discrete-wave-1d} gives
+\[
+\begin{aligned}
+  \frac{E_0\ee^{\ii k l \Delta z}}{c^2}
+  \frac{\ee^{-\ii \omega (n+1) \Delta t}
+      -2\ee^{-\ii \omega n \Delta t}
+      + \ee^{-\ii \omega (n-1) \Delta t}}{\Delta t^2} &=
+  E_0\ee^{-\ii \omega n \Delta t}
+  \frac{\ee^{\ii k (l+1) \Delta z}
+      -2\ee^{\ii k l \Delta z}
+      + \ee^{\ii k (l-1) \Delta z}}{\Delta z^2} \\
+  \frac{\ee^{\ii k l \Delta z - \ii \omega n \Delta t}}{c^2}
+  \frac{\ee^{-\ii \omega \Delta t}
+      -2
+      + \ee^{\ii \omega \Delta t}}{\Delta t^2} &=
+  \ee^{-\ii \omega n \Delta t + \ii k l \Delta z}
+  \frac{\ee^{\ii k \Delta z}
+      -2
+      + \ee^{-\ii k \Delta z}}{\Delta z^2} \\
+  \frac{1}{c^2}
+  \frac{\ee^{-\ii \omega \Delta t}
+      -2
+      + \ee^{\ii \omega \Delta t}}{\Delta t^2} &=
+  \frac{\ee^{\ii k \Delta z}
+      -2
+      + \ee^{-\ii k \Delta z}}{\Delta z^2} \\
+  \frac{1}{c^2 \Delta t^2}
+  {\left(\ee^{-\ii \omega \Delta t / 2} - \ee^{\ii \omega \Delta t / 2}\right)}^2 &=
+  \frac{1}{\Delta z^2}
+  {\left(\ee^{-\ii k \Delta z / 2} - \ee^{\ii k \Delta z / 2}\right)}^2\,.
+\end{aligned}
+\]
+
+Using Euler's formula
+\[
+\ee^{\ii x} = \cos{x} + \ii \sin{x}\,,
+\]
+we obtain
+\begin{equation}
+  \label{eq:yee-1d-dispersion}
+  \frac{1}{c^2 \Delta t^2} \sin^2\left(\frac{\omega \Delta t}{2}\right) =
+  \frac{1}{\Delta z^2} \sin^2\left(\frac{k \Delta z}{2}\right).
+\end{equation}
+
+\Cref{eq:yee-1d-dispersion} is a dispersion relation for the discrete one dimensional
+wave propagation. In the continuous case the dispersion relation is \(\omega^2 = c^2 k^2\).
+
+If we take the square root of \cref{eq:yee-1d-dispersion}
+\[
+\begin{aligned}
+  \sin^2\left(\frac{\omega \Delta t}{2}\right) &=
+  \frac{c^2 \Delta t^2}{\Delta z^2} \sin^2\left(\frac{k \Delta z}{2}\right) \\
+  \left|\sin\left(\frac{\omega \Delta t}{2}\right)\right| &=
+  \left|\frac{c \Delta t}{\Delta z} \sin\left(\frac{k \Delta z}{2}\right)\right|
+\end{aligned}
+\]
+we observe that we obtain real solutions for \(\omega\), for any \(k\)
+\[
+\omega = \pm \frac{2}{\Delta t} \arcsin(\frac{c \Delta t}{\Delta z} \sin(\frac{k \Delta z}{2}))
+\]
+only if \(c \Delta t \leq \Delta z\).
+
+Thus the phase velocity of electromagnetic waves \(v_\phi = \omega/k\) will be given by
+\[
+v_\phi = \pm \frac{2}{k\Delta t} \arcsin(\frac{c \Delta t}{\Delta z} \sin(\frac{k \Delta z}{2}))\,.
+\]
+
+This means that in a 1D PIC code that is using the Yee discretizations, electromagnetic
+waves in vacuum propagate with a velocity depending on \(k\), instead at the
+(constant) speed of light. This phenomena is called \emph{numerical dispersion}.
+Since the wavenumber is inverse proportional to the wavelength, electromagnetic
+waves with shoter wavelengths will propagate slower.
+
+For \(c \Delta t \ge \Delta z\), the discrete dispersion relation given by
+\cref{eq:yee-1d-dispersion} has no real solutions in the limit \(k \to \pi/\Delta z\).
+The solution is imaginary and the corresponding mode is said to be unstable.
+As a consequence, PIC codes using FDTD methods like presented here are restricted
+to \(c \Delta t \leq \Delta z\). This is called the \emph{Courant limit}.
+This coupling between \(\Delta z\) and \(\Delta t\) places an upper bound on
+how fast can a simulation advance.
+Moreover, \(\Delta z\) is tightly coupled with the physics of the simulation,
+since it must be chose such that it can resolve the smallest features of
+the given problem.
+
+This kind of analysis can be extended in a straightforward way to the 3D case.
+In this case the discrete version of the solution to the wave equation will
+be given by
+\[
+E = E_0 \ee^{\ii k_x x + \ii k_y y + \ii k_z z - \ii \omega t}\,.
+\]
+
+Similarly, the 3D dispersion relation will be given by
+\[
+\frac{1}{c^2 \Delta t^2} \sin^2\left(\frac{\omega \Delta t}{2}\right) =
+  \frac{1}{\Delta x^2} \sin^2\left(\frac{k_x \Delta x}{2}\right) +
+  \frac{1}{\Delta y^2} \sin^2\left(\frac{k_y \Delta y}{2}\right) +
+  \frac{1}{\Delta z^2} \sin^2\left(\frac{k_z \Delta z}{2}\right)
+\]
+and the 3D Courant condition by
+\[
+c \Delta t \leq \frac{1}{\sqrt{\frac{1}{\Delta x^2} + \frac{1}{\Delta y^2} + \frac{1}{\Delta z^2}}}\,.
+\]
+
+As we can see from the dispersion relation, in the 3D case, the phase velocity
+will depend on wavelength and propagation direction.
 
 \section{A survey of available PIC codes}
 
