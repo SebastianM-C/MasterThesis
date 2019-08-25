@@ -451,6 +451,53 @@ indeed say that the flux of the Poynting vector is the energy flux.
 
 \section{Electromagnetic waves}
 
+In the of sources, Maxwell's equations become
+\begin{subequations}
+  \begin{align*}
+    \div{\vb{B}} &= 0  \qquad \curl{\vb{E}} + \pdv{\vb{B}}{t} = 0 \\
+    \div{\vb{D}} &= 0  \qquad \curl{\vb{H}} - \pdv{\vb{D}}{t} = 0\,,
+  \end{align*}
+\end{subequations}
+where \(\vb{D} = \varepsilon \vb{E}\) and \(\vb{B} = \mu \vb{H}\).
+In our case, \(\varepsilon = \varepsilon_0\) and \(\mu = \mu_0\).
+
+If we assume that the time dependence for the solutions is given by
+\(\ee^{-\ii \omega t}\), then the above equations become
+\begin{subequations}
+  \begin{align*}
+    \div{\vb{B}} &= 0  \qquad \curl{\vb{E}}\ee^{-\ii \omega t} - \ii \omega \vb{B} \ee^{-\ii \omega t} = 0 \\
+    \div{\vb{D}} &= 0  \qquad \curl{\vb{H}}\ee^{-\ii \omega t} + \ii \omega \vb{D} = 0\,.
+  \end{align*}
+\end{subequations}
+
+If we consider only the curl equations
+\[
+\begin{aligned}
+  \curl{\vb{E}} - \ii \omega \vb{B} = 0 \\
+  \curl{\vb{B}} + \ii \omega \mu \epsilon \vb{E} = 0
+\end{aligned}
+\]
+and take the curl
+\[
+\curl{\curl{\vb{E}}} - \ii \omega \curl{B} = \grad{\underbrace{(\div{E})}_{0}}
+- \laplacian{\vb{E}} + {(\ii \omega)}^2 \mu \varepsilon \vb{E} = 0
+\]
+we obtain the Helmholz wave equations
+\[
+\begin{aligned}
+  \left(\laplacian + \omega^2 \mu \varepsilon \right)\vb{E} &= 0 \\
+  \left(\laplacian + \omega^2 \mu \varepsilon \right)\vb{B} &= 0
+\end{aligned}
+\]
+or in a more compact notation
+\[
+\left(\laplacian + \omega^2 \mu \varepsilon \right)
+\begin{pmatrix}
+  \vb{E} \\ \vb{B}
+\end{pmatrix}
+= 0\,.
+\]
+
 
 \section{Electron in a Plane Wave}
 
