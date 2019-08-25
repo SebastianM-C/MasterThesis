@@ -469,6 +469,8 @@ If we assume that the time dependence for the solutions is given by
     \div{\vb{D}} &= 0  \qquad \curl{\vb{H}}\ee^{-\ii \omega t} + \ii \omega \vb{D} = 0\,.
   \end{align*}
 \end{subequations}
+More complex time dependencies can be treated with a Fourier decomposition since if we have a solution, any linear combinations
+with that solution are also solutions.
 
 If we consider only the curl equations
 \[
@@ -479,7 +481,7 @@ If we consider only the curl equations
 \]
 and take the curl
 \[
-\curl{\curl{\vb{E}}} - \ii \omega \curl{B} = \grad{\underbrace{(\div{E})}_{0}}
+\curl{\curl{\vb{E}}} - \ii \omega \curl{\vb{B}} = \grad{\underbrace{(\div{\vb{E}})}_{0}}
 - \laplacian{\vb{E}} + {(\ii \omega)}^2 \mu \varepsilon \vb{E} = 0
 \]
 we obtain the Helmholtz wave equations
@@ -490,14 +492,155 @@ we obtain the Helmholtz wave equations
 \end{aligned}
 \]
 or in a more compact notation
-\[
+\begin{equation*}
+\label{eq:helmholtz-wave-eq}
 \left(\laplacian + \omega^2 \mu \varepsilon \right)
 \begin{pmatrix}
   \vb{E} \\ \vb{B}
 \end{pmatrix}
 = 0\,.
+\end{equation*}
+
+Taking the plane wave
+\[
+\ee^{\ii k x - \ii \omega t}
+\]
+as a solution for the Helmholtz wave equation~\eqref{eq:helmholtz-wave-eq}, we can study
+what properties arise for wave number \(k\) and the frequency \(\omega\).
+Thus we can see that
+\[
+-k^2 + \omega^2 \mu \varepsilon = 0
+\]
+or
+\[
+k = \omega \sqrt{\mu \varepsilon}\,.
 \]
 
+The phase velocity of a wave \(v_\phi\) is defined as
+\[
+v_\phi = \frac{\omega}{k}\,.
+\]
+
+In this case, the phase velocity of a plane wave satisfying the
+Helmholtz equation is
+\[
+v_\phi = \frac{1}{\sqrt{\mu\varepsilon}} = \frac{c}{n}\,,
+\]
+where \(n\) is the refraction index of the media in which the wave propagates and is given by
+\[
+n = \sqrt{\frac{\mu}{\mu_0}\frac{\varepsilon}{\varepsilon_0}}\,.
+\]
+
+A general solution for the wave equation can be constructed by
+using the superposition principle
+\[
+u(x,t) = a \ee^{\ii k x - \ii \omega t} + b \ee^{-\ii k x - \ii \omega t}\,.
+\]
+This general solution can be seen as a superposition of incoming and outgoing plane waves.
+
+Let us now consider an electromagnetic plane wave, that is a
+plane wave that satisfies both the Helmholtz wave equation~\eqref{eq:helmholtz-wave-eq}
+and Maxwell's equations~\eqref{eq:maxwell}
+\[
+\begin{aligned}
+  \vb{E}(\vb{x},t) &= \vb*{\mathcal{E}} \ee^{\ii k \vb{n} \vdot \vb{x} - \ii \omega t} \\
+  \vb{B}(\vb{x},t) &= \vb*{\mathcal{B}} \ee^{\ii k \vb{n} \vdot \vb{x} - \ii \omega t}\,.
+\end{aligned}
+\]
+
+First, let us consider the Laplacian in the Helmholtz equation
+\[
+\pdv[2]{x_i} \mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t} =
+\pdv{x_i} \ii k n_j \delta_{ij} \mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t} =
+-k^2 n_i n_i \mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t}\,.
+\]
+
+With this consideration, Helmholtz equation yields
+\[
+-k^2 n_i n_i \mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t}
++ \mu\varepsilon\omega^2\mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t} = 0
+\]
+or
+\[
+k^2 \vb{n} \vdot \vb{n} = \mu\varepsilon\omega^2\,.
+\]
+
+Considering that \(k=\sqrt{\mu\varepsilon} \omega\), we obtain
+that the norm of \(\vb{n}\) must be 1
+\[
+\vb{n}\vdot\vb{n}=1\,.
+\]
+
+Now we continue with Maxwell's equations. We begin with the divergence
+equations
+\[
+\div{\vb{B}} = 0 \implies \partial_i \mathcal{B}_i \ee^{\ii k n_j x_j - \ii \omega t} = 0\,,
+\]
+where we have used the notation
+\[
+\partial_i \equiv \pdv{x_i}\,.
+\]
+Thus
+\(
+\ii k n_i \mathcal{B}_i = 0
+\)
+and the magnetic field \(\vb{B}\) and \(\vb{n}\) are perpendicular since
+\[
+\vb{n} \vdot \vb*{\mathcal{B}} = 0\,.
+\]
+
+Similarly, for the electric field
+\[
+\div{\vb{D}} = 0 \implies \partial_i \varepsilon \mathcal{E}_i \ee^{\ii k n_j x_j - \ii \omega t} = 0
+\]
+and
+\[
+\ii k n_i \mathcal{E}_i = 0 \implies \vb{n} \vdot \vb*{\mathcal{E}}=0\,.
+\]
+Thus, since the electric and magnetic fields are perpendicular to
+the propagation direction given by the \(\vb{n}\) versor, the
+electromagnetic plane wave is a transverse wave.
+
+If we now consider the curl equation
+\[
+\curl{\vb{E}} = -\pdv{\vb{B}}{t}\,,
+\]
+we obtain
+\[
+\begin{aligned}
+  \varepsilon_{ijk} \partial_j E_k &= -(-\ii \omega) \mathcal{B}_i
+  \ee^{\ii k n_i x_i- \ii \omega t} \\
+  \varepsilon_{ijk} \partial_j \mathcal{E}_k \ee^{\ii k n_i x_i- \ii \omega t} &= \ii \omega \mathcal{B}_i
+  \ee^{\ii k n_i x_i- \ii \omega t} \\
+  \varepsilon_{ijk} \mathcal{E}_k \ii k n_j &= \ii \omega \mathcal{B}_i\,.
+\end{aligned}
+\]
+
+Thus \(\vb{n} \cp \vb*{\mathcal{E}} \sqrt{\mu\varepsilon} = \vb*{\mathcal{B}}\) or
+\[
+\vb{n} \cp \vb*{\mathcal{E}} \frac{n}{c} = \vb*{\mathcal{B}}\,.
+\]
+In vacuum (\(n=1\)), we observe that the electric and magnetic field differ in magnitude by a factor of \(c\)
+\[
+\abs{\vb*{\mathcal{E}}} = \abs{c\vb*{\mathcal{B}}}\,.
+\]
+
+If we consider a coordinate system spanned by the versors
+\((\vb*{\epsilon}_1,\vb*{\epsilon}_2,\vb{n})\), then the electric
+and magnetic field magnitudes can be written as
+\[
+\vb*{\mathcal{E}} = \vb*{\epsilon}_1 E_0 \qquad
+\vb*{\mathcal{B}} = \vb*{\epsilon}_2 \sqrt{\mu\varepsilon} E_0\,.
+\]
+A plane wave with its electric field always in a direction \(\vb*{\epsilon}_1\) is called \emph{linearly polarized} with the
+polarization vector \(\vb*{\epsilon}_1\).
+
+According to the Poynting theorem, the plane wave transports energy. The Poynting vector in this case is given by
+\[
+\vb{S} = \vb{E} \cp \vb{H} =
+\vb{e}_i \varepsilon_{ijk} {\vb*{\epsilon}_1}_j E_0 {\vb*{\epsilon}_2}_k \frac{1}{\mu} \sqrt{\mu\varepsilon} =
+\sqrt{\frac{\varepsilon}{\mu}} E_0^2\vb{n}
+\]
 
 \section{Electron in a Plane Wave}
 
@@ -508,6 +651,12 @@ The starting point is the equation of motion for the electron
   \label{eq:lorentz-eom}
   \dv{\vb{p}}{t} = -e \left[ \vb{E}(\vb{r}, t) + \vb{v} \cp \vb{B}(\vb{r}, t) \right]\,.
 \end{equation}
+
+\subsection{Non-relativistic treatment}
+
+\subsection{Relativistic treatment}
+
+\section{The Ponderomotive Force}
 
 \subsection{Non-relativistic treatment}
 
