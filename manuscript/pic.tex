@@ -1290,9 +1290,85 @@ c \Delta t \leq \frac{1}{\sqrt{\frac{1}{\Delta x^2} + \frac{1}{\Delta y^2} + \fr
 As we can see from the dispersion relation, in the 3D case, the phase velocity
 will depend on wavelength and propagation direction.
 
-\section{A survey of available PIC codes}
+\section{Particle in Cell codes in practice}
 
-Frequently used simulation programs include
+In order to actually use the Particle in Cell method, a concrete implementation
+is needed. Since the beginning of the of the PIC method, several software packages
+were developed for simulations. Due to the complexity of the physical processes
+involved significant computational resources are required for PIC simulations
+and for this reason the performance of the program is vrey important.
+
+\subsection{A brief overview of HPC}
+
+With the advent of exa-scale computing, performace is mainly given by scalability.
+Thus the ability to fully utilize the resources of a cluster or of a super-computer
+is critical to the usability of PIC codes. Particle in Cell codes thus fall in
+the category of High Performance Computing (HPC).
+
+Scalability is achieved via efficient parallelization and task scheduling on multiple levels.
+Modern processors not only have multiple cores, but they also have special instruction
+sets that execute vectorized operations. These are generically called SIMD, which
+stands for Single Instruction, Multiple Data. Thus, in order to efficiently utilize
+the computational power of a single processor, instruction level paralellism must
+be combined with thread or process based paralellism. While parallelization in
+itself is important, there are also several other critical factors that must be
+considered.
+
+One important aspect is that of data availability. The processor must load data
+in order to make computations. It doesn't matter how fast is the processor is the
+data loading is inefficient. Data can be loaded from different sources. The
+fastest is the data already in the CPU caches, follwed by the data loaded from RAM
+and other I/O sources (hard drives or network for example). In order to have data
+available more efficiently modern processors use prefetching, that they load more
+data from the RAM in the processor cache in order to have faster access for subsequent
+querries. This aspects must be considered when writing simulation programs, since
+accessing data in a way that is not favorized by prefetching may lead to significant
+slowdowns from cache misses. The picture is more complicated with parallelization,
+as each processor has its own cache and care must be taken such that different
+cores must not race for the same memory region (this is called false sharing).
+Moreover, servers usually have multiple processors, each with several cores.
+These are just a few aspects that scratch the surface of the complexity involved
+in the parallelezation at the level of a single machine.
+
+Moving on to multiple machines, network access between nodes becomes of critical
+importance for computing tasks that require frequent communication between
+nodes. In PIC code the simulation domain is splitted in several parts
+and each machine gets some parts of the domain that is responsible for.
+This process is called domain decomposition. In this case each machine can
+work independently to update the interior of its domain and must only comunicate
+with its neighbors in order to update the boundaries. Thus, in PIC codes inter-process
+and inter-machine communication is very important. The important aspect for the
+network layer is low latency. This can be achieved by using technologies such as
+InfiniBand and RDMA.\@ InfiniBand is a networking standard that provides very high
+throughput and ery low latency and RDMA stands for Remote Direct Memory Access
+and as the name implies allows direct memory access form one machine into another
+without the involvent or overhead of the operations managed by the operating system.
+In order to address the challange of creating programs that take advantage of such
+features, the MPI standard was developed. MPI stands for Message Passing Interface
+and it is a communication protocol for programming parallel computers.
+
+While CPUs definitely play an important role in parallel computing, in the last
+decade GPUs and more recently other dedicated hardware accelerators, have become
+more and more important. Compared with CPUs, GPUs have a lot of cores, almost
+two to three order of magnitude more than common CPUs. While processors have
+few tens of cores, with state of the art reaching up to hundreds of
+cores~\autocite{intelcorporation_intelxeon_2016, ibm_power9servers_2018,
+vazhkudai_designdeployment_2018},
+GPUs can reach over 5000 cores~\autocite{nvidiacorporation_nvidiatesla_2018}.
+Another aspect is that GPUs cores have simpler architecture compared with processors,
+usually favour single precision computations, and have much less memory.
+While CPUs processors can have access to hundreds of Gigabytes of RAM memory,
+GPUs usually have a few tens Gigabytes of memory, state of the art units reaching
+near one hundred~\autocite{vazhkudai_designdeployment_2018}.\@
+Thus, loading data efficiently into the GPU memory is another important aspect
+that must be considered. In combination with the networking layer,
+this yelds new performace problems that have to be adressed.
+In order to address these challanges, technologies such as
+NVIDIA\textsuperscript{®} NVLink™ have been developed, that allow direct
+GPU to GPU communication~\autocite{nvidiacorporation_nvidianvlink_2018}.
+
+\subsection{A survey of available PIC codes}
+
 
 \begin{table}
   \begin{tabular}{l l l l}
