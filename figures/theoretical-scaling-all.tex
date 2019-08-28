@@ -1,0 +1,143 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\pgfplotsset{every axis legend/.append style={%
+cells={anchor=west}}
+}
+\usepgfplotslibrary{polar}
+\usetikzlibrary{arrows}
+\tikzset{>=stealth'}
+
+\begin{document}
+\begin{tikzpicture}[]
+\begin{axis}[height = {101.6mm}, legend pos = {north west}, ylabel = {Speedup}, xmin = {0.5328027466194727}, xmax = {20.31849895037365}, ymax = {20.31880030217405}, xlabel = {Numper of Processors}, unbounded coords=jump,scaled x ticks = false,xlabel style = {font = {\fontsize{11 pt}{14.3 pt}\selectfont}, color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0, rotate = 0.0},xmajorgrids = true,xtick = {5.0,10.0,15.0,20.0},xticklabels = {$5$,$10$,$15$,$20$},xtick align = inside,xticklabel style = {font = {\fontsize{8 pt}{10.4 pt}\selectfont}, color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0, rotate = 0.0},x grid style = {color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000},
+draw opacity = 0.1,
+line width = 0.5,
+solid},x axis line style = {color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000},
+draw opacity = 1.0,
+line width = 1,
+solid},scaled y ticks = false,ylabel style = {font = {\fontsize{11 pt}{14.3 pt}\selectfont}, color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0, rotate = 0.0},ymajorgrids = true,ytick = {5.0,10.0,15.0,20.0},yticklabels = {$5$,$10$,$15$,$20$},ytick align = inside,yticklabel style = {font = {\fontsize{8 pt}{10.4 pt}\selectfont}, color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0, rotate = 0.0},y grid style = {color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000},
+draw opacity = 0.1,
+line width = 0.5,
+solid},y axis line style = {color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000},
+draw opacity = 1.0,
+line width = 1,
+solid},    xshift = 0.0mm,
+    yshift = 0.0mm,
+    axis background/.style={fill={rgb,1:red,1.00000000;green,1.00000000;blue,1.00000000}}
+,legend style = {color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000},
+draw opacity = 1.0,
+line width = 1,
+solid,fill = {rgb,1:red,1.00000000;green,1.00000000;blue,1.00000000},font = {\fontsize{8 pt}{10.4 pt}\selectfont}},colorbar style={title=}, ymin = {0.5224563348058288}, width = {152.4mm}]\addplot+ [color = {rgb,1:red,0.00000000;green,0.60560316;blue,0.97868012},
+draw opacity = 1.0,
+line width = 1,
+solid,mark = none,
+mark size = 2.0,
+mark options = {
+    color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0,
+    fill = {rgb,1:red,0.00000000;green,0.60560316;blue,0.97868012}, fill opacity = 1.0,
+    line width = 1,
+    rotate = 0,
+    solid
+}]coordinates {
+(1.0927752806879871, 1.0827302206747407)
+(1.1855505613759745, 1.1639533417777443)
+(2.043391993787529, 1.850330038938255)
+(2.9012334261990835, 2.437758610643145)
+(3.4167603705029688, 2.7517325522523275)
+(3.9322873148068536, 3.0406742589956006)
+(4.368158785203201, 3.267584456012133)
+(4.804030255599549, 3.4801649711328424)
+(5.750987430627977, 3.8987135320087156)
+(6.623998186157936, 4.239630667665118)
+(7.559957981723308, 4.565203601402244)
+(8.644359192432113, 4.899219687241341)
+(9.608047016109408, 5.16338281378562)
+(10.45311439426418, 5.373491453556824)
+(11.374464676451069, 5.582706027902537)
+(12.30129079630343, 5.774903931379672)
+(13.326015589863681, 5.968828399418425)
+(14.301015374152026, 6.137507376616833)
+(15.31478892671566, 6.298548991263778)
+(16.168170319670057, 6.424054714471598)
+(17.210052273740917, 6.5662029567881355)
+(18.189452040445463, 6.689892835423048)
+(19.758526416305138, 6.870493338317469)
+};
+\addlegendentry{strong scaling}
+\addlegendentry{weak scaling}
+\addlegendentry{perfect}
+\addplot+ [color = {rgb,1:red,0.88887350;green,0.43564919;blue,0.27812294},
+draw opacity = 1.0,
+line width = 1,
+solid,mark = none,
+mark size = 2.0,
+mark options = {
+    color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0,
+    fill = {rgb,1:red,0.88887350;green,0.43564919;blue,0.27812294}, fill opacity = 1.0,
+    line width = 1,
+    rotate = 0,
+    solid
+}]coordinates {
+(1.1855505613759745, 1.166995505238377)
+(2.9012334261990835, 2.7111100835791753)
+(3.9322873148068536, 3.639058583326168)
+(4.804030255599549, 4.423627230039593)
+(5.750987430627977, 5.275888687565179)
+(6.623998186157936, 6.061598367542142)
+(7.559957981723308, 6.903962183550977)
+(8.644359192432113, 7.8799232731889015)
+(9.608047016109408, 8.747242314498466)
+(10.45311439426418, 9.507802954837762)
+(11.374464676451069, 10.337018208805961)
+(12.30129079630343, 11.171161716673087)
+(13.326015589863681, 12.093414030877312)
+(14.301015374152026, 12.970913836736823)
+(15.31478892671566, 13.883310034044095)
+(16.168170319670057, 14.651353287703051)
+(17.210052273740917, 15.589047046366826)
+(18.189452040445463, 16.47050683640092)
+(19.758526416305138, 17.882673774674625)
+};
+\addlegendentry{strong scaling}
+\addlegendentry{weak scaling}
+\addlegendentry{perfect}
+\addplot+ [color = {rgb,1:red,0.24222430;green,0.64327509;blue,0.30444865},
+draw opacity = 1.0,
+line width = 1,
+solid,mark = none,
+mark size = 2.0,
+mark options = {
+    color = {rgb,1:red,0.00000000;green,0.00000000;blue,0.00000000}, draw opacity = 1.0,
+    fill = {rgb,1:red,0.24222430;green,0.64327509;blue,0.30444865}, fill opacity = 1.0,
+    line width = 1,
+    rotate = 0,
+    solid
+}]coordinates {
+(1.1855505613759745, 1.1855505613759745)
+(2.9012334261990835, 2.9012334261990835)
+(3.9322873148068536, 3.9322873148068536)
+(4.804030255599549, 4.804030255599549)
+(5.750987430627977, 5.750987430627977)
+(6.623998186157936, 6.623998186157936)
+(7.559957981723308, 7.559957981723308)
+(8.644359192432113, 8.644359192432113)
+(9.608047016109408, 9.608047016109408)
+(10.45311439426418, 10.45311439426418)
+(11.374464676451069, 11.374464676451069)
+(12.30129079630343, 12.30129079630343)
+(13.326015589863681, 13.326015589863681)
+(14.301015374152026, 14.301015374152026)
+(15.31478892671566, 15.31478892671566)
+(16.168170319670057, 16.168170319670057)
+(17.210052273740917, 17.210052273740917)
+(18.189452040445463, 18.189452040445463)
+(19.758526416305138, 19.758526416305138)
+};
+\addlegendentry{strong scaling}
+\addlegendentry{weak scaling}
+\addlegendentry{perfect}
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

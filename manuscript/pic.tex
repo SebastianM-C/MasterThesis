@@ -2,7 +2,7 @@
 \usepackage{msc_thesis}
 \usepackage{wrapfig}
 
-%!TeX spellcheck = en-GB
+% !TeX spellcheck = en-GB
 % !TEX bib = reference.bib
 % chktex-file 21 # This command might not be intended.
 
@@ -1308,6 +1308,66 @@ the category of High Performance Computing (HPC).
 
 The scalability of any code is achieved via efficient parallelization and task
 scheduling on multiple levels.
+In order to measure how scalable a code is, we can compare its benchmarks with
+two theoretical scalability limits: Amdahl's law~\autocite{amdahl_validitysingle_1967}
+and Gustafson's law~\autocite{gustafson_reevaluatingamdahl_1988}.
+
+Amdahl's law considers that a task can be split in a paralellizable part (\(p\)) and a
+serial part. If we consider the problem size fixed and we increase parallelization,
+then the maximal speedup that can be achieved is limited by the part that cannot
+be parallelized \(1-p\).
+
+If we consider the theoretical scaling of a program as a function of the number
+of processors \(n\), then the speedup is given by
+\[
+S_A = \frac{1}{(1-p)+\frac{p}{n}}
+\qquad \text{and} \qquad
+\lim_{n\to\infty} S_A = \frac{1}{1-p}\,.
+\]
+
+\begin{figure}[hb]
+  \centering
+  \subimport{../figures/}{theoretical-scaling-Amdahl}%
+  \caption{The speedup computed with Amdahl's law}\label{fig:theoretical-scaling-Amdahl}%
+\end{figure}
+
+Gustafson's law considers that with the increase of computational resources we
+can solve more complicated tasks in the same time. In this case, if \(s\) is the
+serial part of the task that does not benefit from parallelization, then the speedup
+as a function of the number of processors \(n\) is
+\[
+S_G = n + (1-n)s = 1 - p + np\,.
+\]
+
+\begin{figure}[h]
+  \centering
+  \subimport{../figures/}{theoretical-scaling-Gustafson}%
+  \caption{Theoretical scaling limits}\label{fig:theoretical-scaling-Gustafson}%
+\end{figure}
+
+As we can see in \cref{fig:theoretical-scaling-Amdahl}, Amdahl's law shows that
+adding more an more processors yields diminishing returns as we approach the
+limit. Note that in the above discussion we use the processor term in a generic
+fashion, not an actual processor which may have complicated architectural details.
+There are also several other assumptions such as the fact that the processors
+or parallel units are identical (of the same type) and that the cost of parallelization
+is independent of the number of processors, but the most important assumption
+is the fact that the problem size is fixed. This is where Gustafson's law
+comes into place. As we can see in \cref{fig:theoretical-scaling-Gustafson},
+its predictions about scaling are not so grim and it doesn't impose a limit on
+scaling. Instead of showing the limitations imposed by the serial parts of the
+programs, it shows that speedups can be achieved by increasing the problem size.
+Amdahl's law is also called strong scaling and Gustafson's law is also called
+weak scaling~\autocite{_scalabilitystrong_2018}.
+In \cref{fig:theoretical-scaling} we can see a comparison
+between the two and the perfect scaling (\(S_p(n)=n\)).
+
+\begin{figure}[h]
+  \centering
+  \subimport{../figures/}{theoretical-scaling-all}%
+  \caption{The speedup computed with Gustafson's law}\label{fig:theoretical-scaling}%
+\end{figure}
+
 Modern processors not only have multiple cores, but they also have special instruction
 sets that execute vectorized operations, these are generically called SIMD, which
 stands for Single Instruction, Multiple Data. Thus, in order to efficiently utilize
@@ -1330,7 +1390,7 @@ as each processor has its own cache and care must be taken such that different
 cores must not race for the same memory region (this is called false sharing).
 Moreover, servers usually have multiple processors, each with several cores.
 These are just a few aspects that scratch the surface of the complexity involved
-in the parallelezation at the level of a single machine.
+in the parallelization at the level of a single machine.
 
 Moving on to multiple machines, network access between nodes becomes of critical
 importance for computing tasks that require frequent communication between
