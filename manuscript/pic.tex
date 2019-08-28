@@ -1300,17 +1300,19 @@ and for this reason the performance of the program is vrey important.
 
 \subsection{A brief overview of HPC}
 
-With the advent of exa-scale computing, performace is mainly given by scalability.
+With the advent of exa-scale computing, the performace of the systemes and of the
+codes is mainly given by the scalability.
 Thus the ability to fully utilize the resources of a cluster or of a super-computer
 is critical to the usability of PIC codes. Particle in Cell codes thus fall in
 the category of High Performance Computing (HPC).
 
-Scalability is achieved via efficient parallelization and task scheduling on multiple levels.
+The scalability of any code is achieved via efficient parallelization and task
+scheduling on multiple levels.
 Modern processors not only have multiple cores, but they also have special instruction
-sets that execute vectorized operations. These are generically called SIMD, which
+sets that execute vectorized operations, these are generically called SIMD, which
 stands for Single Instruction, Multiple Data. Thus, in order to efficiently utilize
 the computational power of a single processor, instruction level paralellism must
-be combined with thread or process based paralellism. While parallelization in
+be combined with thread or process based paralellism, while parallelization in
 itself is important, there are also several other critical factors that must be
 considered.
 
@@ -1340,7 +1342,7 @@ with its neighbors in order to update the boundaries. Thus, in PIC codes inter-p
 and inter-machine communication is very important. The important aspect for the
 network layer is low latency. This can be achieved by using technologies such as
 InfiniBand and RDMA.\@ InfiniBand is a networking standard that provides very high
-throughput and ery low latency and RDMA stands for Remote Direct Memory Access
+throughput and very low latency and RDMA stands for Remote Direct Memory Access
 and as the name implies allows direct memory access form one machine into another
 without the involvent or overhead of the operations managed by the operating system.
 In order to address the challange of creating programs that take advantage of such
@@ -1355,15 +1357,15 @@ few tens of cores, with state of the art reaching up to hundreds of
 cores~\autocite{intelcorporation_intelxeon_2016, ibm_power9servers_2018,
 vazhkudai_designdeployment_2018},
 GPUs can reach over 5000 cores~\autocite{nvidiacorporation_nvidiatesla_2018}.
-Another aspect is that GPUs cores have simpler architecture compared with processors,
-usually favour single precision computations, and have much less memory.
+One important aspect is that GPUs cores have simpler architecture compared with
+processors, usually favor single precision computations, and have much less memory.
 While CPUs processors can have access to hundreds of Gigabytes of RAM memory,
 GPUs usually have a few tens Gigabytes of memory, state of the art units reaching
 near one hundred~\autocite{vazhkudai_designdeployment_2018}.\@
-Thus, loading data efficiently into the GPU memory is another important aspect
+Thus, loading data efficiently into the GPU memory represents a critical aspect
 that must be considered. In combination with the networking layer,
-this yelds new performace problems that have to be adressed.
-In order to address these challanges, technologies such as
+this yields new performance problems that need to be addressed.
+In order to address these challenges, technologies such as
 NVIDIA\textsuperscript{®} NVLink™ have been developed, that allow direct
 GPU to GPU communication~\autocite{nvidiacorporation_nvidianvlink_2018}.
 
@@ -1377,11 +1379,11 @@ GPU to GPU communication~\autocite{nvidiacorporation_nvidianvlink_2018}.
   \midrule
   EPOCH & EM 3D & No & MPI\\
   Osiris & EM 3D, RZ*, RZ** & No & MPI, OpenMP, SIMD\\
-  VSim & EM 3D & No & MPI\\
-  PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
-  FBPIC & EM 3D, RZ*** & Yes & MPI, NUMBA\\
+  WarpX & EM 3D, PS*, RZ*, RZ** & Yes & MPI, OpenMP, SIMD\\
   Warp & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP\\
-  WarpX & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP, SIMD\\
+  PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
+  VSim & EM 3D & No & MPI\\
+  FBPIC & EM 3D, RZ*** & Yes & MPI, NUMBA\\
   VPIC & EM 3D & No & MPI, pthreads, SIMD\\
   Architect & EM RZ & No & MPI\\
   Wake & QS RZ & No & MPI\\
