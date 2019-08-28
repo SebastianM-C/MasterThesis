@@ -116,6 +116,37 @@
   title = {Nuclear Theory. 2: {{Excitation}} Mechanisms of the Nucleus}
 }
 
+@article{fonseca_exploitingmultiscale_2013,
+  abstract = {A new generation of laser wakefield accelerators (LWFA), supported by the extreme accelerating fields generated in the interaction of PW-Class lasers and underdense targets, promises the production of high quality electron beams in short distances for multiple applications. Achieving this goal will rely heavily on numerical modelling to further understand the underlying physics and identify optimal regimes, but large scale modelling of these scenarios is computationally heavy and requires the efficient use of state-of-the-art petascale supercomputing systems. We discuss the main difficulties involved in running these simulations and the new developments implemented in the OSIRIS framework to address these issues, ranging from multi-dimensional dynamic load balancing and hybrid distributed/shared memory parallelism to the vectorization of the PIC algorithm. We present the results of the OASCR Joule Metric program on the issue of large scale modelling of LWFA, demonstrating speedups of over 1 order of magnitude on the same hardware. Finally, scalability to over ∼106 cores and sustained performance over ∼2 P Flops is demonstrated, opening the way for large scale modelling of LWFA scenarios.},
+  author = {Fonseca, R. A. and Vieira, J. and Fiuza, F. and Davidson, A. and Tsung, F. S. and Mori, W. B. and Silva, L. O.},
+  date = {2013-11},
+  doi = {10.1088/0741-3335/55/12/124011},
+  issn = {0741-3335},
+  journaltitle = {Plasma Physics and Controlled Fusion},
+  langid = {english},
+  number = {12},
+  pages = {124011},
+  shortjournal = {Plasma Phys. Control. Fusion},
+  title = {Exploiting Multi-Scale Parallelism for Large Scale Numerical Modelling of Laser Wakefield Accelerators},
+  volume = {55}
+}
+
+@inproceedings{fonseca_osiristhreedimensional_2002,
+  abstract = {We describe OSIRIS, a three-dimensional, relativistic, massively parallel, object oriented particle-in-cell code for modeling plasma based accelerators. Developed in Fortran 90, the code runs on multiple platforms (Cray T3E, IBM SP, Mac clusters) and can be easily ported to new ones. Details on the code’s capabilities are given. We discuss the object-oriented design of the code, the encapsulation of system dependent code and the parallelization of the algorithms involved. We also discuss the implementation of communications as a boundary condition problem and other key characteristics of the code, such as the moving window, open-space and thermal bath boundaries, arbitrary domain decomposition, 2D (cartesian and cylindric) and 3D simulation modes, electron sub-cycling, energy conservation and particle and field diagnostics. Finally results from three-dimensional simulations of particle and laser wakefield accelerators are presented, in connection with the data analysis and visualization infrastructure developed to post-process the scalar and vector results from PIC simulations.},
+  author = {Fonseca, R. A. and Silva, L. O. and Tsung, F. S. and Decyk, V. K. and Lu, W. and Ren, C. and Mori, W. B. and Deng, S. and Lee, S. and Katsouleas, T. and Adam, J. C.},
+  booktitle = {Computational {{Science}} — {{ICCS}} 2002},
+  date = {2002},
+  editor = {Sloot, Peter M. A. and Hoekstra, Alfons G. and Tan, C. J. Kenneth and Dongarra, Jack J.},
+  isbn = {978-3-540-47789-1},
+  keywords = {Beam Plasma Interaction,Boundary Condition Problem,Electron Plasma Wave,Relativistic Particle,Weibel Instability},
+  langid = {english},
+  pages = {342-351},
+  publisher = {{Springer Berlin Heidelberg}},
+  series = {Lecture {{Notes}} in {{Computer Science}}},
+  shorttitle = {{{OSIRIS}}},
+  title = {{{OSIRIS}}: {{A Three}}-{{Dimensional}}, {{Fully Relativistic Particle}} in {{Cell Code}} for {{Modeling Plasma Based Accelerators}}}
+}
+
 @article{golomb_proofwords_1985,
   author = {Golomb, Solomon W.},
   date = {1985-03-01},
@@ -361,6 +392,15 @@
   shortjournal = {Physics of Plasmas},
   title = {Why Is {{Boris}} Algorithm so Good?},
   volume = {20}
+}
+
+@online{strohmaier_top500supercomputer_1993,
+  author = {Strohmaier, Erich and Dongarra, Jack and Simon, Horst},
+  date = {1993/2019},
+  journaltitle = {TOP 500 The List.},
+  title = {{{TOP500 Supercomputer Sites}}},
+  url = {https://www.top500.org/},
+  urldate = {2019-08-28}
 }
 
 @book{stuart_dynamicalsystems_1996,

@@ -1431,6 +1431,39 @@ GPU to GPU communication~\autocite{nvidiacorporation_nvidianvlink_2018}.
 
 \subsection{A survey of available PIC codes}
 
+As a concrete example of scalability in PIC codes, we will consider
+Osiris~\autocite{fonseca_osiristhreedimensional_2002}, a three dimensional,
+fully relativistic Particle in Cell code. \Textcite{fonseca_exploitingmultiscale_2013}
+benchmarked Osiris on Top 500~\autocite{strohmaier_top500supercomputer_1993}
+supercomputers including the Jaguar system at Oak Ridge National Laboratory
+and the Sequoia system at Lawrence Livermore Labratory in the US.\@
+The main resut is the very good scaling behaviour of the Osiris code from
+4096 cores to 1572864 cores on the Sequoia system, as can be seen in \cref{fig:osiris-scaling}.
+In order to achieve this performace, the code had to be heavily optimised over
+multiple levels of paralellism. Besides MPI they used shared memory parallelism
+and instruction level paralellism in order to fully benefit from the available
+computing power. Besides advanced implementation techniquies such as the SIMD
+vectorised particle pusher, an important role is given by the nature of the algorithms
+and thus using methods that only require local state information is crucial for scalability.
+As an example, the FDTD method for updating the fields, only requires information
+from its neighbors as oposed to classical spectral methods that require the
+global state information.
+
+Another important aspect stressed in the previously mentioned article, is that
+of load balancing. For highly non-linear applications such as Laser Wakefield
+acceleration, regions of very high particle density are of critical importance
+for the physical phenomena, but they create a very high load imbalance in the
+simulation. One solution that was investigated was the use of shared memory
+paralellism which offset the imbalance by using more threads on the machines
+that have to deal with high density regions. Another approach was of algorithmic
+nature, by using dynamical load balancing in order to adjust the domain boundaries.
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{osiris-scaling}
+  \caption{The scaling behaviour of Osiris at the Sequoia system at Lawrence Livermore Labratory.
+  Figure 5 reproduced from \textcite{fonseca_exploitingmultiscale_2013}.}%
+  \label{fig:osiris-scaling}%
+\end{figure}
 
 \begin{table}
   \begin{tabular}{l l l l}
@@ -1438,7 +1471,7 @@ GPU to GPU communication~\autocite{nvidiacorporation_nvidianvlink_2018}.
   \textbf{Name} & \textbf{Type} & \textbf{GPU ready} & \textbf{Scalability}\\
   \midrule
   EPOCH & EM 3D & No & MPI\\
-  Osiris & EM 3D, RZ*, RZ** & No & MPI, OpenMP, SIMD\\
+  Osiris & EM 3D, RZ*, RZ** & Yes & MPI, OpenMP, SIMD\\
   WarpX & EM 3D, PS*, RZ*, RZ** & Yes & MPI, OpenMP, SIMD\\
   Warp & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP\\
   PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
@@ -1470,8 +1503,8 @@ In the above table we used the following abbreviations
     \item PS*: Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
 \end{itemize}
 
-% tabel ✓
-% grafic scalabilitate osiris
+% tabel ✓(not quite)
+% grafic scalabilitate osiris ✓
 % mentiune osiris/grup lisabona in ELI whitebook
 % coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti
 % referinta tdr eli-np negoita
