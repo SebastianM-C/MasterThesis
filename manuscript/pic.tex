@@ -1358,7 +1358,7 @@ its predictions about scaling are not so grim and it doesn't impose a limit on
 scaling. Instead of showing the limitations imposed by the serial parts of the
 programs, it shows that speedups can be achieved by increasing the problem size.
 Amdahl's law is also called strong scaling and Gustafson's law is also called
-weak scaling~\autocite{_scalabilitystrong_2018}.
+weak scaling~\autocite{lin_scalabilitystrong_2018}.
 In \cref{fig:theoretical-scaling} we can see a comparison
 between the two and the perfect scaling (\(S_p(n)=n\)).
 
@@ -1458,6 +1458,37 @@ paralellism which offset the imbalance by using more threads on the machines
 that have to deal with high density regions. Another approach was of algorithmic
 nature, by using dynamical load balancing in order to adjust the domain boundaries.
 
+While performace and scaling are important properties of a PIC code, the ability
+to realistically simulate the physics of the phenomena is of paramount importance.
+Using charge conserving schemems for current deposition and higher order splines
+for shape functions contributes to better accuracy, and support for ionization,
+collisions and QED effects gives a better representations of the physics simulations.
+Both of these aspects are required for solving complex problems such as accelerator
+design.
+
+\subsubsection{The Extreme Light Infrastructure}
+
+The Extreme Light Infrastructure (ELI) project is a pan-European research
+infrastructure dedicated to ultra-intense and ultra-short laser
+pulses~\autocite{gales_introduction_2016}. The ELI facility consists of three
+pilars built in The Czech Republic, Hungary and Romania, with the Romanian
+pilar being ELI-Nuclear Physics (ELI-NP). One of the proposed experiments is the
+experimental demonstration of the QED-plasma regime, which involves radiation
+damping due to the synchrotron radiation~\autocite{turcu_highfield_2016}.
+One of the key signatures for this effect is given by the scaling of energetic
+photon emission with peak laser intensity. Particle in Cell simulations
+using the EPOCH program~\autocite{arber_contemporaryparticleincell_2015} were used
+to predict an increase in \(\gamma\)-ray emission at high laser intensities such as
+\SIrange[range-phrase=--,range-units=single]{e21}{e22}{\watt\per\square\centi\metre},
+due to the additional synchrotron component~\autocite{brady_synchrotronradiation_2014}.
+
+Another ELI project concerns the development of the ion sources such that GeV
+protons could be obtained at the limit of the ELI parameters, \emph{i.e.} using
+laser intensities in the range of \SI{e24}{\watt\per\square\centi\metre}.
+Particle in Cell simulations with the Osiris program were used to find the laser
+parameters corresponding to the ion source at the \SI{100}{\peta\watt}
+range~\autocite[327]{mourou_eliextreme_2011}.
+
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{osiris-scaling}
   \caption{The scaling behaviour of Osiris at the Sequoia system at Lawrence Livermore Labratory.
@@ -1505,7 +1536,7 @@ In the above table we used the following abbreviations
 
 % tabel ✓(not quite)
 % grafic scalabilitate osiris ✓
-% mentiune osiris/grup lisabona in ELI whitebook
+% mentiune osiris/grup lisabona in ELI whitebook ✓
 % coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti
 % referinta tdr eli-np negoita
 
