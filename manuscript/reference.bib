@@ -1,4 +1,11 @@
 
+@online{_measuringparallel_2016,
+  date = {2016-03-01},
+  title = {Measuring {{Parallel Scaling Performance}} - {{Documentation}}},
+  url = {https://www.sharcnet.ca/help/index.php/Measuring_Parallel_Scaling_Performance#Calculating_Strong_Scaling_Efficiency},
+  urldate = {2019-08-30}
+}
+
 @inproceedings{amdahl_validitysingle_1967,
   abstract = {For over a decade prophets have voiced the contention that the organization of a single computer has reached its limits and that truly significant advances can be made only by interconnection of a multiplicity of computers in such a manner as to permit cooperative solution. Variously the proper direction has been pointed out as general purpose computers with a generalized interconnection of memories, or as specialized computers with geometrically related memory interconnections and controlled by one or more instruction streams.},
   author = {Amdahl, Gene M.},
@@ -486,6 +493,22 @@
   volume = {68}
 }
 
+@article{vay_warpxnew_2018,
+  abstract = {Turning the current experimental plasma accelerator state-of-the-art from a promising technology into mainstream scientific tools depends critically on high-performance, high-fidelity modeling of complex processes that develop over a wide range of space and time scales. As part of the U.S. Department of Energy’s Exascale Computing Project, a team from Lawrence Berkeley National Laboratory, in collaboration with teams from SLAC National Accelerator Laboratory and Lawrence Livermore National Laboratory, is developing a new plasma accelerator simulation tool that will harness the power of future exascale supercomputers for high-performance modeling of plasma accelerators. We present the various components of the codes such as the new Particle-In-Cell Scalable Application Resource (PICSAR) and the redesigned adaptive mesh refinement library AMReX, which are combined with redesigned elements of the Warp code, in the new WarpX software. The code structure, status, early examples of applications and plans are discussed.},
+  author = {Vay, J.-L. and Almgren, A. and Bell, J. and Ge, L. and Grote, D. P. and Hogan, M. and Kononenko, O. and Lehe, R. and Myers, A. and Ng, C. and Park, J. and Ryne, R. and Shapoval, O. and Thévenet, M. and Zhang, W.},
+  date = {2018-11-12},
+  doi = {10.1016/j.nima.2018.01.035},
+  issn = {0168-9002},
+  journaltitle = {Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment},
+  keywords = {Laser wakefield accelerator,Particle accelerators,Particle-in-cell,Plasma based accelerators,Plasma simulations,Relativistic plasmas},
+  pages = {476-479},
+  series = {3rd {{European Advanced Accelerator Concepts}} Workshop ({{EAAC2017}})},
+  shortjournal = {Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment},
+  shorttitle = {Warp-{{X}}},
+  title = {Warp-{{X}}: {{A}} New Exascale Computing Platform for Beam–Plasma Simulations},
+  volume = {909}
+}
+
 @report{vazhkudai_designdeployment_2018,
   abstract = {The U.S. Department of Energy's Office of Scientific and Technical Information},
   author = {Vazhkudai, S. S. and de Supinski, B. R. and Bland, A. S. and Geist, A. and Sexton, J. and Kahle, J. and Zimmer, C. J. and Atchley, S. and Oral, S. H. and Maxwell, D. E. and Vergara Larrea, V. G. and Bertsch, A. and Goldstone, R. and Joubert, W. and Chambreau, C. and Appelhans, D. and Blackmore, R. and Casses, B. and Chochia, G. and Davison, G. and Ezell, M. A. and Gonsiorowski, E. and Grinberg, L. and Hanson, B. and Hartner, B. and Karlin, I. and Leininger, M. L. and Leverman, D. and Marroquin, C. and Moody, A. and Ohmacht, M. and Pankajakshan, R. and Pizzano, F. and Rogers, J. H. and Rosenburg, B. and Schmidt, D. and Shankar, M. and Wang, F. and Watson, P. and Walkup, B. and Weems, L. D. and Yin, J.},
@@ -497,6 +520,20 @@
   title = {The {{Design}}, {{Deployment}}, and {{Evaluation}} of the {{CORAL Pre}}-{{Exascale Systems}}},
   url = {https://www.osti.gov/biblio/1489443-design-deployment-evaluation-coral-pre-exascale-systems},
   urldate = {2019-08-26}
+}
+
+@article{vincenti_ultrahighordermaxwell_2018,
+  abstract = {The advent of massively parallel supercomputers, with their distributed-memory technology using many processing units, has favored the development of highly-scalable local low-order solvers at the expense of harder-to-scale global very high-order spectral methods. Indeed, FFT-based methods, which were very popular on shared memory computers, have been largely replaced by finite-difference (FD) methods for the solution of many problems, including plasmas simulations with electromagnetic Particle-In-Cell methods. For some problems, such as the modeling of so-called “plasma mirrors” for the generation of high-energy particles and ultra-short radiations, we have shown that the inaccuracies of standard FD-based PIC methods prevent the modeling on present supercomputers at sufficient accuracy. We demonstrate here that a new method, based on the use of local FFTs, enables ultrahigh-order accuracy with unprecedented scalability, and thus for the first time the accurate modeling of plasma mirrors in 3D.},
+  author = {Vincenti, Henri and Vay, Jean-Luc},
+  date = {2018-07-01},
+  doi = {10.1016/j.cpc.2018.03.018},
+  issn = {0010-4655},
+  journaltitle = {Computer Physics Communications},
+  keywords = {Electromagnetic Particle-In-Cell method,Finite-difference time-domain solver,Massively parallel pseudo-spectral solvers,Pseudo-spectral analytical time domain solver,Relativistic plasma mirrors},
+  pages = {22-29},
+  shortjournal = {Computer Physics Communications},
+  title = {Ultrahigh-Order {{Maxwell}} Solver with Extreme Scalability for Electromagnetic {{PIC}} Simulations of Plasmas},
+  volume = {228}
 }
 
 

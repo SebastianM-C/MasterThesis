@@ -1306,6 +1306,8 @@ Thus the ability to fully utilize the resources of a cluster or of a super-compu
 is critical to the usability of PIC codes. Particle in Cell codes thus fall in
 the category of High Performance Computing (HPC).
 
+\subsubsection{Theoretical description of scalability}
+
 The scalability of any code is achieved via efficient parallelization and task
 scheduling on multiple levels.
 In order to measure how scalable a code is, we can compare its benchmarks with
@@ -1372,13 +1374,16 @@ In the case of weak scaling
 \eta_w = \frac{t_1}{t_n'}\,,
 \]
 where \(t_1\) is the time required for the reference problem size,
-while \(t_n'\) is the time for a problem \(n\) times bigger computed with \(n\) processors. 
+while \(t_n'\) is the time for a problem \(n\) times bigger computed with \(n\)
+processors~\autocite{_measuringparallel_2016}.
 
 \begin{figure}[h]
   \centering
   \subimport{../figures/}{theoretical-scaling-all}%
   \caption{The theoretical speedup compared with linear axis and small number of processors on the left and log-log scale with a large number of processors on the right}\label{fig:theoretical-scaling}%
 \end{figure}
+
+\subsubsection{Practical aspects}
 
 Modern processors not only have multiple cores, but they also have special instruction
 sets that execute vectorized operations, these are generically called SIMD, which
@@ -1451,6 +1456,9 @@ supercomputers including the Jaguar system at Oak Ridge National Laboratory
 and the Sequoia system at Lawrence Livermore Laboratory in the US.\@
 The main result is the very good scaling behaviour of the Osiris code from
 4096 cores to 1572864 cores on the Sequoia system, as can be seen in \cref{fig:osiris-scaling}.
+Note that in order to compare the results with the theoretical descriptions
+for strong and weak scaling, one has to adjust the formulae in order to account
+for the fact that the processor number does not start with 1, \emph{i.e.} \(S(4096)=1\).
 In order to achieve this performance, the code had to be heavily optimised over
 multiple levels of parallelism. Besides MPI they used shared memory parallelism
 and instruction level parallelism in order to fully benefit from the available
@@ -1477,6 +1485,15 @@ for shape functions contributes to better accuracy, and support for ionization,
 collisions and QED effects gives a better representations of the physics simulations.
 Both of these aspects are required for solving complex problems such as accelerator
 design.
+
+Another state of the art PIC code is Warp-X~\autocite{vay_warpxnew_2018}, which
+is a framework for laser plasma simulations in the context of accelerator design.
+It combines three software components: Warp (a framework for modeling plasma and
+particle accelerators), AMRex (Adaptative Mesh Refinment library) and
+PICSAR (low level PIC primitives). It is designed for running at exa-scale
+and has advanced features such as ultrahigh-order pseudo-spectral analytical
+time-domain (PSATD) field solvers~\autocite{vincenti_ultrahighordermaxwell_2018}
+and multiple ionisation modes.
 
 \subsubsection{The Extreme Light Infrastructure}
 
@@ -1508,27 +1525,34 @@ range~\autocite[327]{mourou_eliextreme_2011}.
   \label{fig:osiris-scaling}%
 \end{figure}
 
+\subsubsection{Frequently used codes}
+
+A list of freqntly used simulation programs is given in \cref{tab:pic}. This list
+is by no means exhaustive, but it should provide an overview of how different
+features are addopted in PIC codes. A recent trend in HPC is the rise of
+heterogenuous computing, involving mainly CPUs and GPUs, and thus the
+``GPU ready'' column was included to indicate the adoption of this computing
+model among various programs.
+
 \begin{table}
+\centering
   \begin{tabular}{l l l l}
   \toprule
   \textbf{Name} & \textbf{Type} & \textbf{GPU ready} & \textbf{Scalability}\\
   \midrule
   EPOCH & EM 3D & No & MPI\\
-  Osiris & EM 3D, RZ*, RZ** & Yes & MPI, OpenMP, SIMD\\
-  WarpX & EM 3D, PS*, RZ*, RZ** & Yes & MPI, OpenMP, SIMD\\
-  Warp & EM 3D, PS*, RZ*, RZ** & No & MPI, OpenMP\\
+  Osiris & EM 3D, RZ\textsuperscript{F}, RZ** & Yes & MPI, OpenMP, SIMD\\
+  Warp-X & EM 3D, PS*, RZ\textsuperscript{F}, RZ** & Yes & MPI, OpenMP, SIMD\\
   PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
-  VSim & EM 3D & No & MPI\\
-  FBPIC & EM 3D, RZ*** & Yes & MPI, NUMBA\\
+  VSim & EM 3D & Yes & MPI\\
+  FBPIC & EM 3D, RZ\textsuperscript{H} & Yes & MPI, NUMBA\\
   VPIC & EM 3D & No & MPI, pthreads, SIMD\\
-  Architect & EM RZ & No & MPI\\
-  Wake & QS RZ & No & MPI\\
-  QuickPIc & QS RZ & No & MPI\\
+  QuickPIC & QS RZ & No & MPI\\
   PICLS & EM 3D & No & MPI\\
   \bottomrule
   \end{tabular}
   \caption{Commonly used simulation programs}%
-  \label{tab:pic-software}
+  \label{tab:pic}
 \end{table}
 
 In the above table we used the following abbreviations
@@ -1537,10 +1561,10 @@ In the above table we used the following abbreviations
     \item QS: Quasi-Static PIC
     \item 3D: Cartesian coordinates, up to 3D
     \item RZ: Cylindrical geometry with FDTD method in \(r\) and \(z\) directions
-    \item RZ*: Cylindrical geometry with Fourier azimuthal decomposition
+    \item RZ\textsuperscript{F}: Cylindrical geometry with Fourier azimuthal decomposition
     \item RZ**: Cylindrical geometry with FDTD method in \(r\) direction
                 and FFT-based pseudo-spectral method in \(z\) direction
-    \item RZ***: Cylindrical geometry with Henkel transform in \(r\) direction
+    \item RZ\textsuperscript{H}: Cylindrical geometry with Henkel transform in \(r\) direction
                 and FFT-based pseudo-spectral method in \(z\) direction
     \item PS: Pseudo-spectral Maxwell solver with global Fourier transform
     \item PS*: Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
@@ -1549,9 +1573,12 @@ In the above table we used the following abbreviations
 % tabel ✓(not quite)
 % grafic scalabilitate osiris ✓
 % mentiune osiris/grup lisabona in ELI whitebook ✓
-% coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti
-% referinta tdr eli-np negoita
+% coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti ✓
+% referinta tdr eli-np negoita ✓
 
 \section{EPOCH}
+
+EPOCH~\autocite{arber_contemporaryparticleincell_2015} is a plasma simulation
+code developed by the CCP-Plasma group.
 
 \end{document}
