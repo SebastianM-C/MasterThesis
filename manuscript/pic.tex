@@ -1375,7 +1375,7 @@ In the case of weak scaling
 \]
 where \(t_1\) is the time required for the reference problem size,
 while \(t_n'\) is the time for a problem \(n\) times bigger computed with \(n\)
-processors~\autocite{sharcnet_measuringparallel_2016}.
+processors~\autocite{sharedhierarchicalacademicresearchcomputingnetwork_measuringparallel_2016}.
 
 \begin{figure}[h]
   \centering
@@ -1397,7 +1397,7 @@ One important aspect is that of data availability. The processor must load data
 in order to make computations. It doesn't matter how fast is the processor is the
 data loading is inefficient. Data can be loaded from different sources. The
 fastest is the data already in the CPU caches, followed by the data loaded from RAM
-and other I/O sources (hard drives or network for example). In order to have data
+and other I/O (input/output) sources (hard drives or network for example). In order to have data
 available more efficiently modern processors use prefetching, that they load more
 data from the RAM in the processor cache in order to have faster access for subsequent
 queries. This aspects must be considered when writing simulation programs, since
@@ -1529,7 +1529,25 @@ range~\autocite[327]{mourou_eliextreme_2011}.
 
 A list of frequently used simulation programs is given in \cref{tab:pic}. This list
 is by no means exhaustive, but it should provide an overview of how different
-features are adopted in PIC codes. A recent trend in HPC is the rise of
+features are adopted in PIC codes. The codes are organized
+considering their features and implementation features.
+For the features, the ``Type'' column indicates whether
+the code is electromagnetic (solves Maxwell's equations)
+or quasi-static (solves Poisson's equation), and available
+simulation features such as different geometries or special
+field solvers. The ``Scalability'' column is dedicated to
+implementation details that are strongly related to how
+scalable the code is. Thus, for inter-node and inter-process communication
+MPI is generally used, for shared memory parallelism OpenMP
+or pthreads are widely used. For GPU specific tasks, the
+CUDA framework is used in conjunction with NVIDIA hardware.
+While a significant portion of the codes is written in \texttt{Fortran}, \texttt{C} or \texttt{C++}, there are some
+codes written in \texttt{Python}, or with \texttt{Python} wrappers. In this case NUMBA, an open source JIT (Just In Time) compiler, is usually used to enhance performance by translating a
+subset of \texttt{Python} and \texttt{NumPy} into LLVM code.
+\texttt{NumPy} is an optimized array library in \texttt{Python} for working with N-dimensional arrays and
+LLVM stands for Low Level Virtual Machine and it is a compiler infrastructure that can be used to emit optimized
+machine code.
+A recent trend in HPC is the rise of
 heterogeneous computing, involving mainly CPUs and GPUs, and thus the
 ``GPU ready'' column was included to indicate the adoption of this computing
 model among various programs.
@@ -1542,7 +1560,7 @@ model among various programs.
   \midrule
   EPOCH & EM 3D & No & MPI\\
   Osiris & EM 3D, RZ\textsuperscript{F}, RZ\textsuperscript{FFT} & Yes & MPI, OpenMP, SIMD\\
-  Warp-X & EM 3D, PS\textsuperscript{l}, RZ\textsuperscript{F}, RZ\textsuperscript{FFT} & Yes & MPI, OpenMP, SIMD\\
+  Warp-X & EM 3D, PS, RZ\textsuperscript{F}, RZ\textsuperscript{FFT} & Yes & MPI, OpenMP, SIMD\\
   PIConGPU & EM 3D & Yes & MPI, CUDA-ALPAKA\\
   VSim & EM 3D & Yes & MPI\\
   FBPIC & EM 3D, RZ\textsuperscript{H} & Yes & MPI, NUMBA\\
@@ -1555,7 +1573,7 @@ model among various programs.
   \label{tab:pic}
 \end{table}
 
-In the above table we used the following abbreviations
+In \cref{tab:pic} we used the following abbreviations
 \begin{itemize}
     \item EM:\ Electromagnetic PIC
     \item QS:\ Quasi-Static PIC
@@ -1566,11 +1584,10 @@ In the above table we used the following abbreviations
                 and FFT-based pseudo-spectral method in \(z\) direction
     \item RZ\textsuperscript{H}: Cylindrical geometry with Henkel transform in \(r\) direction
                 and FFT-based pseudo-spectral method in \(z\) direction
-    \item PS\textsuperscript{g}:\ Pseudo-spectral Maxwell solver with global Fourier transform
-    \item PS\textsuperscript{l}: Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
+    \item PS:\ Pseudo-spectral Maxwell solver with domain decomposition and local Fourier transform
 \end{itemize}
 
-% tabel ✓(not quite)
+% tabel ✓
 % grafic scalabilitate osiris ✓
 % mentiune osiris/grup lisabona in ELI whitebook ✓
 % coduri de tip WARP de la Bella, citare JL Vay & H Vincenti, picsar ref Vincenti ✓
@@ -1579,6 +1596,68 @@ In the above table we used the following abbreviations
 \section{EPOCH}
 
 EPOCH~\autocite{arber_contemporaryparticleincell_2015} is a plasma simulation
-code developed by the CCP-Plasma group.
+code using the Particle in Cell method featuring dynamic
+load balancing, parallel I/O based on MPI, and integration
+with a wide array of visualisation tools.
+The EPOCH user manual~\autocite{bennett_usersmanual_2019} provides the required information for installing and
+utilizing the code.
+
+EPOCH uses input files, also called input decks in order to
+configure the simulation parameters and the choice of solvers.
+The input deck contains several blocks, each considering a specific aspect.
+We will quickly present some of the main blocks
+\begin{itemize}
+  \item The ``control'' block: this block contains general information concerning the geometry of the simulation
+  domain, the load balancing method, the initial conditions and the algorithm choice for the
+  field solver.
+  \item The ``boundaries'' block: this block provides the details regarding boundary condition handling.
+  \item The ``species'' block: this block is used to specify the particle species to be used in the simulation
+  and their properties.
+  \item The ``laser'' block: this block provides the information about the laser source.
+  \item The ``fields'' block: this block contains the specifics of the electromagnetic fields present at the start of the simulation.
+  \item The ``window'' block: this block can be used in order to create a moving window in which the simulation
+  occurs. This can be useful in cases where the simulation domain is large, but the interesting part is relatively small (and can be followed during the evolution).
+  \item The ``output'' block: this block is used to specify where and how often to write the output files.
+\end{itemize}
+
+The output of EPOCH simulations is given in a custom file format, SDF (Self Describing Format).
+EPOCH provides several reader plugins for \texttt{ITT},
+\texttt{IDL}, \texttt{LLNL VisIt}, \texttt{Mathworks Matlab} and \texttt{Python}.
+The output files written to disk, also called output dumps, can be of several types,
+with varying degrees of detail. The most detailed one, called
+the restart dump can be used to restart the simulation at a later time.
+The quantities to be written can have some filters, called dumpmasks, indicating the output frequency and level of detail.
+The output information provided by EPOCH can be grouped in
+four categories: particle variables, grid variables, derived variables and other variables.
+
+Particle variables include
+\begin{itemize}
+  \item the position of the particles
+  \item the momenta and velocities of the particles
+  \item the charge and mass of the particles
+  \item the particle weight, representing how much real particles does a pseudo-particle represent
+  \item the particle energy
+  \item the work excreted by the fields on the particle
+\end{itemize}
+
+Grid variables include
+\begin{itemize}
+  \item the locations of the grid points
+  \item the electric and magnetic field values
+  \item the current density values
+\end{itemize}
+
+Derived variables include
+\begin{itemize}
+  \item the average particle energy
+  \item the mean energy flux on the grid
+  \item the mass and charge density
+  \item the number density
+  \item the number of particles per cell
+  \item the average particle weight per cell
+  \item the average momenta of the particles per cell
+  \item the temperature on the grid
+  \item the Poynting vector flux
+\end{itemize}
 
 \end{document}
