@@ -621,9 +621,10 @@ Thus \(\vb{n} \cp \vb*{\mathcal{E}} \sqrt{\mu\varepsilon} = \vb*{\mathcal{B}}\) 
 \vb{n} \cp \vb*{\mathcal{E}} \frac{n}{c} = \vb*{\mathcal{B}}\,.
 \]
 In vacuum (\(n=1\)), we observe that the electric and magnetic field differ in magnitude by a factor of \(c\)
-\[
-\abs{\vb*{\mathcal{E}}} = \abs{c\vb*{\mathcal{B}}}\,.
-\]
+\begin{equation}
+  \label{eq:e-b-magnitude-comparison}
+  \abs{\vb*{\mathcal{E}}} = \abs{c\vb*{\mathcal{B}}}\,.
+\end{equation}
 
 If we consider a coordinate system spanned by the versors
 \((\vb*{\epsilon}_1,\vb*{\epsilon}_2,\vb{n})\), then the electric
@@ -644,17 +645,423 @@ According to the Poynting theorem, the plane wave transports energy. The Poyntin
 
 \section{Electron in a Plane Wave}
 
-In this section we will consider the classical dynamics of an electron in a
+In this section we will consider the classical dynamics of an electron in a linearly polarized
 laser pulse following the discussion in~\textcite{karsch_applicationshigh_2018}.
-The starting point is the equation of motion for the electron
+We will assume an electron in vacuum and we will consider that the fields vary only along the \(Ox\) direction
+and explore the motion in the non-relativistic and relativistic
+cases.
+Thus the vector potential will be
 \begin{equation}
-  \label{eq:lorentz-eom}
-  \dv{\vb{p}}{t} = -e \left[ \vb{E}(\vb{r}, t) + \vb{v} \cp \vb{B}(\vb{r}, t) \right]\,.
+  \label{eq:simple-laser-A}
+  \vb{A}(x,t) = \vb{e}_y A_0 \sin(kx - \omega t)
 \end{equation}
+and the electric and magnetic fields will be given by
+\[
+\begin{aligned}
+  \vb{E}(x,t) = -\pdv{\vb{A}}{t} -\underbrace{\grad{\phi}}_0
+  = \vb{e}_y E_0 \cos(kx - \omega t) \\
+  \vb{B}(x,t) = \pdv{A_y}{x}\vb{e}_z = \vb{e}_z B_0 \cos(kx - \omega t)\,,
+\end{aligned}
+\]
+where \(E_0=\omega A_0\) and \(B_0=k A_0\).
 
 \subsection{Non-relativistic treatment}
 
+In the non-relativistic case, the Lorentz force that gives the equation of motion for the electron is described by
+\begin{equation}
+  \label{eq:lorentz-eom}
+  \dv{\vb{p}}{t} = -e \left[ \vb{E}(x, t) + \vb{v} \cp \vb{B}(x, t) \right]\,.
+\end{equation}
+
+As we noted in \cref{eq:e-b-magnitude-comparison}, the magnetic field amplitude is \(c\) times less than the one
+of the electric field and thus the second term in \cref{eq:lorentz-eom} can be ignored, since its magnitude
+is proportional to \(v/c\), and in the non-relativistic case
+this ratio goes to 0. The equation of motion can be now solved by integration yielding
+\[
+\vb{p} = -e \int \vb{E}(x,t) \dd t\,.
+\]
+Considering the electron is at rest at \(t=0\), its velocity
+will be given by
+\[
+\vb{v} = \vb{e}_y \frac{e E_0}{\omega m_e} \sin(kx - \omega t)\,.
+\]
+We can observe that the maximum velocity for the electron in this case is given by
+\[
+v_{max} = \frac{e E_0}{\omega m_e}\,. % chktex 35
+\]
+This gives us an estimate for how far can the non-relativistic approximation can go
+since at \(v_{max}=c\) it will no longer be valid  % chktex 35
+(actually it will be erroneous well before reaching the breaking point). Thus, at the breaking point, the relativistic factor \(\beta = v/c\) will be unity and
+\[
+\beta_{max} \equiv \frac{v_{max}}{c} = \frac{e E_0}{\omega m_e c} = \frac{e A_0}{m_e c} \equiv a_0\,,  % chktex 35
+\]
+where \(a_0\) is called the normalized vector potential and
+can be used to measure how ``relativistic'' is the electron motion in the corresponding electric field.
+We can thus use it to estimate the laser intensities up to which the non-relativistic description is valid.
+Considering \(a_0=1\) we express the electric field magnitude as
+\[
+E_0 = a_0 \frac{\omega m_e c}{e} = \frac{a_0}{\lambda} 2\pi \frac{m_e c^2}{e}\,.
+\]
+
+Since laser wavelengths are usually expressed in \si{\micro\metre}, it can be useful to write the above as
+\[
+E_0 = \frac{a_0}{\lambda} \SI{3.21e12}{\volt\per\metre\micro\metre}\,.
+\]
+
+Similarly, the magnetic field will be given by
+\[
+B_0 = \frac{E_0}{c} = \frac{a_0}{\lambda} \SI{1.07e18}{\tesla\micro\metre}\,.
+\]
+
+Thus the limiting laser intensity for the non-relativistic description will be around
+\[
+I = \frac{\varepsilon_0 c}{2} E_0^2 = \frac{a_0^2}{\lambda^2} \SI{1.37e18}{\watt\per\centi\metre\squared\micro\metre\squared}\,,
+\]
+where we have used \cref{eq:plane-wave-intensity}.
+Thus for laser intensities above \SI{e18}{\watt\per\centi\metre\squared},
+the motion must be treated relativistically.
+
 \subsection{Relativistic treatment}
+
+We will now continue with the relativistic case, where the equation
+of motion is changed by the fact that the momentum of the electron is given by
+\[
+\vb{p} = \gamma m_e \vb{v}\,,
+\]
+where
+\[
+\gamma = \frac{1}{\sqrt{1-\frac{v^2}{c^2}}} = \frac{1}{1-\beta^2}\,.
+\]
+
+Thus the equation of motion will be
+\begin{equation}
+  \label{eq:relativistic-lorentz}
+  \dv{\vb{p}}{t} = \dv{t}(\gamma m_e \vb{v}) = -e (\vb{E} + \vb{v}\cp\vb{B})\,.
+\end{equation}
+
+The \(\gamma\) factor can also be written as a function of the momenta
+\[
+\begin{aligned}
+  \gamma &= \frac{1}{\sqrt{1-\frac{v^2}{c^2}}} \implies
+  \gamma^2\left(1-\frac{v^2}{c^2}\right)=1\\ \text{ or }
+  \gamma^2 &= 1+\gamma^2\frac{v^2}{c^2}\\
+  \gamma &= \sqrt{1+\gamma^2\frac{v^2}{c^2}} \implies
+  \gamma = \sqrt{1 + {\left(\frac{\vb{p}}{m_e c}\right)}^2}\,.
+\end{aligned}
+\]
+The time derivative of the \(\gamma\) factor is thus given by
+\[
+\dv{\gamma}{t} = \dv{t}\sqrt{1+{\left(\frac{\vb{p}}{m_e c}\right)}^2} =
+\frac{1}{\gamma} {\dv{t}} {\left(\frac{\vb{p}}{m_e c}\right)}^2 =
+\frac{1}{2\gamma}\frac{1}{{(m_e c)}^2} \dv{\vb{p}^2}{t}\,,
+\]
+where the time derivative of the square of the momenta can also be expressed as
+\[
+\frac{1}{2}\dv{\vb{p}^2}{t} = \vb{p}\vdot\dv{\vb{p}}{t} =
+-e\vb{p}\vdot\vb{E}-e\underbrace{\vb{p}\vdot(\vb{v}\cp\vb{B})}_0 =
+-e\vb{p}\vdot\vb{E}\,.
+\]
+
+With this consideration, the time derivative for \(\gamma\) yields
+\begin{equation}
+  \label{eq:gamma-time-derivative}
+  \dv{\gamma}{t} = \frac{1}{\gamma} \frac{1}{{(m_e c)}^2} (-e\vb{p}\vdot\vb{E})\,.
+\end{equation}
+
+The relativistic kinetic energy is given by \(E_{kin}=(\gamma-1)m_e c^2\) and
+thus its time derivative can be easily computed with the aid of
+\cref{eq:gamma-time-derivative}
+\[
+\dv{E_{kin}}{t} = m_e c^2 \dv{\gamma}{t} =
+m_e c^2 \frac{1}{\gamma} \frac{1}{{(m_e c)}^2} (-e\vb{p}\vdot\vb{E}) =
+-\frac{1}{\gamma m_e} e \vb{p}\vdot\vb{E}
+\]
+or
+\begin{equation}
+  \label{eq:e-kin-deriv}
+  \dv{E_{kin}}{t} = -e \vb{v}\vdot\vb{E}\,.
+\end{equation}
+
+
+We will now the equation of motion for the electron and we will begin with the
+particular case of the \(O_y\) component of the motion.
+Let us now consider the following
+\[
+\begin{aligned}
+  \vb{E} &= -\pdv{\vb{A}}{t} = -\dv{\vb{A}}{t} +
+    \underbrace{\pdv{\vb{A}}{\vb{x}}\pdv{\vb{x}}{t}}_{\left(\vb{v}\vdot\vb*{\nabla}\right)\vb{A}} \\
+  \vb{v}\cp\vb{B} &= \vb{v} \cp (\curl{\vb{A}}) = \grad{(\vb{v}\vdot\vb{A})} - (\vb{v}\vdot\vb*{\nabla})\vb{A}\,,
+\end{aligned}
+\]
+then \cref{eq:relativistic-lorentz} becomes
+\[
+\dv{\vb{p}}{t} = -e \left[-\dv{\vb{A}}{t}+(\vb{v}\vdot\vb*{\nabla})\vb{A}+
+  \grad{(\vb{v}\vdot\vb{A})}-(\vb{v}\vdot\vb*{\nabla})\vb{A}\right]=
+e\dv{\vb{A}}{t}-e\grad{(\vb{v}\vdot\vb{A})}\,.
+\]
+
+With the considerations in \cref{eq:simple-laser-A},
+\(
+\vb{A} = \vb{e}_y A_0 \sin{\phi}\,,
+\)
+where \(\phi=kx-\omega t\), the \(\vb{v}\vdot\vb{A}\) term becomes
+\[
+\vb{v}\vdot\vb{A} = v_y A_0 \sin{\phi}\,.
+\]
+Since we are dealing with a plane wave, the velocity and the vector potential
+are independent and thus
+\[
+\pdv{y}(v_y A_0) = \pdv{z}(v_y A_0) = 0\,.
+\]
+
+The equation of motion for the electron for the \(O_y\) direction is then given by
+\[
+\dv{p_y}{t} = e \dv{A}{t}
+\]
+with the solution
+\begin{equation}
+  \label{eq:py-C1}
+  p_y - eA = \mathcal{C}_1\,.
+\end{equation}
+
+We can observe that \(\mathcal{C}_1\) is a constant of the motion. In the case where
+the electron is initially at rest, \(p_y=eA\).
+
+Having emphasized the existence of the constants of the motion \(\mathcal{C}_1\),
+we now move on to the complete equation of motion, which reads
+\[
+\dv{\tilde{\vb{p}}}{t} = \dv{t}
+\begin{pmatrix}
+  \tilde{p}_x \\
+  \tilde{p}_y \\
+  \tilde{p}_z
+\end{pmatrix} =
+- \frac{e}{m_e c} \left[
+\begin{pmatrix}
+  0 \\ E_0 \\ 0
+\end{pmatrix}
++
+\begin{pmatrix}
+  v_x \\ v_y \\ v_z
+\end{pmatrix}
+\cp
+\begin{pmatrix}
+  0 \\ 0 \\ B_0
+\end{pmatrix}
+\right] \cos{\phi}\,,
+\]
+where we have used the notation \(\tilde{p} \equiv \frac{p}{m_e c}\). The above
+equation can be further expanded into
+\begin{equation}
+\label{eq:normalized-lorentz}
+\begin{aligned}
+  \dv{\tilde{\vb{p}}}{t} &= - \frac{e}{m_e c} \left[
+  \begin{pmatrix}
+    0 \\ E_0 \\0
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    \phantom{-}v_y B_0 \\
+    -v_x B_0 \\
+    0
+  \end{pmatrix}
+  \right] \cos{\phi} \\ &=
+  - \frac{e E_0}{m_e c} \left[
+  \begin{pmatrix}
+    0 \\ 1 \\ 0
+  \end{pmatrix}
+  +
+  \begin{pmatrix}
+    \phantom{-}v_y / c \\
+    -v_x/c \\
+    0
+  \end{pmatrix}
+  \right] \cos{\phi} \\ &=
+  -a_0\omega
+  \begin{pmatrix}
+    v_y / c \\
+    1-v_x/c \\
+    0
+  \end{pmatrix}
+  \cos{\phi}\,.
+\end{aligned}
+\end{equation}
+
+Another constant of the motion can be found by considering the energy
+equation~\eqref{eq:e-kin-deriv}. The time derivative of the \(\gamma\) factor
+yields
+\[
+\begin{aligned}
+  \dv{\gamma}{t} &= -\frac{e}{m_e c^2} \vb{v} \vdot
+  \begin{pmatrix}
+    0 \\ E_0 \\ 0
+  \end{pmatrix}
+  \cos{\phi} \\
+  &= -\frac{e E_0}{m_e c}\frac{v_y}{c}\cos{\phi}
+  = -a_0\omega \frac{v_y}{c}\cos{\phi}\,
+\end{aligned}
+\]
+and we can thus express it using the normalised vector potential \(a_0\).
+
+Taking a look at the \(O_x\) direction component of the equation of motion and
+the \(O_y\) direction component of the energy equation shows some similarities
+\[
+\dv{\tilde{p}_x}{t} = -a_0\omega \frac{v_y}{c}\cos{\phi} = \dv{\gamma}{t}\,.
+\]
+
+Thus
+\begin{equation}
+  \label{eq:px-C2}
+  \dv{t}(\tilde{p}_x - \gamma) = 0 \implies \gamma - \tilde{p}_x = \mathcal{C}_2
+\end{equation}
+we find a second constant of the motion \(\mathcal{C}_2\), whose values depend on
+the initial conditions. Considering the electron at rest at \(t=0,x=0\), then
+\(\vb{p}=0\), \(\gamma=1\) and \(\mathcal{C}_2=1\). With this result we can see
+that at other times \(t\) that \(\gamma=1+\tilde{p}_x\). We observe that the
+square of the \(\gamma\) factor can be written both as
+\[
+\gamma^2 = {\left(\sqrt{1+{\left(1+\frac{p}{m_e c}\right)}^2}\right)}^2 =
+1 + {\left(1+\frac{p}{m_e c}\right)}^2  = 1 + \tilde{\vb{p}}^2
+\]
+and as
+\[
+\gamma^2 = {(1+\tilde{p}_x)}^2\,.
+\]
+
+Moreover, since from \cref{eq:normalized-lorentz} \(p_z=0\) for all times
+\[
+\begin{aligned}
+  1 + \tilde{p}_x^2 + \tilde{p}_y^2 + \underbrace{\tilde{p}_z^2}_0 &=
+  1 + 2\tilde{p}_x + \tilde{p}_x^2 \\
+  \tilde{p}_y^2 &= 2\tilde{p}_x
+\end{aligned}
+\]
+and thus we obtain a relation between forward momenta and transverse momenta
+\begin{equation}
+  \label{eq:px-py}
+  \tilde{p}_x = \frac{1}{2} \tilde{p}_y^2\,.
+\end{equation}
+
+Taking into account \cref{eq:py-C1,eq:px-C2,eq:px-py}, the kinetic energy can be
+written as
+\[
+E_{kin} = (\gamma-1)m_e c^2 = (1+\tilde{p}_x-1)m_e c^2 =
+\frac{1}{2}\tilde{p}_y^2 m_e c^2 =
+\frac{1}{2}\underbrace{{\left(\frac{eA}{m_e c}\right)}^2}_{a^2} m_e c^2\,,
+\]
+where the \(a\) notation was used similarly to the normalized vector potential
+\(a_0\). With this notation, the kinetic energy relation has a formal similarity
+with the classical one
+\[
+E_{kin} = m_e c^2 \frac{a^2}{2}
+\]
+considering that \(\tilde{p}_y=a\).
+
+Before solving for the trajectory of the electron, let us first make some convenient
+notations
+\[
+\tilde{p}_{x,y,z}=\frac{1}{m_e c}\gamma m_e v_{x,y,z} = \gamma \frac{v_{x,y,z}}{c}\,.
+\]
+Thus the momenta can be written as
+\[
+\tilde{\vb{p}} =
+\begin{pmatrix}
+  \tilde{p}_x \\
+  \tilde{p}_y \\
+  \tilde{p}_z
+\end{pmatrix} =
+\begin{pmatrix}
+  \gamma v_x/c \\
+  \gamma v_y/c \\
+  0
+\end{pmatrix} =
+\begin{pmatrix}
+  \frac{\gamma}{c}\dv{x}{t} \\
+  \frac{\gamma}{c}\dv{y}{t} \\
+  0
+\end{pmatrix} =
+\frac{\gamma}{c} \dv{t}
+\begin{pmatrix}
+  x \\ y \\ z
+\end{pmatrix}\,.
+\]
+Since we have already found that the two constants of the motion are related
+to the momenta, we can use those to find the trajectory of the electron
+instead of directly solving \cref{eq:relativistic-lorentz}
+\[
+\begin{pmatrix}
+  \tilde{p}_x \\
+  \tilde{p}_y \\
+  \tilde{p}_z
+\end{pmatrix} =
+\begin{pmatrix}
+  \frac{a^2}2 \\
+  a \\
+  0
+\end{pmatrix}\,.
+\]
+
+To further simplify calculations, we can move to the frame of reference with
+\(\tau = t - \frac{x(t)}{c}\). In this case
+\[
+\gamma \dv{t} = \gamma \dv{\tau}{t}\dv{\tau} =
+\gamma \left(1-\frac{1}{c}\dv{x}{t}\right)\dv{\tau} =
+\bigg(\gamma-\underbrace{\frac{\gamma}{c}\dv{x}{t}}_{\tilde{p}_x}\bigg)\dv{\tau} =
+\left(1+\tilde{p}_x - \tilde{p}_x\right)\dv{\tau} =
+\dv{\tau}
+\]
+and thus the system of equations to be solved will be given by
+\begin{equation}
+\label{eq:trajectory-eq}
+\begin{aligned}
+  \dv{x}{\tau} &= c \frac{a^2}{2} \\
+  \dv{y}{\tau} &= c a \\
+  \dv{z}{\tau} &= 0\,.
+\end{aligned}
+\end{equation}
+
+Since according to our notation
+\[
+a=\frac{e A}{m_e c}\,,
+\]
+we have
+\[
+\begin{aligned}
+  \vb{a} &= \frac{e A_0}{m_e c}\vb{e}_y\sin{\phi} =
+  a_0 \vb{e}_y \sin(kx -\omega t)\\ &=
+  a_0 \vb{e}_y \sin(kx - \omega\tau - \omega\frac{x(t)}{c}) \\ &=
+  a_0 \vb{e}_y \sin(-\omega \tau) \\ &=
+ -a_0 \vb{e}_y \sin(\omega\tau)\,,
+\end{aligned}
+\]
+where we have used the fact that \(k=\omega/c\).
+
+Going now back to \cref{eq:trajectory-eq}, we can integrate to find the trajectory
+of the electron. For the \(O_x\) component we have
+\[
+\begin{aligned}
+  x(\tau) &= \frac{c}{2}\int a_0^2 \sin^2 \omega\tau \dd{\tau} =
+  \frac{c a_0^2}{2}\int \left(1-\cos^2\omega\tau\right)\dd{\tau} =
+  \frac{c a_0^2}{2}\int \frac{1-\cos(2\omega\tau)}{2}\dd{\tau} \\&=
+  \frac{c a_0^2}{4}\left[\tau - \int \cos(2\omega\tau)\dd{\tau}\right] =
+  \frac{c a_0^2}{4}\left[\tau - \frac{1}{2\omega}\sin(2\omega\tau)\right]\,.
+\end{aligned}
+\]
+and for the \(O_y\) component
+\[
+y(\tau) = -c \int a_0 \sin(\omega\tau)\dd{\tau} = \frac{c a_0}{\omega}
+\left[1 - \cos(\omega\tau)\right]\,.
+\]
+
+Thus, the motion of the electron in the selected frame of reference will be
+given by
+\[
+\begin{aligned}
+  x(\tau) &= \frac{c a_0^2}{4}\left[\tau - \frac{1}{2\omega}\sin(2\omega\tau)\right]\\
+  y(\tau) &= \frac{c a_0}{\omega} \left[1 - \cos(\omega\tau)\right]\\
+  z(\tau) &= 0\,.
+\end{aligned}
+\]
 
 \section{The Ponderomotive Force}
 
