@@ -11,12 +11,13 @@
 \label{chap:classical-electrodynamics}
 
 In order to study complex phenomena such as laser wakefield acceleration,
-we need to have a solid understanding of the basic physical phenomena
+we need to have a good understanding of the basic physical phenomena
 that govern the dynamics of charged particles in interaction
 with electromagnetic fields. In this thesis we will restrict ourselves to
 classical electrodynamics, ignoring QED effects that are important
-for very high laser intensities \(I \gtrsim \SI{5e22}{\watt\per\square\centi\metre}\).
-We will mainly follow the ideas presented in~\textcite{jackson_classicalelectrodynamics_1999} and \textcite[Chapter 2]{eisenberg_nucleartheory_1978}.
+for very high laser intensities \(I \gtrsim \SI{5e22}{\watt/\centi\metre\square}\).
+We will mainly follow the ideas presented in~\textcite{jackson_classicalelectrodynamics_1999}
+and \textcite[Chapter 2]{eisenberg_nucleartheory_1978}.
 
 We thus begin with Maxwell's equations in free space
 \begin{subequations}%
@@ -123,7 +124,8 @@ that potentials are not unique. To illustrate this point consider
 
 This vector potential gives rise to a magnetic field
 \[
-  \curl{\vb{A}'} = \curl{\vb{A}} + \curl(\grad{\Lambda}) = \curl{\vb{A}} = \vb{B}
+  \vb{B}' = \curl{\vb{A}'} = \curl{\vb{A}} + \curl(\grad{\Lambda})
+          = \curl{\vb{A}} = \vb{B}
 \]
 equal with the original one since \( \curl(\grad{\varphi}) = 0 \).
 
@@ -131,8 +133,9 @@ Similarly, for a scalar potential
 \[
   \phi'(\vb{r},t) = \phi(\vb{r},t) - \pdv{\Lambda(\vb{r},t)}{t}
 \]
-and the corresponding electric field will be
+the corresponding electric field will be
 \[
+  \vb{E}' =
   - \grad{\phi'} - \pdv{\vb{A'}}{t} =
   - \grad{\phi} + \grad{\pdv{\Lambda}{t}} - \pdv{\vb{A}}{t} - \pdv{t} \grad{\Lambda}
   = - \grad{\phi} - \pdv{\vb{A}}{t}
@@ -194,7 +197,7 @@ yielding the simplified form of Maxwell's equations
   \dalambert \vb{A} &= \mu_0 \vb{j}\,.
 \end{align*}
 
-This form of Maxwell's equations preserves Lorentz invariance, as the Lorenz
+This form of Maxwell's equations preserves Lorentz invariance, since the Lorenz
 gauge condition can be expressed in a covariant way as the contraction of the
 four-vector \(A \equiv (\frac{\phi}{c}, \vb{A})\) with the four-gradient
 \((\frac{1}{c}\pdv{t}, -\grad)\).
@@ -271,11 +274,12 @@ Using the vector identity~\eqref{eq:curl-of-curl} and
 we can write the current density as follows
 \begin{align*}
   \laplacian(\vb{j}^t + \vb{j}^l) &= \grad(\div{\vb{j}^l}) - \curl(\curl{\vb{j}^t}) \\
-  \int \frac{\laplacian{\vb{j}}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}} &=
+  \int \frac{\laplacian{\vb{j}}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'} &=
     \int \frac{\grad(\div{\vb{j}^l})}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
     - \int \frac{\curl(\curl{\vb{j}^t})}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'} \\
-  -4\pi \vb{j} &= \grad \int \frac{\div{\vb{j}^l}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
-    - \curl \curl \int \frac{\vb{j^t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}
+  -4\pi \vb{j} &=
+  \underbrace{\grad \int \frac{\div{\vb{j}^l}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}}_{-4\pi \vb{j}^l}
+    - \underbrace{\curl \curl \int \frac{\vb{j^t}}{|\vb{r}-\vb{r}'|} \dd{\vb{r}'}}_{4\pi \vb{j}^t}
 \end{align*}
 and thus we obtain the two components as
 
@@ -336,9 +340,9 @@ charges in a finite domain \(\mathscr{D}\) is
   \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}}\,.
 \]
 
-For the energy to conserve, this power must be balanced by a corresponding
+For the energy to be conserved, this power must be balanced by a corresponding
 rate of decrease of energy in the electromagnetic field.
-Using the Ampère law~\eqref{eq:ampere-law}
+Using Ampère law~\eqref{eq:ampere-law}
 \[
   \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
   \int_{\mathscr{D}} \vb{E} \vdot \frac{1}{\mu_0} \qty(\curl{\vb{B}} - \frac{1}{c^2} \pdv{\vb{E}}{t}) \dd{\vb{r}} =
@@ -357,7 +361,7 @@ we can express \(\vb{E} \vdot(\curl{\vb{B}})\) as
 \]
 where we used \cref{eq:faraday-law} for the first term.
 
-Using this result, the power transferred by the fields is given by
+With these considerations, the power transferred by the fields is given by
 \[
   \int_{\mathscr{D}} \vb{j} \vdot \vb{E} \dd{\vb{r}} =
   -\int_{\mathscr{D}} \left[\frac{1}{\mu_0} \div(\vb{E} \cp \vb{B}) + \frac{1}{\mu_0} \vb{B} \vdot \pdv{\vb{B}}{t} +
@@ -451,14 +455,15 @@ indeed say that the flux of the Poynting vector is the energy flux.
 
 \section{Electromagnetic waves}
 
-In the of sources, Maxwell's equations become
+In the absence of sources, Maxwell's equations become
 \begin{subequations}
   \begin{align*}
     \div{\vb{B}} &= 0  \qquad \curl{\vb{E}} + \pdv{\vb{B}}{t} = 0 \\
     \div{\vb{D}} &= 0  \qquad \curl{\vb{H}} - \pdv{\vb{D}}{t} = 0\,,
   \end{align*}
 \end{subequations}
-where \(\vb{D} = \varepsilon \vb{E}\) and \(\vb{B} = \mu \vb{H}\).
+where \(\vb{D} = \varepsilon \vb{E}\), \(\vb{B} = \mu \vb{H}\) and \(\vb{D}\) is
+the displacement field and \(\vb{H}\) is the magnetizing field.
 In our case, \(\varepsilon = \varepsilon_0\) and \(\mu = \mu_0\).
 
 If we assume that the time dependence for the solutions is given by
@@ -469,8 +474,8 @@ If we assume that the time dependence for the solutions is given by
     \div{\vb{D}} &= 0  \qquad \curl{\vb{H}}\ee^{-\ii \omega t} + \ii \omega \vb{D} = 0\,.
   \end{align*}
 \end{subequations}
-More complex time dependencies can be treated with a Fourier decomposition since if we have a solution, any linear combinations
-with that solution are also solutions.
+More complex time dependencies can be treated with a Fourier decomposition since
+if we have a solution, any linear combinations with that solution are also solutions.
 
 If we consider only the curl equations
 \[
@@ -691,7 +696,8 @@ v_{max} = \frac{e E_0}{\omega m_e}\,. % chktex 35
 \]
 This gives us an estimate for how far can the non-relativistic approximation can go
 since at \(v_{max}=c\) it will no longer be valid  % chktex 35
-(actually it will be erroneous well before reaching the breaking point). Thus, at the breaking point, the relativistic factor \(\beta = v/c\) will be unity and
+(actually it will be erroneous well before reaching the breaking point).
+Thus, at the breaking point, the relativistic factor \(\beta = v/c\) will be unity and
 \[
 \beta_{max} \equiv \frac{v_{max}}{c} = \frac{e E_0}{\omega m_e c} = \frac{e A_0}{m_e c} \equiv a_0\,,  % chktex 35
 \]
@@ -715,7 +721,8 @@ B_0 = \frac{E_0}{c} = \frac{a_0}{\lambda} \SI{1.07e18}{\tesla\micro\metre}\,.
 
 Thus the limiting laser intensity for the non-relativistic description will be around
 \[
-I = \frac{\varepsilon_0 c}{2} E_0^2 = \frac{a_0^2}{\lambda^2} \SI{1.37e18}{\watt\per\centi\metre\squared\micro\metre\squared}\,,
+I = \frac{\varepsilon_0 c}{2} E_0^2 =
+\frac{a_0^2}{\lambda^2} \SI{1.37e18}{\watt\per\centi\metre\squared\micro\metre\squared}\,,
 \]
 where we have used \cref{eq:plane-wave-intensity}.
 Thus for laser intensities above \SI{e18}{\watt\per\centi\metre\squared},
@@ -790,7 +797,8 @@ Let us now consider the following
 \begin{aligned}
   \vb{E} &= -\pdv{\vb{A}}{t} = -\dv{\vb{A}}{t} +
     \underbrace{\pdv{\vb{A}}{\vb{x}}\pdv{\vb{x}}{t}}_{\left(\vb{v}\vdot\vb*{\nabla}\right)\vb{A}} \\
-  \vb{v}\cp\vb{B} &= \vb{v} \cp (\curl{\vb{A}}) = \grad{(\vb{v}\vdot\vb{A})} - (\vb{v}\vdot\vb*{\nabla})\vb{A}\,,
+  \vb{v}\cp\vb{B} &= \vb{v} \cp (\curl{\vb{A}}) = \grad{(\vb{v}\vdot\vb{A})} -
+    (\vb{v}\vdot\vb*{\nabla})\vb{A}\,,
 \end{aligned}
 \]
 then \cref{eq:relativistic-lorentz} becomes
@@ -1063,10 +1071,150 @@ given by
 \end{aligned}
 \]
 
+The trajectory is a simple oscillation on the \(O_y\) direction, but more complex
+on the \(O_x\) direction. A plot illustrating the trajectory can be seen
+in \cref{fig:electron-in-plane-wave}. Taking a closer look at the motion on the
+\(O_x\) direction, we can see that it is a combination of a oscillation and
+a drift motion. The drift motion is given by
+\[
+x = \frac{c a_0^2}{4} \tau = \frac{c a_0^2}{4} (t - \frac{x}{c}) =
+\frac{c a_0^2}{4}t - \frac{a_0^2}{4}x
+\]
+or
+\[
+x = \frac{c a_0^2}{4} \frac{t}{1+\frac{a_0^2}{2}} = \frac{c a_0^2}{4+a_0^2}t
+\]
+with the drift velocity being given by
+\[
+v_{drift} = \frac{c a_0^2}{4+a_0^2}c
+\]
+in the laboratory frame. If we follow the motion of the electron in a referance
+frame moving with the drift velocity, the motion of the electron will appear
+as a figure-8, as can be seen in \cref{fig:electron-in-plane-wave}.
+
+\begin{figure}[h]
+  \centering
+  \subimport{../figures/}{electron-in-plane-wave}%
+  \caption{The trajectory of the electron in a plane wave in the laboratory frame
+  (left) and in the average momentum frame (right)}\label{fig:electron-in-plane-wave}%
+\end{figure}
+
 \section{The Ponderomotive Force}
+
+While the plane wave can be used as an approximation for a laser in some conditions,
+it cannot be used when the laser is focused and has a significant spatial variation.
+In the case of spatially varying fields, non-linear effects come into play and
+give rise to new physics. One such phenomena is the ponderomotive force that
+is excreted on charged particles in electromagnetic fields with non-vanishing
+gradient.
+
+Qualitatively, this force can be seen as a radiation pressure that
+pushes charged particles away from the regions with high gradient. It is not
+an instantaneous effect, but an averaged one and thus charges will have a
+complicated motion, but on average they will be deflected due to this mechanism.
+One important aspect of this force is that it is independent of the sign of the charge.
+Thus, in a plasma, both electrons and nuclei are affected by this force, but
+since electrons are much lighter, they will be deflected far away from their
+equilibrium position.
+
+We will begin with the derivation of the ponderomotive force in the non-relativistic
+case, but this effect can also be obtained in a covariant fashion.
 
 \subsection{Non-relativistic treatment}
 
+In order to treat the nonlinear effects induced by a spatially varying field,
+we will expand the electric field in a Taylor series.
+Assuming that the electric field is separable in a spatially varying part and
+a time dependent oscillation
+\[
+\vb{E}(\vb{r},t) = \vb{E}_s(\vb{r})\cos(\omega t)\,,
+\]
+then the spatial dependence of the electric field will be given by
+\[
+\vb{E}_s(\vb{r}) = \vb{E}_s(\vb{r})\eval_{\vb{r}=\vb{r}_0} +
+\left(\Delta \vb{r}^{(1)}\vdot\vb*{\nabla}\right)\vb{E}_s(\vb{r})\eval_{\vb{r}=\vb{r}_0} + \order{\Delta\vb{r}^2}
+\]
+and the nonlinearity given by the magnetic field term can be expressed as a
+function of the electric field by integrating
+\[
+\dv{\vb{B}}{t} = -\curl{\vb{E}}
+\]
+and thus
+\[
+\vb{B}^{(1)} = -\frac{1}{\omega}\curl{\vb{E}}\eval_{\vb{r}=\vb{r}_0} \sin(\omega t)\,,
+\]
+where we have used \textsuperscript{(n)} to denote the approximation order.
+
+With these considerations, the nonlinear terms of the equation of motion yield
+\[
+m_e \dv{\vb{v}^{(1)}}{t} = -e \left[
+\left(\Delta \vb{r}^{(1)}\vdot\vb*{\nabla}\right)\vb{E}(\vb{r},t)\eval_{\vb{r}=\vb{r}_0} +
+\vb{v}^{(0)} \cp \vb{B}^{(1)}
+\right]\,,
+\]
+with the linear terms corresponding to
+\[
+m_e \dv{\vb{v}^{(0)}}{t} = -e \vb{E}_s(\vb{r}_0)\cos(\omega t)\,.
+\]
+
+Solving the equation for the linear part, we obtain
+\[
+\begin{aligned}
+  \vb{v}^{(0)} &= -\frac{e}{m_e \omega} \vb{E}_s \sin(\omega t) \\
+  \Delta\vb{r}^{(1)} &= \frac{e}{m_e \omega^2} \vb{E}_s \cos(\omega t)\,.
+\end{aligned}
+\]
+Replacing the results in the equation for the non-linear terms gives
+\[
+  m_e \dv{\vb{v}^{(1)}}{t} = -\frac{e^2}{m_e\omega^2} \left[
+  \left(\vb{E}_s\vdot\vb*{\nabla}\right)\vb{E}_s(\vb{r},t)\eval_{\vb{r}=\vb{r}_0}\cos^2(\omega t) +
+  \vb{E}_s \cp (\curl{\vb{E}}_s)\sin^2(\omega t)
+  \right]
+\]
+
+Since the temporal and spatial parts are separated, we can get rid of the time
+dependent part by averaging over a period. Since the time dependent terms are either
+\(\sin^2\) or \(\cos^2\), when averaging over a period \(T=2\pi/\omega\)
+\[
+\left\langle m_e \dv{\vb{v}^{(1)}}{t}\right\rangle_T = \int_0^T m_e \dv{\vb{v}^{(1)}}{t} \dd{t}\,,
+\]
+we obtain a factor of \(1/2\) because
+\(\left\langle\sin^2(\omega t)\right\rangle_T = \left\langle\cos^2(\omega t)\right\rangle_T\) and
+\(\sin^2(x) + \cos^2(x)=1\).
+
+Thus, we are left only with the spatial dependence
+\begin{equation}
+  \label{eq:non-linear-lorentz-avg}
+  \left\langle m_e \dv{\vb{v}^{(1)}}{t}\right\rangle_T =
+  -\frac{e^2}{2m_e\omega^2} \left[
+  \left(\vb{E}_s\vdot\vb*{\nabla}\right)\vb{E}_s(\vb{r},t)\eval_{\vb{r}=\vb{r}_0} +
+  \vb{E}_s \cp (\curl{\vb{E}}_s)
+  \right]\,.
+\end{equation}
+
+The last term can be expanded into
+\[
+\begin{aligned}
+  \vb{E}_s \cp (\curl{\vb{E}}_s) &=
+  \vb{e}_i \varepsilon_{ijk}E_j\varepsilon_{klm}\partial_l E_m \\ &=
+  \vb{e}_i \left(\delta_{il}\delta_{jm}-\delta_{im}\delta_{jl}\right)E_j\partial_l E_m =
+  \vb{e}_i \left(E_j \partial_i E_j - E_j \partial_j E_i\right) \\ &=
+  \vb{E}_s\vdot\grad{\vb{E}_s} - \left(\vb{E}_s\vdot\vb*{\nabla}\right)\vb{E}_s \\ &=
+  \frac{1}{2}\grad(\vb{E}_s^2) - \left(\vb{E}_s\vdot\vb*{\nabla}\right)\vb{E}_s\,,
+\end{aligned}
+\]
+where we have ommited the \textsubscript{s} subscript for the \(\vb{E}_s\) vector
+components to simplify the notation. Using this reslt in \cref{eq:non-linear-lorentz-avg}
+yields
+\begin{equation}
+  \label{eq:ponderomotive-force}
+  \left\langle m_e \dv{\vb{v}^{(1)}}{t}\right\rangle_T =
+  -\frac{e^2}{4m_e\omega^2} \grad(\vb{E}_s^2) \equiv \vb{F}_{pond}
+\end{equation}
+the equation for the ponderomotive force.
+
 \subsection{Relativistic treatment}
+
+\section{Laser Wakefield Acceleration}
 
 \end{document}
