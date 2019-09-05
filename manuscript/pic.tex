@@ -451,9 +451,10 @@ we have
 \tan{\frac{\theta}{2}} = \frac{|\vb{v}_- \cp \vb{t}|}{|\vb{v}_-|} = |\vb{t}|
 \]
 and thus by using \cref{eq:Boris-rotation-angle} \(\vb{t}\) is given by
-\[
-\vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}\,.
-\]
+\begin{equation}
+  \label{eq:boris-t}
+  \vb{t} = \frac{q \vb{B}}{m} \frac{\Delta t}{2}\,.
+\end{equation}
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{Boris-rotation-3D}
@@ -895,7 +896,74 @@ and thus the Boris push is volume preserving.
 \subsection{The relativistic case}
 
 The Boris push algorithm also has a relativistic variant, which takes into account
-the \(\gamma\) factor. The relativistic version is also volume
+the \(\gamma\) factor.
+In the relativistic case, the equation of motion is given by
+\cref{eq:relativistic-lorentz}
+\[
+\dv{t}(\gamma \vb{v}) = \frac{q}{m} (\vb{E} + \vb{v}\cp\vb{B})
+\]
+and for its discretisation we follow \textcite[Section 15-4]{birdsall_plasmaphysics_2005} and by using the
+\(\vb{u}\equiv\gamma\vb{v}\) notation, we obtain
+\[
+\frac{\vb{u}_{n+1/2} -\vb{u}_{n-1/2}}{\Delta t} =
+\frac{q}{m}\left(\vb{E}_n + \frac{\vb{u}_{n+1/2}+\vb{u}_{n-1/2}}{2\gamma_n} \cp \vb{B}_n \right)\,,
+\]
+where \(\gamma^2=1+u^2/c^2\). The update for \(\vb{u}\) is
+computed similarly to the non-relativistic case, by separating
+the contributions of the electric and magnetic fields.
+For the electric field, the relations are formally the same,
+with the observation that \(vb{v}\) is replaced by \(\vb{u}\)
+\[
+\begin{aligned}
+  \vb{u}_{n-1/2} &= \vb{u}^- - \frac{q\vb{E}_n \Delta t}{2m} \\
+  \vb{u}_{n+1/2} &= \vb{u}^+ + \frac{q\vb{E}_n \Delta t}{2m}\,.
+\end{aligned}
+\]
+
+For the magnetic field we have a rotation about an axis parallel to \(\vb{B}\)
+as we have seen in the non-relativistic case, but in this case
+the angle is reduced by a factor of \(\gamma\) and thus
+\[
+\tan{\frac{\theta}{2}} = \frac{q B \Delta t}{2\gamma m}
+\]
+with the rotation of \(\vb{u}^-\) being given by
+\[
+\frac{\vb{u}^+ - \vb{u}^-}{\Delta t} = \frac{q}{2\gamma_n m}
+\left(\vb{u}^+ + \vb{u}^-\right)\cp\vb{B}_n\,.
+\]
+
+With these considerations, in the implementation of the rotation \cref{eq:boris-t} becomes
+\[
+\vb{t} = \frac{q \vb{B} \Delta t}{2 \gamma_n m}\,,
+\]
+with \(\gamma\) given by the relativistic velocity after adding the half-acceleration due to the electric field
+\[
+\gamma_n = \sqrt{1+{\left(\frac{u^-}{c}\right)}^2}\,.
+\]
+
+Since the magnetic field only produces a rotation, and thus
+\(\vb{u}^+\) and \(\vb{u}^-\) have the same length, we also
+have
+\[
+\gamma_n = \sqrt{1+{\left(\frac{u^+}{c}\right)}^2}
+\]
+and thus the scheme is time reversible.
+As in the non-relativistic case, the rotation can be implemented using
+\[
+\begin{aligned}
+  \vb{u}' &= \vb{u}^- + \vb{u}^-\cp\vb{t} \\
+  \vb{u}^+ &= \vb{u}^- + \vb{u}'\cp\vb{s}\,.
+\end{aligned}
+\]
+
+The equation for the position update remains unchanged
+\[
+\vb{x}_{n+1} = \vb{x}_n + \vb{v}_{n+1/2}\Delta t =
+\vb{x}_n + \frac{\vb{u}_{n+1/2}\Delta t}{\gamma_{n+1/2}}\,,
+\]
+with \(\gamma^2 = 1 + {\left(u_{n+1/2}/c\right)}^2\).
+
+The relativistic version is also volume
 preserving~\autocite{higuera_structurepreservingsecondorder_2017}.
 
 \section{The field solver}
@@ -1105,7 +1173,7 @@ In its discrete form, the continuity equation is given by
 = 0\,.
 \]
 
-\subsection{Current deposition}
+% \subsection{Current deposition}
 
 \subsection{Stability}
 
