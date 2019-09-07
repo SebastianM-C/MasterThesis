@@ -1,13 +1,42 @@
-\documentclass[class=report, crop=false]{standalone}
+\documentclass[12pt, class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
 
-%!TeX spellcheck = en-GB
+% !TeX spellcheck = en-GB
+% !TEX bib = reference.bib
+% chktex-file 21 # This command might not be intended.
 
 \begin{document}
 
-\chapter{Results}
+\chapter{Results}%
 \label{chap:results}
 
-Add something
+Introduction stuff
+
+There are multiple ways of accelerating particles via laser-plasma interactions.
+One can classyfy these methods according to the target type, that is if the
+target is solid or gaseous (under-dense). From the point of view of the physics, in the
+case of a solid, the incoming electromagnetic wave does not propagate inside
+the material, while in the case of a under-dense plasma, the laser propagates
+through the media. From the point of view of the simulation, the difference is
+given by the density of the simulated species. Thus the laser wakefied mechanism
+is present only in the case where the laser propagates through the plasma.
+
+\section{Solid target}
+
+We begin with some simulations concernig solid targets following
+\textcite{budriga_modelingultrahigh_2017}. For all the simulations we will consider
+a plastic cone target interacting with an incoming laser pulse as shown in the
+initial snapshot in \cref{fig:initial-plasma-laser}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{}
+    \caption{Initial configuration of the system}
+    \label{fig:initial-plasma-laser}
+\end{figure}
+
+The laser is modeled as a gaussian pulse with
+
+\section{Gaseous target}
 
 \end{document}
