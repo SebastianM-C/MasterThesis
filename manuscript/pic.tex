@@ -475,7 +475,8 @@ where \(\vb{s}\) can be determined by the condition that
 \begin{wrapfigure}[15]{r}{0.4\textwidth}
   \centering
   \subimport{../figures/}{Boris-rotation-construction}%
-  \caption{The velocities projected in the plane perpendicular to \(\vb{B}\)}\label{fig:Boris-rotation-construction}%
+  \caption{The velocities projected in the plane perpendicular to \(\vb{B}\)}%
+  \label{fig:Boris-rotation-construction}%
 \end{wrapfigure}
 
 and if we consider the definition for \(\vb{s}\)
@@ -563,7 +564,8 @@ S(\vb*{\xi},\vb*{\eta}) = \det\mqty(\xi_1 & \eta_1 \\ \xi_2 & \eta_2)
 = \xi_1 \eta_2 - \xi_2 \eta_1\,.
 \]
 
-Let us consider an \(2d\)-dimensional phase space with the coordinates \(q_i,p_i\) as presented in~\textcite[183]{leimkuhler_simulatinghamiltonian_2004}.
+Let us consider an \(2d\)-dimensional phase space with the coordinates \(q_i,p_i\)
+as presented in~\textcite[183]{leimkuhler_simulatinghamiltonian_2004}.
 
 \begin{definition}
   A linear map \(A: \mathbb{R}^{2d} \to \mathbb{R}^{2d}\) is called
@@ -612,7 +614,9 @@ push algorithm is symplectic. For this task we begin with rewriting
 where \(\vb{B}_n \equiv \vb{B}(\vb{x}_n)\) and
 \(\vb{E}_n \equiv \vb{E}(\vb{x}_n)\).
 
-In order to manipulate the above more easily, it is useful to introduce some fundamental group theory notions~\autocite[118]{hairer_geometricnumerical_2006} and the hat map~\autocite[289]{marsden_introductionmechanics_1999}.
+In order to manipulate the above more easily, it is useful to introduce some
+fundamental group theory notions~\autocite[118]{hairer_geometricnumerical_2006}
+and the hat map~\autocite[289]{marsden_introductionmechanics_1999}.
 
 \begin{definition}
   A \emph{Lie group} \(G\) is a group that is also a differentiable
@@ -1448,7 +1452,9 @@ processors~\autocite{sharedhierarchicalacademicresearchcomputingnetwork_measurin
 \begin{figure}[h]
   \centering
   \subimport{../figures/}{theoretical-scaling-all}%
-  \caption{The theoretical speedup compared with linear axis and small number of processors on the left and log-log scale with a large number of processors on the right}\label{fig:theoretical-scaling}%
+  \caption{The theoretical speedup compared with linear axis and small number
+  of processors on the left and log-log scale with a large number of processors
+  on the right}\label{fig:theoretical-scaling}%
 \end{figure}
 
 \subsubsection{Practical aspects}

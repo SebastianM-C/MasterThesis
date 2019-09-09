@@ -39,7 +39,7 @@ is present only in the case where the laser propagates through the plasma.
 
 \section{Solid target}
 
-We begin with some simulations concerning solid targets following
+We begin with some simulations concerning solid targets following the work of
 \textcite{budriga_modelingultrahigh_2017}. For all the simulations we will consider
 a plastic cone target interacting with an incoming laser pulse as shown in the
 initial snapshot in \cref{fig:initial-plasma-laser}.
@@ -56,9 +56,10 @@ The laser is modelled as a gaussian pulse with a focal spot FWHM
 a \(w_0=\SI{3}{\micro\metre}\) beam waist size. The laser has the
 wavelength \(\lambda=\SI{800}{\nano\metre}\), the period
 \(\tau_0=\SI{2.66}{\femto\second}\), the duration of
-\(\tau=\SI{25}{\femto\second}\) and the maximum intensity between
-\(I=\SI{e19}{\watt\per\centi\metre\squared}\) and
-\(I=\SI{e22}{\watt\per\centi\metre\squared}\).
+\(\tau=\SI{25}{\femto\second}\) and for the maximum intensity
+\(I=\SI{e20}{\watt\per\centi\metre\squared}\),
+\(I=\SI{e21}{\watt\per\centi\metre\squared}\) and
+\(I=\SI{e22}{\watt\per\centi\metre\squared}\) were considered.
 The laser is attached to the left boundary and is focused such
 that the focal point is at the interior of the top of the cone.
 
@@ -70,16 +71,219 @@ down ones are periodic. The total simulation duration is \SI{1.5}{\pico\second}.
 The plastic cone has an initial density of \(40n_c\), where \(n_c\)
 is the critical density of the plasma. At the critical density, the
 plasma frequency is equal to the laser frequency. The cone is has a
-height of \SI{40}{\micro\metre}, wall thickness of \SI{10}{\micro\metre} and is made of plastic, that is modelled as
-having in each cell 3 protons, 21 electrons and 3 ions with charge
-6 and mass 21889 (expressed as function of the electron mass and elementary charge).
+height of \SI{40}{\micro\metre}, wall thickness of \SI{10}{\micro\metre}
+and is made of plastic, that is modelled as having in each cell 3 protons,
+21 electrons and 3 ions with charge 6 and mass 21889
+(expressed as function of the electron mass and elementary charge).
 
-% \begin{figure}[h]
-%   \includegraphics[width=\textwidth]{Boris-rotation-3D}
-%   \caption{Boris rotation construction in 3D}%
-%   \label{fig:Boris-rotation-3D}%
-% \end{figure}
+For laser intensities below \(I=\SI{e20}{\watt\per\centi\metre\squared}\)
+such as \(I=\SI{e19}{\watt\per\centi\metre\squared}\)
+our simulations did not show any significant dynamics in the target due to the
+interaction with the laser, so we are going to start with
+\(I=\SI{e20}{\watt\per\centi\metre\squared}\). In
+\cref{fig:cone-20-kinetic-energy-e,fig:cone-20-kinetic-energy-p} we can
+observe that the laser transfers energy to the cone target, but as can be
+also seen from the number density plots in \cref{fig:cone-20-number-density},
+not enough to significantly accelerate particles.
 
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i20-ek-init-e}
+    \caption{The kinetic energy of the electrons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i20-ek-end-e}
+    \caption{The kinetic energy of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The kinetic energy of the electrons for the
+  \(I=\SI{e20}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-20-kinetic-energy-e}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth,height=0.5\textheight]{i20-ek-end-p}
+  \caption{The kinetic energy of the protons a long time after the pulse
+  hits the cone for the \(I=\SI{e20}{\watt\per\centi\metre\squared}\)
+  laser pulse}%
+  \label{fig:cone-20-kinetic-energy-p}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i20-n-end-e}
+    \caption{The number density of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i20-n-end-p}
+    \caption{The number density of the protons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The number density of the electrons and protons for the
+  \(I=\SI{e20}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-20-number-density}%
+\end{figure}
+
+Continuing with the \(I=\SI{e21}{\watt\per\centi\metre\squared}\) intensity,
+we can observe in \cref{fig:cone-21-kinetic-energy-e} that electrons are
+accelerated at energies of the order of \SI{81}{\mega\eV} at the initial contact.
+As we can see from the histograms, at later times the most energetic particles
+leave the simulation domain, but as oposed to the previous case we can see
+dynamics in the bulk of the material. \Cref{fig:cone-21-number-density} show
+some dynamics in the case of protons, but it is not as promenet as for electrons,
+which is expected give the mass difference between the two.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-ek-init-e}
+    \caption{The kinetic energy of the electrons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-ek-end-e}
+    \caption{The kinetic energy of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-ek-h-init-e}
+    \caption{The kinetic energy histogram for the electrons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-ek-h-end-e}
+    \caption{The kinetic energy of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The kinetic energy histogram for the electrons for the
+  \(I=\SI{e21}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-21-kinetic-energy-e}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-n-end-e}
+    \caption{The number density of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i21-n-end-p}
+    \caption{The number density of the protons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The number density of the electrons and protons for the
+  \(I=\SI{e21}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-21-number-density}%
+\end{figure}
+
+Going a step further at \(I=\SI{e22}{\watt\per\centi\metre\squared}\)
+in \cref{fig:cone-22-kinetic-energy} we can see a significant acceleration
+in the case of protons, with particles reaching up to \SI{122}{\mega\eV}
+after the reflection of the pulse. For the electrons the maximum kinetic energy
+after the reflection is \SI{55e}{\mega\eV}.
+At later times it can be observed that the target has been significantly expanded
+due to the energy transferred to the bulk of the material as can be seen from
+\cref{fig:cone-22-kinetic-energy-h}. At this laser intensity, as
+\cref{fig:cone-22-number-density} shows, the incoming pulse effectively drills
+into the material.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-init-e}
+    \caption{The kinetic energy of the electrons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-init-p}
+    \caption{The kinetic energy of the protons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The number density of the electrons and protons for the
+  \(I=\SI{e22}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-22-kinetic-energy}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-h-init-e}
+    \caption{The kinetic energy of the electrons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-h-init-p}
+    \caption{The kinetic energy of the protons right after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-h-end-e}
+    \caption{The kinetic energy histogram for the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-ek-h-end-p}
+    \caption{The kinetic energy of the protons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The kinetic energy histogram for the electrons for the
+  \(I=\SI{e22}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-22-kinetic-energy-h}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-n-end-e}
+    \caption{The number density of the electrons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{i22-n-end-p}
+    \caption{The number density of the protons a long time after the pulse
+    hits the cone}%
+  \end{subfigure}
+  \caption{The number density of the electrons and protons for the
+  \(I=\SI{e22}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:cone-22-number-density}%
+\end{figure}
 
 \section{Gaseous target}
 
