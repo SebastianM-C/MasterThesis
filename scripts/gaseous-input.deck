@@ -1,0 +1,184 @@
+begin:control
+  nx = 2750
+  ny = 2750
+  #npart = nx * ny * 8
+
+  # Final time of simulation
+  t_end = 1.5 * pico
+  #nsteps = 0
+
+  # Size of domain
+  x_min = -50 * micron
+  x_max = -x_min
+  y_min = x_min
+  y_max = x_max
+
+  stdout_frequency = 100
+end:control
+
+
+begin:boundaries
+  bc_x_min = simple_laser
+  bc_x_max = simple_outflow
+  bc_y_min = periodic
+  bc_y_max = periodic
+end:boundaries
+
+
+begin:constant
+  lambda0 = 800 * nano
+  omega = 2 * pi * c / lambda0
+  den_cone = 40.0 * critical(omega)
+  # wall thickness
+  th = 10 * micron
+  wt = th
+  it = th
+  # cone height
+  ch = 40 * micron
+  # distance to center of cone tip
+  di = ch + th / 2
+  d = 20 * micron
+
+  ri = abs(x - (x_min + d + di + wt / sqrt(2))) - wt / sqrt(2)
+  ro = abs(x - (x_min + d + di + wt / sqrt(2))) + wt / sqrt(2)
+
+  xi = x_min + d + ch
+  xo = x_min + d + ch + th
+  r = sqrt(y^2)
+
+  # These two set the beam focus
+  # FWHM = 6 * micron
+  w_0 = 3 * micron # Beam waist size
+  x_spot = xi - x_min # Distance from x_min to spot
+
+  # These are the parameters calculated for driving the laser
+  # These should not need to be modified
+  x_R = pi * w_0^2 / lambda0 # Rayleigh range
+  RC = x_spot * (1.0 + (x_R/x_spot)^2) # Radius of curvature on x_min
+  w_bnd = w_0 * sqrt( 1.0 + (x_spot/x_R)^2) # Spot size at x_min
+  gouy = atan(x_spot/x_R) # Gouy phase shift at x_min
+end:constant
+
+
+begin:species
+  name = proton
+  charge = 1.0
+  mass = 1836.2
+  npart_per_cell = 3
+  number_density = if((r gt ri) and (r lt ro), den_cone, 0.0)
+  number_density = if((x gt xi) and (x lt xo) and (r lt ri), \
+                      den_cone, number_density(proton))
+  number_density = if(x gt xo, 0.0, number_density(proton))
+  number_density = if(r gt (it / 2 + ch), 0, number_density(proton))
+end:species
+
+
+begin:species
+  name = electron
+  charge = -1.0
+  mass = 1.0
+  npart_per_cell = 21
+  number_density = number_density(proton)
+end:species
+
+begin:species
+  name = ions
+  charge = 6.0
+  # 21895.0 - 6
+  mass = 21889.0
+  npart_per_cell = 3
+  number_density = number_density(proton)
+end:species
+
+begin:laser
+  boundary = x_min
+  intensity_w_cm2 = 1e21
+  lambda = lambda0
+  phase = 2.0 * pi/ lambda0 * y^2 / (2.0 * RC) - gouy
+  profile = gauss(r, 0.0, w_bnd)
+  t_profile = gauss(time, 0.0, 25*femto)
+end:laser
+
+
+begin:output_global
+  force_final_to_be_restartable = T
+end:output_global
+
+
+begin:output
+  name = normal
+
+  # Number of timesteps between output dumps
+  dt_snapshot = 50 * femto
+
+  # Properties on grid
+  grid = always
+  ex = always
+  ey = always
+  #poynting_flux = always + species
+  particle_energy = always
+  ekbar = always + species
+  number_density = always + species
+  #temperature = always + species
+
+  # Extended io
+  #distribution_functions = always
+end:output
+
+
+#begin:output
+#  name = large
+#
+#  # Number of timesteps between output dumps
+#  dt_snapshot = 50 * femto
+#
+#  # Properties at particle positions
+#  particles = always
+#  particle_weight = always
+#
+#  charge_density = always
+#end:output
+
+
+begin:dist_fn
+  name = x_px
+  ndims = 2
+
+  direction1 = dir_x
+  direction2 = dir_px
+
+  # Range is ignored for spatial coordinates
+  range1 = (1, 1)
+  range2 = (-3.0e-20, 3.0e-20)
+
+  # Resolution is ignored for spatial coordinates
+  resolution1 = 1
+  resolution2 = 100
+
+  include_species:electron
+  include_species:proton
+end:dist_fn
+
+
+begin:dist_fn
+  name = x_px_py
+  ndims = 3
+  dumpmask = never
+
+  direction1 = dir_x
+  direction2 = dir_px
+  direction3 = dir_py
+
+  # Range is ignored for spatial coordinates
+  range1 = (1, 1)
+  range2 = (-3.0e-20, 3.0e-20)
+  range3 = (-3.0e-20, 3.0e-20)
+
+  # Resolution is ignored for spatial coordinates
+  resolution1 = 1
+  resolution2 = 100
+  resolution3 = 100
+
+  include_species:electron
+  include_species:proton
+end:dist_fn

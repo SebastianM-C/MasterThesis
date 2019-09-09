@@ -1,0 +1,95 @@
+begin:constant
+  lambda0 = 1.0 * micron
+  temp = 0.0
+  dens = 1.0e24 #lab plasma density range
+  c_l = 2.99792458e8 #speed of light
+end:constant
+
+begin:control
+  nx = 1500
+  ny = 300 #nx
+  #npart = 5 * nx * ny
+
+  # final time of simulation
+  t_end = 400 * femto
+
+  # size of domain
+  x_min = -30.0 * lambda0
+  x_max = -x_min
+  y_min = -15.0 * lambda0
+  y_max = -y_min
+end:control
+
+begin:boundaries
+  bc_x_min = simple_laser
+  bc_x_max = simple_outflow
+  bc_y_min = periodic
+  bc_y_max = periodic
+end:boundaries
+
+begin:laser
+  boundary = x_min
+  intensity_w_cm2 = 1.0e18
+  lambda = lambda0
+  profile = gauss(y,0,5*micron)
+  #t_start = 0.0
+  #t_end = 17.0 * femto
+  t_profile = gauss(time,34*femto,17*femto)
+end:laser
+
+begin:species
+  name = electron
+  charge = -1.0
+  mass = 1.0
+  #frac = 1.0
+  temp = 0
+  density = dens
+  npart_per_cell = 5
+end:species
+
+begin:species
+  #He ions
+  name = ions
+  charge = 2.0
+  mass = 4.0 * 1830
+  npart_per_cell = 2
+  immobile = T
+  density = 0.5e24
+  temp = 0.0
+end:species
+
+begin:window
+  move_window = T
+  window_v_x = c_l
+  #when pulse is centered in window
+  window_start_time = (x_max - x_min)/c_l
+  bc_x_min_after_move = simple_outflow
+  bc_x_max_after_move = simple_outflow
+end:window
+
+begin:output
+  #timesteps between output dumps
+  dt_snapshot = 10.0 * femto
+
+  # Properties on grid
+  grid = always
+  ex = always
+  ey = always
+  ez = always
+  bx = always
+  by = always
+  bz = always
+  #jx = always
+  #jy = always
+  #jz = always
+
+  #particle properties
+  particles = always #+ species
+  #px = always
+  #py = always
+  number_density = always + species
+  #mass_density = always
+  charge_density = always + species
+  #ekbar = always + species
+  temperature = never
+end:output
