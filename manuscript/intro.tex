@@ -1,17 +1,81 @@
-\documentclass[class=report, crop=false]{standalone}
+\documentclass[12pt, class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
 
-%!TeX spellcheck = en-GB
+% !TeX spellcheck = en-GB
+% !TEX bib = reference.bib
 
 \begin{document}
 
-\addcontentsline{toc}{chapter}{Introduction}
-\chapter*{Introduction}
+% \addcontentsline{toc}{chapter}{Introduction}
+\chapter{Introduction}%
+\label{chap:intro}
 
-Add stuff here~\cite{tajima_laserelectron_1979}.
+The advent of high power laser infrastructures and the surge of available
+simulation solutions for laser plasma interactions have greatly catalised
+the research into physics with high power lasers. Motivates by the
+ELI-NP experimental facility, which is currently finalised within
+IFIN-HH, we investigate in this thesis the interaction of high power
+laser pulses with solid and gaseous targets.
+ELI-NP is one of the three pillars of the ELI Project, which is dedicated to
+building a distributed, pan-European laboratory, that hosts beyond state-of-the-art
+ultra-short and ultra-intense laser systems. The ELI project is on the roadmap
+of European Strategic Forum for Research Infrastructures and is envisaged to produce
+outstanding experimental results, such as the 10PW world record reached in March 2019
+at ELI-NP~\autocite{eli-npteam_pressrelease_2019}.
 
-% \section*{Acknowledgments}
-% I would like to thank my advisers, Prof.~dr.~Virgil Băran and Conf.~dr.~Alexandru Nicolin,
-% for their help.
+The other two ELI centres are ELI-Beamlines, located in the Czech Republic, outside of Prague,
+and Hungary, in Szeged.
+The interaction of high power lasers with gaseous and solid targets is
+of maximal experimental interest at ELI-NP, as can be seen from the
+technical design reports~\autocite{gales_introduction_2016}.
+The Whitebook of ELI~\autocite{mourou_eliextreme_2011} devotes a few sections
+to computing at large, with special emphasis on Particle in Cell codes,
+Osiris~\autocite{fonseca_osiristhreedimensional_2002} in particular,
+in the context of Neutron sources~\autocite[79]{mourou_eliextreme_2011} and Proton-ion beamlines~\autocite[323]{mourou_eliextreme_2011} amongst others.
+
+Similarly, at the BELLA Petawatt Laser facility at the LBNL there is a strong
+modelling group which develops computational tools for gas dynamics, plasma sources,
+laser-plasma acceleration, electromagnetic radiation, beam transport and
+laser driven ion acceleration. Among the computing solutions developed at LBNL
+we mention here the Warp framework~\autocite{grote_warpcode_2005}, used for
+accelerator design and plasma modelling, the Adaptive Mesh Refinement (AMR) library
+AMReX~\autocite{zhang_amrexframework_2019} that implements the AMR methodology
+and the PICSAR library~\autocite{vincenti_efficientportable_2017} which has
+highly optimised implementations of the elementary Particle in Cell operations.
+These led to the creation of the Warp-X framework, which combines the previously
+mentioned libraries in order to provide an efficient and scalable solution for
+simulations on present exa-scale supercomputers~\autocite{vay_warpxnew_2018}.
+
+Our results are obtained using a flavour of PIC algorithms which is known
+to describe the physics of PW laser interaction with matter, namely
+EPOCH~\autocite{arber_contemporaryparticleincell_2015}. We have surveyed around
+a dozen flavours of PIC codes and chose EPOCH due to having advanced physics
+features such as support for collisions, multiple ionization modes and QED
+effects. Moreover, its numerical noise properties~\autocite{arber_contemporaryparticleincell_2015}
+are well documented and the code is open source for academic usage.
+
+EPOCH is a fully relativistic PIC code that can work in the 1, 2 and 3D regimes,
+with the field solver using Finite Differences Time Domain (FDTD) algorithms,
+supporting multiple order schemes and custom stencils. The particle pusher follows
+a modified leapfrog algorithms, having implementations for the well known
+Boris push~\autocite{boris_relativisticplasma_1970} and the Higuera-Cary
+push~\autocite{higuera_structurepreservingsecondorder_2017}. The code is parallelised
+using MPI, features dynamic load balancing and is well integrated with common
+visualisation tools.
+
+On the side of physical phenomena, the thesis concerns the so-called laser wakefield
+acceleration, which was introduced by~\textcite{tajima_laserelectron_1979}.
+sinteza
+
+The rest of the of thesis is structured as follows: In ...
+
+\section*{Acknowledgments}
+I would like to thank my advisers, Prof.~dr.~Virgil Băran and Conf.~dr.~Alexandru Nicolin,
+for their help. The simulations presented in this thesis were performed on the
+computing cluster at Department of Computational Physics and Information
+Technologies of the National Institute of Physics and Nuclear Engineering
+in close collaboration with dr.~Mihaela Carina Raportaru and PhD student
+Teodor Ivanoaica. I would also like to acknowledge fruitful discussions with
+the members of the computing group from the Institute of Space Science.
 
 \end{document}

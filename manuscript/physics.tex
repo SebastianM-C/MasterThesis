@@ -8,7 +8,7 @@
 \begin{document}
 
 \chapter{Classical Electrodynamics}%
-\label{chap:classical-electrodynamics}
+\label{chap:physics}
 
 In order to study complex phenomena such as laser wakefield acceleration,
 we need to have a good understanding of the basic physical phenomena
@@ -1088,7 +1088,7 @@ with the drift velocity being given by
 \[
 v_{drift} = \frac{c a_0^2}{4+a_0^2}c
 \]
-in the laboratory frame. If we follow the motion of the electron in a referance
+in the laboratory frame. If we follow the motion of the electron in a reference
 frame moving with the drift velocity, the motion of the electron will appear
 as a figure-8, as can be seen in \cref{fig:electron-in-plane-wave}.
 
@@ -1203,8 +1203,8 @@ The last term can be expanded into
   \frac{1}{2}\grad(\vb{E}_s^2) - \left(\vb{E}_s\vdot\vb*{\nabla}\right)\vb{E}_s\,,
 \end{aligned}
 \]
-where we have ommited the \textsubscript{s} subscript for the \(\vb{E}_s\) vector
-components to simplify the notation. Using this reslt in \cref{eq:non-linear-lorentz-avg}
+where we have omitted the \textsubscript{s} subscript for the \(\vb{E}_s\) vector
+components to simplify the notation. Using this result in \cref{eq:non-linear-lorentz-avg}
 yields
 \begin{equation}
   \label{eq:ponderomotive-force}
@@ -1215,7 +1215,7 @@ the equation for the ponderomotive force.
 
 \subsection{Relativistic treatment}
 
-The ponderomotive force can also be obtained with a more rigurous relativistic
+The ponderomotive force can also be obtained with a more rigorous relativistic
 treatment. As \Textcite{mulser_highpower_2010} show in Chapter 5, the ponderomotive
 force can be derived in multiple ways and the treatment can also be extended from
 one charged particle to many.
@@ -1231,5 +1231,46 @@ force can change depending on the phase velocity~\autocite[205]{mulser_highpower
 
 \Textcite{tajima_laserelectron_1979} proposed a novel method for accelerating
 electrons using intense laser pulses.
+When an intense laser pulse enters an under-dense plasma target,
+it displaces the electrons far from their equilibrium positions
+due to the ponderomotive force. The nuclei have a much larger
+mass than the electrons and thus react on a larger time scale
+and in a first approximation can be considered immobile.
+The laser continues to propagate and the electrons will move
+back to their equilibrium position, but they will overshoot.
+Thus we will have an accumulation of charge behind the laser pulse
+followed by a region that lacks electrons. In this structure
+that forms behind the laser pulse and that travels along with
+the pulse, an intense electric field is formed between the electrons
+in the back and the region devoid of charge in the front, where
+we have mostly positive charges from the ion and nuclei background.
+
+If we can inject electrons in this ``bubble'' that travels along
+with the pulse, than we can accelerate them. The advantage of this
+method is that the plasma can sustain very large electric fields.
+Classical particle accelerators have a limit on how much energy
+can be transferred to the accelerated particles per metre of
+accelerator. This limit is given by the material, since the
+crystalline structure of the metals will break down at high enough
+electric fields. Thus laser plasma accelerators can transfer much
+more energy per metre of accelerator and thus they can be
+significantly smaller than conventional accelerators.
+
+Of course, plasma based accelerators are not without
+limitations~\autocite[8]{oneil_laserwakefield_2017}.
+The accelerated electrons must be synchronized with the bubble that
+is formed behind the pulse and of course, the bubble must be stable.
+When the electrons fall out of sync, phenomena which is called
+electron dephasing, they will be decelerated or scattered.
+Other limitations are given by how well is the laser pulse focused
+and by the length on which the energy of the laser dissipates in
+the plasma.
+If the laser pulse is focused too fast, it will defoucs after a
+similarly short time and the ponderomotive force acting on the
+electrons will be less efficient at displacing them.
+
+The nature of the plasma accelerators itself poses challenges
+regarding the injection of particles to be accelerated and the
+quality of the resulting beam.
 
 \end{document}

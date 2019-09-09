@@ -1,12 +1,50 @@
-\documentclass[class=report, crop=false]{standalone}
+\documentclass[12pt, class=report, crop=false]{standalone}
 \usepackage{msc_thesis}
 
-%!TeX spellcheck = en-GB
+% !TeX spellcheck = en-GB
+% !TEX bib = reference.bib
 
 \begin{document}
 
 \chapter{Conclusions}
 
-In this thesis we have studied ...
+This thesis addresses the large field of laser plasma interactions in a
+computational framework. Following a large theoretical introduction devoted
+the fundamentals of classical electrodynamics and Particle in Cell methods, see
+\cref{chap:intro,chap:physics,chap:pic}, I present a series of detailed numerical
+results on the interaction of high intensity laser pulses with solid and
+gaseous targets. The introductory chapters cover in some detail gauge
+transformations, the Poynting theorem, electromagnetic waves, the interaction
+of a electron with a plane wave, the ponderomotive force and the basics of
+laser wakefield acceleration. On the side of the numerical methods, we begin with
+an introduction where we present the notions of accuracy and stability and
+continue with the main ingredients of the Particle in Cell method, namely the
+particle pusher and the field solver. After the theoretical discussion that
+highlights the important aspects of stability and conservation properties, we
+continue with a survey of concrete PIC implementations and the required HPC
+infrastructure for state-of-the art simulations. The fourth chapter of the thesis
+is devoted to our results on the interaction of high power laser pulses with
+solid and gaseous targets. The numerical simulations reported here were performed
+using the EPOCH Particle in Cell code on the computing infrastructure of the
+Department of Computational Physics and Information
+Technologies of the National Institute of Physics and Nuclear Engineering.
+
+In a nutshell, this thesis is devoted to a class of self-consistent methods of
+solving the dynamics of electrically charged particles in strong electromagnetic
+fields. The most prominent effect observed in my numerical simulations is the
+laser wakefield acceleration visible in the case of gaseous targets subjected
+to highly intense laser pulses.
+
+I have found that the interaction of high intensity laser pulse with solid targets,
+in our case a plastic cone, impacts substantially less the dynamics of
+electrons and protons than in the case of gaseous targets. Note that the
+wakefield acceleration does not occur in the case of solid targets since the
+laser pulse cannot propagate through the material. This should be contrasted
+with gaseous targets where the effect is very visible, to the extent that
+it challenges the boundaries of our numerical framework. More specifically,
+in the case of gaseous targets the laser wakefield acceleration is so
+strong that it leads to an effective depletion of the simulation domain
+which is unphysical and is due to the absorptive boundary conditions.
+
 
 \end{document}
