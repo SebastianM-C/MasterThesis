@@ -141,8 +141,11 @@ accelerated at energies of the order of \SI{81}{\mega\eV} at the initial contact
 As we can see from the histograms, at later times the most energetic particles
 leave the simulation domain, but as oposed to the previous case we can see
 dynamics in the bulk of the material. \Cref{fig:cone-21-number-density} show
-some dynamics in the case of protons, but it is not as promenet as for electrons,
+some dynamics in the case of protons, but it is not as prominent as for electrons,
 which is expected give the mass difference between the two.
+The striations that one can observe in the figures with the kinetic energy of the
+electrons a long time after the reflection of the pulse are a combination of
+numerical and rendering artifacts, but they do not influence the results.
 
 \begin{figure}[h]
   \centering
@@ -203,7 +206,7 @@ Going a step further at \(I=\SI{e22}{\watt\per\centi\metre\squared}\)
 in \cref{fig:cone-22-kinetic-energy} we can see a significant acceleration
 in the case of protons, with particles reaching up to \SI{122}{\mega\eV}
 after the reflection of the pulse. For the electrons the maximum kinetic energy
-after the reflection is \SI{55e}{\mega\eV}.
+after the reflection is \SI{553}{\mega\eV}.
 At later times it can be observed that the target has been significantly expanded
 due to the energy transferred to the bulk of the material as can be seen from
 \cref{fig:cone-22-kinetic-energy-h}. At this laser intensity, as
@@ -296,18 +299,163 @@ We can consider that the plasma fills the entire space and since
 the interesting physics only takes place in a relatively small
 region, we can only observe and simulate only that part using a moving window.
 
+In the case of the gaseous targets the gaussian laser pulse has a
+wavelength of \(\lambda=\SI{1}{\micro\metre}\) with a temporal profile
+given by a gaussian with mean \SI{34}{\femto\second} and standard deviation
+\SI{17}{\femto\second}. The spatial profile has a standard deviation of
+\SI{5}{\micro\metre} and the laser is attached to the left boundary.
+For the intensity of the laser we used \(I=\SI{5e17}{\watt\per\centi\metre\squared}\)
+and \(I=\SI{e18}{\watt\per\centi\metre\squared}\).
+
+The simulation domain is a rectangle with \(60\lambda\) on the \(O_x\)
+direction and \(30\lambda\) on the \(O_y\) one and the total simulation time
+is \SI{400}{\femto\second}. The boundary conditions are open on the sides
+and periodic on the \(O_y\) direction.
+For the discretisations we use 1500 cells on the
+centreddirection and 300 on the \(O_y\) one. A moving window is used to follow
+the physics while maintaining a lower memory footprint. The moving window
+travels at the speed of light and starts its motion when the pulse becomes
+centered.
+
+The plasma has an initial density of \(n=\SI{e24}{\per\metre\cubed}\)
+and consists of He ions and electrons. Since the ions are much heavier than the
+electrons, we can consider them immobile.
+
+As we can see in \cref{fig:lwfa-5e17-number-density},
+for the \(I=\SI{5e17}{\watt\per\centi\metre\squared}\) laser intensity,
+a lower number density bubble is formed, but it is not quite
+well defined.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i5e17-n-init0-e}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i5e17-n-init-e}
+    \caption{}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i5e17-n-init1-e}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i5e17-n-mid-e}
+    \caption{}%
+  \end{subfigure}
+  \caption{The time evolution of the number density of the electrons for the
+  \(I=\SI{5e17}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:lwfa-5e17-number-density}%
+\end{figure}
+
+Moving on to the \(I=\SI{e18}{\watt\per\centi\metre\squared}\) laser intensity
+the wakefield is very well formed and its evolution can be seen in
+\cref{fig:lwfa-18-number-density}.
+We can see how at the initial moments the ponderomotive force pushes away the
+electrons. The ponderomotive force is estimated in \cref{fig:lwfa-18-ponderomotive-force}
+using the non-relativistic formula in \cref{eq:ponderomotive-force}.
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-init0-e}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-init-e}
+    \caption{}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-init1-e}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-mid-e}
+    \caption{}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-mid1-e}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i18-n-mid2-e}
+    \caption{}%
+  \end{subfigure}
+  \caption{The time evolution of the number density of the electrons for the
+  \(I=\SI{e18}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:lwfa-18-number-density}%
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth,height=0.5\textheight]{lwfa-i18-pond-f}
+  \caption{The ponderomotive force for the \(I=\SI{e18}{\watt\per\centi\metre\squared}\)
+  laser pulse}%
+  \label{fig:lwfa-18-ponderomotive-force}%
+\end{figure}
+
 Our numerical experiments with gaseous targets were limited with
-respect to the power of the incoming laser pulse to around
-1e18 PW. For higher powers of the incoming laser pulse, we need
-spatial integration domains considerably higher which for powers
-higher than 1e19 PW raise the physics becomes more complex and
-requires more computational resources. For instance, for an
-incoming laser pulse of 2e18 PW, we see an effective depletion
+respect to the power of the incoming laser pulse to a maximum laser intensity around
+\(I=\SI{e18}{\watt\per\centi\metre\squared}\).
+For higher powers of the incoming laser pulse, we need
+spatial integration domains considerably higher which for laser intensities
+higher than \SI{e19}{\watt\per\centi\metre\squared} raise the physics becomes
+more complex and requires more computational resources.
+For instance, for an incoming laser pulse of
+\(I=\SI{2e18}{\watt\per\centi\metre\squared}\), we see an effective depletion
 of the simulation domain which is unphysical and is due to the
-absorbtive boundary conditions. In a nutshell, the laser pulse is
+absorbtive boundary conditions as can be seen in \cref{fig:lwfa-2e18-number-density}.
+In a nutshell, the laser pulse is
 too strong for a domain of this size and particles are effectively
 pushed out of the system through the absorbative boundaries.
 
-(insert fig)
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i2e18-n-init0}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i2e18-n-init}
+    \caption{}%
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i2e18-n-mid}
+    \caption{}%
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{lwfa-i2e18-n-end}
+    \caption{}%
+  \end{subfigure}
+  \caption{The time evolution of the number density of the electrons for the
+  \(I=\SI{2e18}{\watt\per\centi\metre\squared}\) laser pulse}%
+  \label{fig:lwfa-2e18-number-density}%
+\end{figure}
 
 \end{document}
