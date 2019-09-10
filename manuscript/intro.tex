@@ -13,8 +13,8 @@
 The advent of high power laser infrastructures and the surge of available
 simulation solutions for laser plasma interactions have greatly catalised
 the research into physics with high power lasers. Motivates by the
-ELI-NP experimental facility, which is currently finalised within
-IFIN-HH, we investigate in this thesis the interaction of high power
+Extreme Light Infrastructure-Nuclear Physics (ELI-NP) experimental facility,
+which is currently finalised within ``Horia Hulubei'' National Institute of Physics and Nuclear Engineering, we investigate in this thesis the interaction of high power
 laser pulses with solid and gaseous targets.
 ELI-NP is one of the three pillars of the ELI Project, which is dedicated to
 building a distributed, pan-European laboratory, that hosts beyond state-of-the-art
@@ -33,7 +33,8 @@ to computing at large, with special emphasis on Particle in Cell codes,
 Osiris~\autocite{fonseca_osiristhreedimensional_2002} in particular,
 in the context of Neutron sources~\autocite[79]{mourou_eliextreme_2011} and Proton-ion beamlines~\autocite[323]{mourou_eliextreme_2011} amongst others.
 
-Similarly, at the BELLA Petawatt Laser facility at the LBNL there is a strong
+Similarly, at the BELLA Petawatt Laser facility at the Lawrence Berkeley National Laboratory
+there is a strong
 modelling group which develops computational tools for gas dynamics, plasma sources,
 laser-plasma acceleration, electromagnetic radiation, beam transport and
 laser driven ion acceleration. Among the computing solutions developed at LBNL
@@ -65,9 +66,23 @@ visualisation tools.
 
 On the side of physical phenomena, the thesis concerns the so-called laser wakefield
 acceleration, which was introduced by~\textcite{tajima_laserelectron_1979}.
-sinteza
+When a high intensity laser propagates in plasma, the electric field pushes the
+electrons far away from their equilibriunm position (via the ponderomotrive
+force). This creates a high intensity field between the electrons
+and the nuclei left behind. Any charged particles trapped
+in this region will be accelerated.
 
-The rest of the of thesis is structured as follows: In ...
+The rest of the of thesis is structured as follows:
+\begin{itemize}
+    \item In \cref{chap:physics} some fundamental notions concerning classical
+    electrodynamics are presented and the mechanism of the ponderomotive force
+    is explained.
+    \item In \cref{chap:pic} we survey the core elements of the Particle in Cell
+    method, namely the particle pusher and the filed solver and analyse their
+    numerical properties.
+    \item In \cref{chap:results} the results of this thesis are presented.
+    \item In \cref{chap:conclusions} we end with the conclusions.
+\end{itemize}
 
 \section*{Acknowledgments}
 I would like to thank my advisers, Prof.~dr.~Virgil Băran and Conf.~dr.~Alexandru Nicolin,
